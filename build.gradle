@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+  defaultTasks 'clean', 'bootRepackage'
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'application'
+  apply plugin: 'org.springframework.boot'
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+  
+  repositories {
+      mavenCentral()
+  }
+  
+  springBoot {
+    executable = true
+  }
+}

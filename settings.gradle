@@ -1,0 +1,5 @@
+include 'usermanagement'
+include 'moviemanagement'
+include 'rentalmanagement'
+include 'eventmanagement'
+include 'registry'

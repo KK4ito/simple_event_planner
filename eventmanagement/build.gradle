@@ -1,0 +1,37 @@
+jar {
+    baseName = 'eventmanagement'
+    manifest {
+        attributes("Implementation-Title": baseName,
+                "Implementation-Version": version)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka")
+
+    compile 'com.graphql-java:graphql-java:2.3.0'
+    compile 'org.projectlombok:lombok:1.16.14'
+
+    compile 'com.github.AndreasGassmann:graphql-jpa:0.3'
+
+
+
+    runtime("com.h2database:h2")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("com.jayway.jsonpath:json-path:2.0.0")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5'
+    }
+}

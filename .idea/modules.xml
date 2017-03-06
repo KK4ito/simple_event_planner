@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement.iml" filepath="$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement.iml" group="eventmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement_main.iml" filepath="$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement_main.iml" group="eventmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement_test.iml" filepath="$PROJECT_DIR$/.idea/modules/eventmanagement/eventmanagement_test.iml" group="eventmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement.iml" filepath="$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement.iml" group="moviemanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement_main.iml" filepath="$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement_main.iml" group="moviemanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement_test.iml" filepath="$PROJECT_DIR$/.idea/modules/moviemanagement/moviemanagement_test.iml" group="moviemanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/registry/registry.iml" filepath="$PROJECT_DIR$/.idea/modules/registry/registry.iml" group="registry" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/registry/registry_main.iml" filepath="$PROJECT_DIR$/.idea/modules/registry/registry_main.iml" group="registry" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/registry/registry_test.iml" filepath="$PROJECT_DIR$/.idea/modules/registry/registry_test.iml" group="registry" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement.iml" filepath="$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement.iml" group="rentalmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement_main.iml" filepath="$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement_main.iml" group="rentalmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement_test.iml" filepath="$PROJECT_DIR$/.idea/modules/rentalmanagement/rentalmanagement_test.iml" group="rentalmanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/simple_event_planner.iml" filepath="$PROJECT_DIR$/.idea/modules/simple_event_planner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement.iml" filepath="$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement.iml" group="usermanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement_main.iml" filepath="$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement_main.iml" group="usermanagement" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement_test.iml" filepath="$PROJECT_DIR$/.idea/modules/usermanagement/usermanagement_test.iml" group="usermanagement" />
+    </modules>
+  </component>
+</project>
