@@ -1,0 +1,62 @@
+{
+	"variables": [],
+	"info": {
+		"name": "wodss",
+		"_postman_id": "ba292191-b0c3-6489-37d1-6d6696e22779",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8084/events",
+			"request": {
+				"url": "localhost:8084/events",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GraphQL get Users",
+			"request": {
+				"url": "localhost:8084/graphql",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query\": \"{User{firstName}}\"\n}\n\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"url": "localhost:8084/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lastName\": \"Schönbächler\",\n\t\"firstName\": \"Lukas\",\n\t\"email\":\"schoenbaechler.lukas@gmail.com\"\n\t\n}\n\n"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
