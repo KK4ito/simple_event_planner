@@ -1,0 +1,57 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {section}{\numberline {2}Objectives}{5}{section.2}
+\contentsline {section}{\numberline {3}Overview}{6}{section.3}
+\contentsline {section}{\numberline {4}Mobile app}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}Technology}{7}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Functionality}{8}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Login Page}{8}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Menu}{8}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Browse}{8}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Map}{8}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Offer detail}{8}{subsubsection.4.2.5}
+\contentsline {subsubsection}{\numberline {4.2.6}Organization\IeC {\textquoteright }s profile}{9}{subsubsection.4.2.6}
+\contentsline {subsubsection}{\numberline {4.2.7}Create an order}{9}{subsubsection.4.2.7}
+\contentsline {subsubsection}{\numberline {4.2.8}Change an order}{10}{subsubsection.4.2.8}
+\contentsline {subsubsection}{\numberline {4.2.9}Delete an order}{11}{subsubsection.4.2.9}
+\contentsline {subsubsection}{\numberline {4.2.10}Messages}{11}{subsubsection.4.2.10}
+\contentsline {subsection}{\numberline {4.3}Technical aspects}{12}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Http service}{12}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}User Management}{12}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}Multi language}{12}{subsubsection.4.3.3}
+\contentsline {subsection}{\numberline {4.4}Context awareness}{12}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Geofences}{14}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Weather data}{15}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Location service implementation}{15}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Token Based Authentication}{18}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Registration/Login}{18}{subsection.4.6}
+\contentsline {section}{\numberline {5}Django Backend}{19}{section.5}
+\contentsline {subsection}{\numberline {5.1}Technology}{19}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Models}{19}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Allowed methods}{20}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Abstract Component}{20}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Person}{20}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}Organization}{20}{subsubsection.5.2.4}
+\contentsline {subsubsection}{\numberline {5.2.5}Offer}{21}{subsubsection.5.2.5}
+\contentsline {subsubsection}{\numberline {5.2.6}Order}{21}{subsubsection.5.2.6}
+\contentsline {subsubsection}{\numberline {5.2.7}Place}{21}{subsubsection.5.2.7}
+\contentsline {subsubsection}{\numberline {5.2.8}Rating}{21}{subsubsection.5.2.8}
+\contentsline {subsection}{\numberline {5.3}Permissions and security}{22}{subsection.5.3}
+\contentsline {section}{\numberline {6}Ruleengine}{24}{section.6}
+\contentsline {subsection}{\numberline {6.1}Introduction}{24}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Technology}{24}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Components}{24}{subsection.6.3}
+\contentsline {subsubsection}{\numberline {6.3.1}Triggers}{26}{subsubsection.6.3.1}
+\contentsline {subsubsection}{\numberline {6.3.2}Enhancers}{26}{subsubsection.6.3.2}
+\contentsline {subsubsection}{\numberline {6.3.3}Criterias / Filters}{28}{subsubsection.6.3.3}
+\contentsline {subsubsection}{\numberline {6.3.4}Actions}{29}{subsubsection.6.3.4}
+\contentsline {subsection}{\numberline {6.4}Architecture overview}{29}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Logging}{30}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}Extensibility}{31}{subsection.6.6}
+\contentsline {subsection}{\numberline {6.7}Technical limitations}{31}{subsection.6.7}
+\contentsline {subsubsection}{\numberline {6.7.1}Performance}{31}{subsubsection.6.7.1}
+\contentsline {subsubsection}{\numberline {6.7.2}Dependency injection and Single table inheritance}{32}{subsubsection.6.7.2}
+\contentsline {section}{\numberline {7}Reflection}{33}{section.7}
+\contentsline {subsection}{\numberline {7.1}Technology}{33}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Architecture}{34}{subsection.7.2}
+\contentsline {section}{Appendices}{35}{section*.2}
+\contentsline {section}{\numberline {A}Honesty declaration}{40}{Appendix.a.A}
