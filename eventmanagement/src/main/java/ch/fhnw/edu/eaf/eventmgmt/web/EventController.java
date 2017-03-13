@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
 
-@RestController
-@RequestMapping("/events")
+//@RestController
+//@RequestMapping("/events")
 public class EventController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 

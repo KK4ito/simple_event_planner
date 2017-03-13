@@ -33,13 +33,13 @@ public class Event {
 	private List<User> attendees;
 	*/
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+	private List<File> files;
+
 	private Date startTime;
 	private Date closingTime;
 	private Date endTime;
 
-	@OneToMany
-	private
-	Collection<File> files;
 
 	public Long getId() {
 		return id;
@@ -93,11 +93,11 @@ public class Event {
 		this.endTime = endTime;
 	}
 
-	public Collection<File> getFiles() {
+	public List<File> getFiles() {
 		return files;
 	}
 
-	public void setFiles(Collection<File> files) {
+	public void setFiles(List<File> files) {
 		this.files = files;
 	}
 }

@@ -1,6 +1,4 @@
 *.class
-moviemanagement/build
 registry/build
 eventmanagement/build
-rentalmanagement/build
 .gradle

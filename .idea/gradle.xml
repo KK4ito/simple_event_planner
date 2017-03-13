@@ -10,10 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/eventmanagement" />
-            <option value="$PROJECT_DIR$/moviemanagement" />
             <option value="$PROJECT_DIR$/registry" />
-            <option value="$PROJECT_DIR$/rentalmanagement" />
-            <option value="$PROJECT_DIR$/usermanagement" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

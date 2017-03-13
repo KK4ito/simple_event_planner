@@ -13,6 +13,9 @@ public class File {
 	@GeneratedValue
 	private Long id;
 
+	@ManyToOne
+	private Event event;
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
