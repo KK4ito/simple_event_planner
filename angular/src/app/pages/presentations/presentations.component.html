@@ -1,8 +1,8 @@
 <md-card>
   <md-list>
-    <md-list-item *ngFor="let presentation of presentations" (click)="openLink(presentation.id)">
-      <h4 md-line>{{presentation.title}}</h4>
-      <p md-line> {{presentation.date | date}} </p>
+    <md-list-item *ngFor="let event of events" (click)="openLink(event.id)">
+      <h4 md-line>{{event.name}}</h4>
+      <p md-line> {{event.date | date}} </p>
       <md-icon (click)="openDialog($event)">mode_edit</md-icon>
       <md-icon (click)="openDialog($event)">delete_forever</md-icon>
     </md-list-item>

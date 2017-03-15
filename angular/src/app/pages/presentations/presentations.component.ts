@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from "@angular/material";
 import { Router } from "@angular/router";
+import { ApiService } from '../../providers/api.service';
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
@@ -10,10 +11,10 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
   styleUrls: ['./presentations.component.scss']
 })
 export class PresentationsComponent implements OnInit {
-  presentations: any;
+  events: any;
 
-  constructor(private router: Router, public dialog: MdDialog) {
-    this.presentations = [
+  constructor(private router: Router, private _apiService: ApiService, public dialog: MdDialog) {
+    this.events = [
       {
         id: 1,
         title: "Machine Learning",
@@ -35,6 +36,12 @@ export class PresentationsComponent implements OnInit {
         date: new Date()
       }
     ];
+
+    this._apiService.getEventsList().then(data => {
+      console.log(data);
+      this.events = data._embedded.events;
+
+    });
   }
 
   ngOnInit() {

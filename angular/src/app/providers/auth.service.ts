@@ -8,7 +8,7 @@ export class AuthService {
 
   constructor(private http: Http) {
     this.config = {
-      baseUrl: 'http://localhost:8084/api'
+      baseUrl: 'http://localhost:8080/api'
     };
   }
 

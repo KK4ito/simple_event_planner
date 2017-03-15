@@ -6,5 +6,7 @@ export class ApiService {
 
   constructor(private _authService: AuthService) { }
 
-
+  getEventsList() {
+    return this._authService.get('events');
+  }
 }
