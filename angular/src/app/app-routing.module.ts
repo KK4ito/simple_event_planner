@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PresentationsComponent } from './pages/presentations/presentations.component';
+import { DetailComponent } from './pages/detail/detail.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'presentations',
     component: PresentationsComponent
+  },
+  {
+    path: 'detail/:id',
+    component: DetailComponent
   },
   {
     path: '**',

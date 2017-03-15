@@ -12,9 +12,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PresentationsComponent } from './pages/presentations/presentations.component';
+import { DetailComponent } from './pages/detail/detail.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { ApiService } from './providers/api.service';
+import { AuthService } from './providers/auth.service';
+
+import { DialogComponent } from './components/dialog/dialog.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -27,7 +33,9 @@ export function HttpLoaderFactory(http: Http) {
     HomeComponent,
     LoginComponent,
     PageNotFoundComponent,
-    PresentationsComponent
+    PresentationsComponent,
+    DetailComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +51,11 @@ export function HttpLoaderFactory(http: Http) {
       }
     })
   ],
-  providers: [],
+  entryComponents: [DialogComponent],
+  providers: [
+    ApiService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
