@@ -1,5 +1,5 @@
 jar {
-    baseName = 'eventmanagement'
+    baseName = 'frontend'
     manifest {
         attributes("Implementation-Title": baseName,
                 "Implementation-Version": version)
@@ -15,5 +15,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.cloud:spring-cloud-starter-eureka")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5'
+    }
 }

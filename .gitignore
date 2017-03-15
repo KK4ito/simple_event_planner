@@ -3,3 +3,4 @@ registry/build
 eventmanagement/build
 .gradle
 .idea
+frontend/build
