@@ -1,0 +1,32 @@
+<md-sidenav-container class="example-container">
+  <md-sidenav #sidenav class="example-sidenav">
+    <md-nav-list>
+      <a (click)="sidenav.close()" md-list-item routerLink="{{view.route}}" routerLinkActive="active" *ngFor="let view of views">
+        <md-icon md-list-icon>{{view.icon}}</md-icon>
+        <span md-line>{{view.name}}</span>
+        <span md-line class="secondary">{{view.description}}</span>
+      </a>
+    </md-nav-list>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <button md-icon-button (click)="sidenav.open()">
+      <md-icon>menu</md-icon>
+    </button>
+    <h1>
+      Title
+    </h1>
+    <div class="spacer"></div>
+    <div class="button-row">
+      <a routerLink="/create" md-button>Inserat erstellen</a>
+      <a routerLink="/login" md-raised-button>Anmelden</a>
+    </div>
+  </md-toolbar>
+
+  <router-outlet></router-outlet>
+
+  <md-toolbar color="primary">
+    Footer
+  </md-toolbar>
+
+</md-sidenav-container>

@@ -1,0 +1,73 @@
+@import '~@angular/material/core/theming/all-theme';
+// Plus imports for other components in your app.
+
+// Include the base styles for Angular Material core. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$app-primary: mat-palette($mat-amber);
+$app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$app-warn:    mat-palette($mat-red);
+
+// Category palette
+$app-cat-housing: #2196F3;
+$app-cat-housing-secondary: rgba($app-cat-housing, 0.8);
+$app-cat-jobs: #673AB7;
+$app-cat-jobs-secondary: rgba($app-cat-jobs, 0.8);
+$app-cat-searchoffer: #3F51B5;
+$app-cat-searchoffer-secondary: rgba($app-cat-searchoffer, 0.8);
+$app-cat-marketplace: #009688;
+$app-cat-marketplace-secondary: rgba($app-cat-marketplace, 0.8);
+
+
+
+// Create the theme object (a Sass map containing all of the pawlettes).
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($app-theme);
+
+.cat--housing__background {
+  background-color: $app-cat-housing;
+}
+
+.cat--housing--secondary__background, .cat--housing--secondary__background.mat-chip {
+  background-color: $app-cat-housing-secondary;
+}
+
+.cat--jobs__background {
+  background-color: $app-cat-jobs;
+}
+
+.cat--jobs--secondary__background, .cat--jobs--secondary__background.mat-chip  {
+  background-color: $app-cat-jobs-secondary;
+}
+
+.cat--searchoffer__background {
+  background-color: $app-cat-searchoffer;
+}
+
+.cat--searchoffer--secondary__background, .cat--searchoffer--secondary__background.mat-chip {
+  background-color: $app-cat-searchoffer-secondary;
+}
+
+.cat--marketplace__background {
+  background-color: $app-cat-marketplace;
+}
+
+.cat--marketplace--secondary__background, .cat--marketplace--secondary__background.mat-chip {
+  background-color: $app-cat-marketplace-secondary;
+}
+
+.cat--housing__background, .cat--jobs__background, .cat--marketplace__background, .cat--searchoffer__background, .cat--marketplace--secondary__background, .cat--searchoffer--secondary__background, .cat--jobs--secondary__background, .cat--housing--secondary__background {
+  md-card-content, md-card-title, md-chip, md-icon {
+    color: #fff;
+  }
+}
