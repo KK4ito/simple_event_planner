@@ -20,13 +20,9 @@ BasePath: /
 
 === Tags
 
-* Entity Metadata Services: Alps Controller
-* profile-controller: Profile Controller
-* repository-controller: Repository Controller
 * Event Entity: Repository Entity Controller
 * File Entity: Repository Entity Controller
 * User Entity: Repository Entity Controller
 * File Entity Search: File Repository
-* basic-error-controller: Basic Error Controller
 
 
