@@ -17,6 +17,8 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { PushNotificationsModule } from 'angular2-notifications';
+
 import { ApiService } from './providers/api.service';
 import { AuthService } from './providers/auth.service';
 
@@ -49,7 +51,8 @@ export function HttpLoaderFactory(http: Http) {
         useFactory: HttpLoaderFactory,
         deps: [Http]
       }
-    })
+    }),
+    PushNotificationsModule
   ],
   entryComponents: [DialogComponent],
   providers: [
