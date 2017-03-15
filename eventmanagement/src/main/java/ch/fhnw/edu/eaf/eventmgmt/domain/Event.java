@@ -22,7 +22,7 @@ public class Event {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 
-	private String title;
+	private String name;
 	private String description;
 
 	/*
@@ -41,6 +41,9 @@ public class Event {
 	private Date endTime;
 
 
+	public Event() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -53,12 +56,20 @@ public class Event {
 		return updated;
 	}
 
-	public String getTitle() {
-		return title;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {

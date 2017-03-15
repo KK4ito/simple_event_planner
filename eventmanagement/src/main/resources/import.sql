@@ -1,2 +1,3 @@
-insert into events (name) values ('Test event');
-insert into files (name, event) values ('Test file', 1);
+insert into event (name) values ('Event 1');
+insert into file (name, event_id) values ('File 1', 1);
+insert into file (name, event_id) values ('File 2', 1);

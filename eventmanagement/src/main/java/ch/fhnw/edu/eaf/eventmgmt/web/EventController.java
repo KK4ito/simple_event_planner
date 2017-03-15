@@ -59,7 +59,7 @@ public class EventController {
 		if (event == null) {
 			return new ResponseEntity<Event>(HttpStatus.NOT_FOUND);
 		}
-		event.setTitle(newEvent.getTitle());
+		event.setName(newEvent.getName());
 		event.setDescription(newEvent.getDescription());
 		event.setStartTime(newEvent.getStartTime());
 		event.setClosingTime(newEvent.getClosingTime());
