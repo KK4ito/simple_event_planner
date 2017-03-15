@@ -1,0 +1,12 @@
+md-card {
+  width: 50%;
+  margin: 20px auto;
+
+  & md-tab-group md-card-actions {
+    margin: 0;
+  }
+}
+
+md-input-container {
+  display: block;
+}

@@ -1,3 +1,38 @@
-<p>
-  login works!
-</p>
+<md-card>
+  <md-tab-group>
+    <md-tab>
+      <template md-tab-label>
+        Intern (FHNW)
+      </template>
+      <md-input-container>
+        <input mdInput required="true" placeholder="Username">
+      </md-input-container>
+      <md-input-container>
+        <input type="password" mdInput placeholder="Passwort">
+      </md-input-container>
+      <md-card-actions>
+        <button md-raised-button color="primary">Login</button>
+      </md-card-actions>
+
+    </md-tab>
+    <md-tab>
+      <template md-tab-label>
+        Extern
+      </template>
+      <md-input-container>
+        <input mdInput required="true" placeholder="Username">
+      </md-input-container>
+      <md-input-container>
+        <input type="password" mdInput placeholder="Passwort">
+      </md-input-container>
+      <p>Passwort vergessen?</p>
+      <md-card-actions>
+        <button md-button color="secondary">Von Einladungen abmelden</button>
+        <button md-raised-button color="primary">Login</button>
+      </md-card-actions>
+    </md-tab>
+  </md-tab-group>
+
+
+
+</md-card>
