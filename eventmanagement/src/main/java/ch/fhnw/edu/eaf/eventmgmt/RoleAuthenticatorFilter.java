@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
+/*
 @Component
 public class RoleAuthenticatorFilter implements Filter {
 
@@ -35,3 +36,4 @@ public class RoleAuthenticatorFilter implements Filter {
     public void init(FilterConfig arg0) throws ServletException {}
 
 }
+*/

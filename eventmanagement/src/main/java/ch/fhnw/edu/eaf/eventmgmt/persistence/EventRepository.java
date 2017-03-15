@@ -1,15 +1,11 @@
 package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@RepositoryRestResource
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     // Uncomment to disallow methods
