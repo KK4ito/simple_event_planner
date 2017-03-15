@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "../frontend/src/main/resources/static/",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
