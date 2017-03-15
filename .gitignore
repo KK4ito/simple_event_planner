@@ -2,3 +2,4 @@
 registry/build
 eventmanagement/build
 .gradle
+.idea

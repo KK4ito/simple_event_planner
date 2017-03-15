@@ -1,2 +1,3 @@
 include 'eventmanagement'
+include 'frontend'
 include 'registry'

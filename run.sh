@@ -9,7 +9,7 @@ sleep 5
 
 # start now all microservices
 # PROJECTS="eventmanagement moviemanagement usermanagement rentalmanagement"
-PROJECTS="eventmanagement"
+PROJECTS="eventmanagement frontend"
 
 for PROJECT in $PROJECTS
 do
