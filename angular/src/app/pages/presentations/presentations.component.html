@@ -1,17 +1,14 @@
-<md-tab-group>
-  <md-tab label="Presentations">
+<md-card>
+  <md-list>
+    <md-list-item *ngFor="let presentation of presentations" (click)="openLink(presentation.id)">
+      <h4 md-line>{{presentation.title}}</h4>
+      <p md-line> {{presentation.date | date}} </p>
+      <md-icon (click)="openDialog($event)">mode_edit</md-icon>
+      <md-icon (click)="openDialog($event)">delete_forever</md-icon>
+    </md-list-item>
+  </md-list>
 
-    <md-card>
-      <md-list>
-        <md-list-item *ngFor="let presentation of presentations" (click)="openDialog()">
-          <h4 md-line>{{presentation.title}}</h4>
-          <p md-line> {{presentation.date | date}} </p>
-          <md-icon>mode_edit</md-icon>
-          <md-icon>delete_forever</md-icon>
-        </md-list-item>
-      </md-list>
-    </md-card>
-
-  </md-tab>
-  <md-tab label="Tab 2">Content 2</md-tab>
-</md-tab-group>
+  <button md-fab color="primary">
+    <md-icon class="md-24">check</md-icon>
+  </button>
+</md-card>

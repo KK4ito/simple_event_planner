@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog } from "@angular/material";
+import { Router } from "@angular/router";
 
 import { DialogComponent } from '../../components/dialog/dialog.component';
 
@@ -11,9 +12,10 @@ import { DialogComponent } from '../../components/dialog/dialog.component';
 export class PresentationsComponent implements OnInit {
   presentations: any;
 
-  constructor(public dialog: MdDialog) {
+  constructor(private router: Router, public dialog: MdDialog) {
     this.presentations = [
       {
+        id: 1,
         title: "Machine Learning",
         presenters: [
           {
@@ -23,6 +25,7 @@ export class PresentationsComponent implements OnInit {
         date: new Date()
       },
       {
+        id: 2,
         title: "Machine Learning",
         presenters: [
           {
@@ -37,7 +40,13 @@ export class PresentationsComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialog() {
+  openLink(id) {
+    this.router.navigate(['/detail', id]);
+  }
+
+  openDialog(ev) {
+    ev.stopPropagation();
+
     let dialogRef = this.dialog.open(DialogComponent, {
       height: '400px',
       width: '600px',

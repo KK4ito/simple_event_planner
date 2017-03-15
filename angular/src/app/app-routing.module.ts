@@ -10,12 +10,8 @@ import { DetailComponent } from './pages/detail/detail.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    component: PresentationsComponent,
     pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    component: HomeComponent
   },
   {
     path: 'login',
@@ -23,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'presentations',
-    component: PresentationsComponent
+    component: HomeComponent
   },
   {
     path: 'detail/:id',
