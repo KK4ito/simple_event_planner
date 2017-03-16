@@ -1,5 +1,13 @@
 <md-card>
-  <p>
-    Test
-  </p>
+  <h2>{{event.name}}</h2>
+  <p>{{event.description}}</p>
+
+  <md-list>
+    <h3 md-subheader>Speakders</h3>
+    <md-list-item *ngFor="let speaker of speakers">{{speaker.firstName}} {{speaker.lastName}}</md-list-item>
+    <h3 md-subheader>Attendees</h3>
+    <md-list-item *ngFor="let attendee of attendees">{{attendee.firstName}} {{attendee.lastName}}</md-list-item>
+    <h3 md-subheader>Files</h3>
+    <md-list-item *ngFor="let file of files">{{file.name}}</md-list-item>
+  </md-list>
 </md-card>

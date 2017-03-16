@@ -19,7 +19,27 @@ export class AuthService {
    * @param parameters
    * @returns {Promise<T>|Promise}
    */
-  get(endpoint, parameters = ''): Promise<any> {
+  getMultiple<T>(endpoint, parameters = ''): Promise<T> {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters)
+        .subscribe(data => {
+          // wait until not uninit
+          var obj = data.json()._embedded;
+          resolve(obj[Object.keys(obj)[0]]);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  /**
+   * Get request to an endpoint with all the required headers set automatically
+   *
+   * @param endpoint
+   * @param parameters
+   * @returns {Promise<T>|Promise}
+   */
+  getSingle<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
       this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters)
         .subscribe(data => {
