@@ -3,10 +3,10 @@ package ch.fhnw.edu.eaf.eventmgmt.domain;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import static javax.persistence.FetchType.LAZY;
-
 import javax.persistence.*;
 import java.util.Date;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 public class File {
@@ -27,22 +27,16 @@ public class File {
 
     private String name;
 
-	/*
-    @Basic(fetch=LAZY)
-	@Lob
-	private byte[] data;
-	*/
+    @Basic(fetch = LAZY)
+    @Lob
+    private byte[] data;
+
+    public File() {
+
+    }
 
     public Long getId() {
         return Id;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getUpdated() {
-        return updated;
     }
 
     public Event getEvent() {
@@ -53,6 +47,22 @@ public class File {
         this.event = event;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
     public String getName() {
         return name;
     }
@@ -61,17 +71,11 @@ public class File {
         this.name = name;
     }
 
-    public File() {
-
+    public byte[] getData() {
+        return data;
     }
 
-	/*
-	public byte[] getData() {
-		return data;
-	}
-
-	public void setData(byte[] data) {
-		this.data = data;
-	}
-	*/
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

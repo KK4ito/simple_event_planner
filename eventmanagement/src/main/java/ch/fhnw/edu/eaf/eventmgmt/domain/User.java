@@ -2,7 +2,6 @@ package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class User {
@@ -20,32 +19,16 @@ public class User {
 
     private String password;
 
-    public Collection<Event> getAttendees() {
-        return attendees;
-    }
 
-    public void setAttendees(Collection<Event> attendees) {
-        this.attendees = attendees;
-    }
+    @ManyToMany
+    @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idevent"))
+    private Collection<Event> speakers;
 
-    /*
-        @ManyToMany
-        private List<Event> speakerEvents;
-
-    */
     @ManyToMany
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idevent"))
     private Collection<Event> attendees;
 
-
-    protected User() {
-    }
-
-    public User(String lastName, String firstName, boolean internal, String password) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.internal = internal;
-        this.password = password;
+    public User() {
     }
 
     public Long getId() {
@@ -56,8 +39,8 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String name) {
-        this.lastName = name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getFirstName() {
@@ -76,4 +59,35 @@ public class User {
         this.email = email;
     }
 
+    public boolean isInternal() {
+        return internal;
+    }
+
+    public void setInternal(boolean internal) {
+        this.internal = internal;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Collection<Event> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(Collection<Event> speakers) {
+        this.speakers = speakers;
+    }
+
+    public Collection<Event> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(Collection<Event> attendees) {
+        this.attendees = attendees;
+    }
 }

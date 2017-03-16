@@ -6,7 +6,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Event {
@@ -23,45 +22,25 @@ public class Event {
     private Date updated;
 
     private String name;
+
     private String description;
 
+    private Date startTime;
 
-    /*
+    private Date closingTime;
+
+    private Date endTime;
+
     @ManyToMany
-    @JoinTable(
-            name = "speakers",
-            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID"))
+    @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
+    private Collection<User> speakers;
 
-
-    private List<User> speakers;
-    */
-
-
-    public Collection<User> getAttendees() {
-        return attendees;
-    }
-
-    public void setAttendees(Collection<User> attendees) {
-        this.attendees = attendees;
-    }
-
-    /*
-        @JoinTable(name="Speaker",
-                joinColumns=@JoinColumn(name="SPEAKER_ID", referencedColumnName="ID"),
-                inverseJoinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="ID"))
-                */
     @ManyToMany
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     private Collection<User> attendees;
 
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-    private List<File> files;
-
-    private Date startTime;
-    private Date closingTime;
-    private Date endTime;
+    private Collection<File> files;
 
 
     public Event() {
@@ -75,12 +54,12 @@ public class Event {
         return created;
     }
 
-    public Date getUpdated() {
-        return updated;
-    }
-
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
     }
 
     public void setUpdated(Date updated) {
@@ -127,11 +106,27 @@ public class Event {
         this.endTime = endTime;
     }
 
-    public List<File> getFiles() {
+    public Collection<User> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(Collection<User> speakers) {
+        this.speakers = speakers;
+    }
+
+    public Collection<User> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(Collection<User> attendees) {
+        this.attendees = attendees;
+    }
+
+    public Collection<File> getFiles() {
         return files;
     }
 
-    public void setFiles(List<File> files) {
+    public void setFiles(Collection<File> files) {
         this.files = files;
     }
 }
