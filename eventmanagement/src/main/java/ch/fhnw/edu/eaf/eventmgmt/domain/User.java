@@ -1,12 +1,14 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long Id;
 
     private String lastName;
 
@@ -18,13 +20,23 @@ public class User {
 
     private String password;
 
-    /*
-    @ManyToMany
-    private List<Event> speakerEvents;
+    public Collection<Event> getAttendees() {
+        return attendees;
+    }
 
-    @ManyToMany
-    private List<Event> attendeeEvents;
+    public void setAttendees(Collection<Event> attendees) {
+        this.attendees = attendees;
+    }
+
+    /*
+        @ManyToMany
+        private List<Event> speakerEvents;
+
     */
+    @ManyToMany
+    @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idevent"))
+    private Collection<Event> attendees;
+
 
     protected User() {
     }
@@ -37,11 +49,7 @@ public class User {
     }
 
     public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return Id;
     }
 
     public String getLastName() {

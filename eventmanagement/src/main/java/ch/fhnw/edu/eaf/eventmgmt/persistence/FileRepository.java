@@ -13,7 +13,7 @@ public interface FileRepository extends JpaRepository<File, Long> {
     // Uncomment to disallow methods
 
     @Query("FROM File f where event = :eventId")
-    public Iterable<File> getByEventId(@Param("eventId") Event event);
+    public Iterable<File> getFilesByEventId(@Param("eventId") Event event);
 
     /*
 

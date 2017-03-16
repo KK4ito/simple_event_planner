@@ -12,7 +12,7 @@ import java.util.Date;
 public class File {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long Id;
 
     @ManyToOne
     private Event event;
@@ -34,7 +34,7 @@ public class File {
 	*/
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public Date getCreated() {

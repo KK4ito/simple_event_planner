@@ -10,105 +10,128 @@ import java.util.List;
 
 @Entity
 public class Event {
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long Id;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updated;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
 
-	private String name;
-	private String description;
-
-	/*
-	@ManyToMany(mappedBy = "speakerEvents")
-	private List<User> speakers;
-
-	@ManyToMany(mappedBy = "attendeeEvents")
-	private List<User> attendees;
-	*/
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-	private List<File> files;
-
-	private Date startTime;
-	private Date closingTime;
-	private Date endTime;
+    private String name;
+    private String description;
 
 
-	public Event() {
-	}
+    /*
+    @ManyToMany
+    @JoinTable(
+            name = "speakers",
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID"))
 
-	public Long getId() {
-		return id;
-	}
 
-	public Date getCreated() {
-		return created;
-	}
+    private List<User> speakers;
+    */
 
-	public Date getUpdated() {
-		return updated;
-	}
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+    public Collection<User> getAttendees() {
+        return attendees;
+    }
 
-	public void setUpdated(Date updated) {
-		this.updated = updated;
-	}
+    public void setAttendees(Collection<User> attendees) {
+        this.attendees = attendees;
+    }
 
-	public String getName() {
-		return name;
-	}
+    /*
+        @JoinTable(name="Speaker",
+                joinColumns=@JoinColumn(name="SPEAKER_ID", referencedColumnName="ID"),
+                inverseJoinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="ID"))
+                */
+    @ManyToMany
+    @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
+    private Collection<User> attendees;
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	public String getDescription() {
-		return description;
-	}
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    private List<File> files;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    private Date startTime;
+    private Date closingTime;
+    private Date endTime;
 
-	public Date getStartTime() {
-		return startTime;
-	}
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    public Event() {
+    }
 
-	public Date getClosingTime() {
-		return closingTime;
-	}
+    public Long getId() {
+        return Id;
+    }
 
-	public void setClosingTime(Date closingTime) {
-		this.closingTime = closingTime;
-	}
+    public Date getCreated() {
+        return created;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public Date getUpdated() {
+        return updated;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
-	public List<File> getFiles() {
-		return files;
-	}
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
 
-	public void setFiles(List<File> files) {
-		this.files = files;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(Date closingTime) {
+        this.closingTime = closingTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
 }

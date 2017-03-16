@@ -1,3 +1,4 @@
+clear
 ./kill.sh
 ./gradlew clean
 ./gradlew build

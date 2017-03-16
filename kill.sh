@@ -7,3 +7,5 @@ do
   kill -9 $PROCESS &>/dev/null
   echo "$PPROCESS killed successfully"
 done
+
+rm ~/test.db.*
