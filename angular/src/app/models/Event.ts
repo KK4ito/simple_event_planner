@@ -9,6 +9,7 @@ export class Event {
 		endTime: string;
 		id: number;
 		name: string;
+		image: string;
 		startTime: string;
 		updated: string;
 

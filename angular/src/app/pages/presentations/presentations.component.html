@@ -1,14 +1,18 @@
-<md-card>
-  <md-list>
-    <md-list-item *ngFor="let event of events" (click)="openLink(event.id)">
-      <h4 md-line>{{event.name}}</h4>
-      <p md-line> {{event.date | date}} </p>
-      <md-icon (click)="openDialog($event)">mode_edit</md-icon>
-      <md-icon (click)="openDialog($event)">delete_forever</md-icon>
-    </md-list-item>
-  </md-list>
-
-  <button md-fab color="primary">
-    <md-icon class="md-24">check</md-icon>
-  </button>
+<md-card class="example-card" *ngFor="let event of events" (click)="openLink(event.id)">
+  <md-card-header>
+    <div md-card-avatar class="example-header-image"></div>
+    <md-card-title>{{event.name}}</md-card-title>
+    <!--<md-card-subtitle>Dog Breed</md-card-subtitle>-->
+  </md-card-header>
+  <img md-card-image src="{{event.image}}">
+  <md-card-content>
+    {{event.date | date}}
+    <p>
+      {{event.description}}
+    </p>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button>Detail</button>
+    <button (click)="openDialog($event)" md-button>Edit</button>
+  </md-card-actions>
 </md-card>
