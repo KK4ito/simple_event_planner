@@ -1,6 +1,6 @@
 package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
-import ch.fhnw.edu.eaf.eventmgmt.domain.File;
+//import ch.fhnw.edu.eaf.eventmgmt.domain.File;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
@@ -13,8 +13,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     // Uncomment to disallow methods
 
-    @Query("FROM File f where event = :eventId")
-    public Iterable<File> getFilesByEventId(@Param("eventId") Event event);
+    //@Query("FROM File f where event = :eventId")
+    //public Iterable<File> getFilesByEventId(@Param("eventId") Event event);
 
 
     /*

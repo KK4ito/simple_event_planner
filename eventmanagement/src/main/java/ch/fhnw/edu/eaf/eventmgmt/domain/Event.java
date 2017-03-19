@@ -41,8 +41,8 @@ public class Event {
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     private Collection<User> attendees;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-    private Collection<File> files;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+    //private Collection<File> files;
 
 
     public Event() {
@@ -130,13 +130,5 @@ public class Event {
 
     public void setAttendees(Collection<User> attendees) {
         this.attendees = attendees;
-    }
-
-    public Collection<File> getFiles() {
-        return files;
-    }
-
-    public void setFiles(Collection<File> files) {
-        this.files = files;
     }
 }

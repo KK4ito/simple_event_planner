@@ -1,41 +1,111 @@
 package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
-import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
-import ch.fhnw.edu.eaf.eventmgmt.domain.File;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
-@RepositoryRestResource
-public interface FileRepository extends JpaRepository<File, Long> {
+import org.codehaus.jettison.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-    // Uncomment to disallow methods
+import javax.servlet.ServletContext;
 
-    @Query("FROM File f where event = :eventId")
-    public Iterable<File> getFilesByEventId(@Param("eventId") Event event);
+@Controller
+public class FileRepository {
 
-    /*
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    // Prevents GET /people/:id
-    @Override
-    @RestResource(exported = false)
-    public File findOne(Long id);
+    @Autowired
+    ServletContext context;
 
-    // Prevents GET /people
-    @Override
-    @RestResource(exported = false)
-    public Page<File> findAll(Pageable pageable);
+    @Value("${upload.path}")
+    private String uploadPath;
 
-    // Prevents POST /people and PATCH /people/:id
-    @Override
-    @RestResource(exported = false)
-    public File save(File s);
+    private void checkUploadDirectory() {
+        // Make sure the upload directory exists and is read & writeable
+        File uploadDirectory = new File(uploadPath);
+        uploadDirectory.mkdirs();
+        if (!uploadDirectory.exists() || !uploadDirectory.canWrite() || !uploadDirectory.canRead()) {
+            log.error("Upload directory not correctly configured: " + uploadPath);
+            throw new IllegalArgumentException("Ooops, something went wrong");
+        }
+    }
 
-    // Prevents DELETE /people/:id
-    @Override
-    @RestResource(exported = false)
-    public void delete(File t);
+    private String saveFile(MultipartFile file, File saveFile) {
+        try {
+            byte[] bytes = file.getBytes();
+            BufferedOutputStream stream =
+                    new BufferedOutputStream(new FileOutputStream(saveFile));
+            stream.write(bytes);
+            stream.close();
 
-    */
+            log.error("File saved to " + saveFile.getAbsolutePath());
+            return "{\"name\": " + JSONObject.quote(this.uploadPath + file.getOriginalFilename(), false) + "}";
+        } catch (Exception e) {
+            log.error("Error", e.getMessage());
+            throw new IllegalArgumentException("Ooops, something went wrong");
+        }
+    }
+
+    @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String post(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+
+            checkUploadDirectory();
+
+            File saveFile = new File(new File(uploadPath) + File.separator + file.getOriginalFilename());
+            if (saveFile.exists()) {
+                log.warn("File already exists: " + saveFile.getAbsolutePath());
+                throw new IllegalArgumentException("File already exists");
+            }
+            return this.saveFile(file, saveFile);
+        }
+        throw new IllegalArgumentException("File is empty");
+    }
+
+    @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.PUT)
+    public
+    @ResponseBody
+    String put(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+
+            checkUploadDirectory();
+
+            File saveFile = new File(new File(uploadPath) + File.separator + file.getOriginalFilename());
+            if (saveFile.exists()) {
+                saveFile.delete();
+                return this.saveFile(file, saveFile);
+            }
+            throw new IllegalArgumentException("File not found");
+        }
+        throw new IllegalArgumentException("File is empty");
+    }
+
+    @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.DELETE)
+    public
+    @ResponseBody
+    String put(@RequestParam("name") String name) {
+
+        checkUploadDirectory();
+
+        File saveFile = new File(new File(uploadPath) + File.separator + name);
+        if (saveFile.exists()) {
+            saveFile.delete();
+            return "{\"status\": \"OK\"}";
+        }
+        throw new IllegalArgumentException("File not found");
+
+    }
+
+
 }
