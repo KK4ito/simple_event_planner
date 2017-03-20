@@ -23,8 +23,6 @@ public class Event {
 
     private String name;
 
-    private String image;
-
     private String description;
 
     private Date startTime;
@@ -32,6 +30,9 @@ public class Event {
     private Date closingTime;
 
     private Date endTime;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private File image;
 
     @ManyToMany
     @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
@@ -41,11 +42,16 @@ public class Event {
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     private Collection<User> attendees;
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-    //private Collection<File> files;
-
 
     public Event() {
+    }
+
+    public Long getImageId() {
+        return image.getId();
+    }
+
+    public void setImage(File image) {
+        this.image = image;
     }
 
     public Long getId() {
@@ -74,14 +80,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getDescription() {
