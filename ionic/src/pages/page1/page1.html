@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Page One</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngFor="let event of events" (click)="openEvent(event.id)">
+    <img src="{{ event.imageUri | imageUri }}"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{ event.name }}
+      </ion-card-title>
+      <p>
+        {{ event.description }}
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

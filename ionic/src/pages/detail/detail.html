@@ -1,0 +1,47 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ event.name }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-list-header>
+      Speakers
+    </ion-list-header>
+
+    <ion-item *ngFor="let speaker of speakers">
+      <ion-avatar item-left>
+        <img src="{{ speaker.imageUri | imageUri }}">
+      </ion-avatar>
+      <h2>{{ speaker.firstName }} {{ speaker.lastName }}</h2>
+      <h3>{{ speaker.email }}</h3>
+    </ion-item>
+
+    <ion-list-header>
+      Attendees
+    </ion-list-header>
+
+    <ion-item *ngFor="let attendee of attendees">
+      <ion-avatar item-left>
+        <img src="{{ attendee.imageUri | imageUri }}">
+      </ion-avatar>
+      <h2>{{ attendee.firstName }} {{ attendee.lastName }}</h2>
+    </ion-item>
+
+    <ion-list-header>
+      Files
+    </ion-list-header>
+
+    <ion-item *ngFor="let file of files" (click)="download(file.uri)">
+      <ion-avatar item-left>
+        <img src="{{ file.uri | imageUri }}">
+      </ion-avatar>
+      <h2>{{ file.name }} </h2>
+    </ion-item>
+  </ion-list>
+</ion-content>
