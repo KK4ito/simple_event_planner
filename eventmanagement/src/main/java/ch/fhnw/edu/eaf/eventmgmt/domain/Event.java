@@ -52,6 +52,10 @@ public class Event {
     public Event() {
     }
 
+    public int getAttendeesCount(){
+        return this.attendees.size();
+    }
+
     public String getImageUri() {
         if (image == null) return "/default/no_content.png";
         // TODO Load base path from configuration
