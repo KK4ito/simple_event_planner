@@ -1,5 +1,5 @@
 import { Component, NgZone, Inject } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, AlertController} from 'ionic-angular';
 import { ApiService } from "../../providers/api.service";
 import { Event } from '../../models/Event';
 import { User } from "../../models/User";
@@ -22,7 +22,7 @@ export class DetailPage {
   response: any;
   hasBaseDropZoneOver: boolean;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, public navParams: NavParams) {
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, public navParams: NavParams, private alertCtrl:AlertController) {
     this._apiService.getEvent(this.navParams.get('id')).then(event => this.event = event);
     this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
     this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
@@ -74,14 +74,28 @@ export class DetailPage {
     this.hasBaseDropZoneOver = e;
   }
 
-  deleteFile(ev, uri: string) {
+  deleteFile(ev, file: File) {
     ev.stopPropagation();
-    let bla = this.files.filter(f => f.uri !== uri);
-    let files = bla.map(f => environment.baseUrl + f.uri);
-    this._apiService.updateEvent(this.event.id, {
-      files: files
-    }).then(() => {
-      this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
-    });
+    this.alertCtrl.create({
+      title: 'Delete file',
+      message: 'Do you want to delete ' + file.name + '?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            let bla = this.files.filter(f => f.uri !== file.uri);
+            let files = bla.map(f => environment.baseUrl + f.uri);
+            this._apiService.updateEvent(this.event.id, {
+              files: files
+            }).then(() => {
+              this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
+            });          }
+        }
+      ]
+    }).present();
   }
 }
