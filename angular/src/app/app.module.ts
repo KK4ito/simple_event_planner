@@ -23,6 +23,7 @@ import { ApiService } from './providers/api.service';
 import { AuthService } from './providers/auth.service';
 
 import { DialogComponent } from './components/dialog/dialog.component';
+import {ImageUri} from "./pipes/ImageUri";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -37,7 +38,8 @@ export function HttpLoaderFactory(http: Http) {
     PageNotFoundComponent,
     PresentationsComponent,
     DetailComponent,
-    DialogComponent
+    DialogComponent,
+    ImageUri
   ],
   imports: [
     BrowserModule,

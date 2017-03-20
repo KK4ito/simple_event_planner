@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -8,7 +9,7 @@ export class AuthService {
 
   constructor(private http: Http) {
     this.config = {
-      baseUrl: 'http://localhost:8080/api'
+      baseUrl: environment.baseUrl + '/api'
     };
   }
 

@@ -4,7 +4,7 @@
     <md-card-title>{{event.name}}</md-card-title>
     <!--<md-card-subtitle>Dog Breed</md-card-subtitle>-->
   </md-card-header>
-  <img md-card-image src="{{event.image}}">
+  <img md-card-image src="{{event.imageUri | imageUri}}">
   <md-card-content>
     {{event.date | date}}
     <p>
