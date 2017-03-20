@@ -57,7 +57,7 @@ export class DetailPage {
           console.log('data2', data);
           this.response = JSON.parse(data.response);
 
-          let files = this.files.map(f => f.uri);
+          let files = this.files.map(f => environment.baseUrl + f.uri);
           console.log('files', files);
           files.push(environment.baseUrl + JSON.parse(data.response).uri);
           this._apiService.updateEvent(this.event.id, {
@@ -77,10 +77,9 @@ export class DetailPage {
   deleteFile(ev, uri: string) {
     ev.stopPropagation();
     let bla = this.files.filter(f => f.uri !== uri);
-    console.log(this.files);
-    console.log(bla);
+    let files = bla.map(f => environment.baseUrl + f.uri);
     this._apiService.updateEvent(this.event.id, {
-      files: bla
+      files: files
     }).then(() => {
       this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
     });

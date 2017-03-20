@@ -61,6 +61,6 @@
       Browse
     </label>
   </div>
-  <progress-bar [progress]="progress"></progress-bar>
+  <progress-bar *ngIf="progress > 0 && progress < 100" [progress]="progress"></progress-bar>
   {{response | json }}
 </ion-content>
