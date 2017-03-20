@@ -8,9 +8,9 @@
 	},
 	"item": [
 		{
-			"name": "localhost:8084/events",
+			"name": "Events list",
 			"request": {
-				"url": "localhost:8084/events",
+				"url": "localhost:8080/api/events/",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -19,9 +19,154 @@
 			"response": []
 		},
 		{
-			"name": "GraphQL get Users",
+			"name": "Event get",
 			"request": {
-				"url": "localhost:8084/graphql",
+				"url": "localhost:8080/api/events/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Event add uploaded File",
+			"request": {
+				"url": "localhost:8080/api/events/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"files\": [\"http://localhost:8080/api/files/3\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Events list speakers",
+			"request": {
+				"url": "http://localhost:8080/api/events/1/speakers",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Events list files",
+			"request": {
+				"url": "http://localhost:8080/api/events/1/files",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Events list attendees",
+			"request": {
+				"url": "http://localhost:8080/api/events/1/attendees",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "File post",
+			"request": {
+				"url": "http://localhost:8080/api/files",
+				"method": "POST",
+				"header": [
+					{
+						"key": "file",
+						"value": "",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"value": "",
+							"type": "file",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "File get",
+			"request": {
+				"url": "http://localhost:8080/api/files/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "file",
+						"value": "",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"value": "",
+							"type": "file",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "File get download / display",
+			"request": {
+				"url": "http://localhost:8080/api/download/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "file",
+						"value": "",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"value": "",
+							"type": "file",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User post",
+			"request": {
+				"url": "localhost:8080/api/users",
 				"method": "POST",
 				"header": [
 					{
@@ -32,17 +177,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query\": \"{User{firstName}}\"\n}\n\n"
+					"raw": "{\n\t\"lastName\": \"Schönbächler\",\n\t\"firstName\": \"Lukas\",\n\t\"email\":\"schoenbaechler.lukas@gmail.com\",\n\t\"image\": \"http://localhost:8080/api/files/2\"\n}\n\n"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "Create User",
+			"name": "Users list",
 			"request": {
-				"url": "localhost:8084/users",
-				"method": "POST",
+				"url": "localhost:8080/api/users/",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -53,6 +198,46 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"lastName\": \"Schönbächler\",\n\t\"firstName\": \"Lukas\",\n\t\"email\":\"schoenbaechler.lukas@gmail.com\"\n\t\n}\n\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Users get",
+			"request": {
+				"url": "localhost:8080/api/users/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lastName\": \"Schönbächler\",\n\t\"firstName\": \"Lukas\",\n\t\"email\":\"schoenbaechler.lukas@gmail.com\"\n\t\n}\n\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Event post",
+			"request": {
+				"url": "localhost:8080/api/events/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"created\": \"2017-03-16T15:46:04.000+0000\",\n  \"updated\": \"2017-03-16T15:48:34.000+0000\",\n  \"name\": \"Greenfield Festival\",\n  \"description\": \"The Greenfield Festival is an annual rock music festival held on the outskirts of the town of Interlaken, in the Swiss canton of Bern\",\n  \"startTime\": \"2017-06-08T14:48:23.000+0000\",\n  \"closingTime\": \"2017-07-16T14:45:58.000+0000\",\n  \"endTime\": \"2017-06-10T14:48:13.000+0000\",\n  \"image\": \"http://localhost:8080/api/files/1\"\n}"
 				},
 				"description": ""
 			},
