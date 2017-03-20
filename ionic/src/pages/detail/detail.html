@@ -45,22 +45,5 @@
     </ion-item>
   </ion-list>
 
-  <div class="drag-n-drop-container"
-       ngFileDrop
-       [options]="options"
-       (onUpload)="handleUpload($event)"
-       [ngClass]="{'file-over': hasBaseDropZoneOver}"
-       (onFileOver)="fileOverBase($event)">
-    <h1>Drag & Drop</h1>
-    <label class="upload-button">
-      <input type="file"
-             class="hidden"
-             ngFileSelect
-             [options]="options"
-             (onUpload)="handleUpload($event)">
-      Browse
-    </label>
-  </div>
-  <progress-bar *ngIf="progress > 0 && progress < 100" [progress]="progress"></progress-bar>
-  {{response | json }}
+  <fileupload (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 </ion-content>

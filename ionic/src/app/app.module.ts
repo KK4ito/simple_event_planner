@@ -17,6 +17,7 @@ import { ImageUri } from "../pipes/ImageUri";
 
 import { NgUploaderModule } from 'ngx-uploader';
 import { ProgressBarComponent } from "../components/progress-bar/progress-bar";
+import { FileuploadComponent } from "../components/fileupload/fileupload";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -38,7 +39,8 @@ export const deepLinkConfig: DeepLinkConfig = {
     Page2,
     DetailPage,
     ImageUri,
-    ProgressBarComponent
+    ProgressBarComponent,
+    FileuploadComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
@@ -58,7 +60,8 @@ export const deepLinkConfig: DeepLinkConfig = {
     Page1,
     Page2,
     DetailPage,
-    ProgressBarComponent
+    ProgressBarComponent,
+    FileuploadComponent
   ],
   providers: [
     AuthService,
