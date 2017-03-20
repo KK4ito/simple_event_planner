@@ -1,22 +1,35 @@
-<ion-header>
-  <ion-navbar>
+<ion-header >
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Page One</ion-title>
+    <ion-title>Upcoming events</ion-title>
   </ion-navbar>
 </ion-header>
 
+
+
 <ion-content padding>
-  <ion-card *ngFor="let event of events" (click)="openEvent(event.id)">
-    <img src="{{ event.imageUri | imageUri }}"/>
-    <ion-card-content>
-      <ion-card-title>
-        {{ event.name }}
-      </ion-card-title>
-      <p>
-        {{ event.description }}
-      </p>
-    </ion-card-content>
-  </ion-card>
+
+  <ion-grid>
+  <ion-row>
+    <ion-col *ngFor="let event of events" col-md-4 col-sm-1>
+      <ion-card  (click)="openEvent(event.id)">
+        <img src="{{ event.imageUri | imageUri }}"/>
+        <ion-card-content>
+          <ion-card-title>
+            {{ event.name }}
+          </ion-card-title>
+          <p>
+            {{ event.description }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+
+
+
 </ion-content>

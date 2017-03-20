@@ -14,3 +14,18 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.side-menu {
+
+  // FIXME Somehow the header overlaps the content without a fixed height
+  ion-toolbar {
+    height: 192px;
+  }
+
+  img {
+    display: block;
+    margin: 32px auto;
+    width:128px;
+  }
+
+}
