@@ -4,10 +4,22 @@
 
   <md-list>
     <h3 md-subheader>Speakders</h3>
-    <md-list-item *ngFor="let speaker of speakers">{{speaker.firstName}} {{speaker.lastName}}</md-list-item>
+    <md-list-item *ngFor="let speaker of speakers">
+      <md-icon md-list-avatar><img height="42px" src="{{speaker.imageUri | imageUri}}"/></md-icon>
+      <h4 md-line>{{speaker.firstName}} {{speaker.lastName}}</h4>
+      <p md-line> {{speaker.email}}</p>
+    </md-list-item>
     <h3 md-subheader>Attendees</h3>
-    <md-list-item *ngFor="let attendee of attendees">{{attendee.firstName}} {{attendee.lastName}}</md-list-item>
+    <md-list-item *ngFor="let attendee of attendees">
+      <md-icon md-list-avatar><img height="42px" src="{{attendee.imageUri | imageUri}}"/></md-icon>
+      <h4 md-line>{{attendee.firstName}} {{attendee.lastName}}</h4>
+      <p md-line> {{attendee.email}}</p>
+    </md-list-item>
     <h3 md-subheader>Files</h3>
-    <md-list-item *ngFor="let file of files">{{file.name}}</md-list-item>
+    <md-list-item *ngFor="let file of files" (click)="download(file.uri);">
+      <md-icon md-list-avatar>folder</md-icon>
+      <h4 md-line>{{file.name}}</h4>
+      <p md-line> {{file.updated | date}} </p>
+      </md-list-item>
   </md-list>
 </md-card>

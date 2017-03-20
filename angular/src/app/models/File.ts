@@ -6,6 +6,6 @@ export class File {
 		id: number;
 		name: string;
 		updated: string;
-
+		uri:string;
 		event: Event;
 }

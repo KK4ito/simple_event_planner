@@ -4,6 +4,9 @@ import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
 import {Event} from "../../models/Event";
 import {File} from "../../models/File";
+import { environment } from '../../../environments/environment';
+
+declare var window:any;
 
 @Component({
   selector: 'app-detail',
@@ -29,6 +32,10 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public download(url:string){
+    window.location.href=environment.baseUrl + url;
   }
 
 }
