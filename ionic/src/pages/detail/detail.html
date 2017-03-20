@@ -41,6 +41,26 @@
         <img src="{{ file.uri | imageUri }}">
       </ion-avatar>
       <h2>{{ file.name }} </h2>
+      <ion-icon (click)="deleteFile($event, file.uri)" name="close-circle" item-right></ion-icon>
     </ion-item>
   </ion-list>
+
+  <div class="drag-n-drop-container"
+       ngFileDrop
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+       [ngClass]="{'file-over': hasBaseDropZoneOver}"
+       (onFileOver)="fileOverBase($event)">
+    <h1>Drag & Drop</h1>
+    <label class="upload-button">
+      <input type="file"
+             class="hidden"
+             ngFileSelect
+             [options]="options"
+             (onUpload)="handleUpload($event)">
+      Browse
+    </label>
+  </div>
+  <progress-bar [progress]="progress"></progress-bar>
+  {{response | json }}
 </ion-content>

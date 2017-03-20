@@ -15,6 +15,9 @@ import { AuthService } from '../providers/auth.service';
 
 import { ImageUri } from "../pipes/ImageUri";
 
+import { NgUploaderModule } from 'ngx-uploader';
+import { ProgressBarComponent } from "../components/progress-bar/progress-bar";
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
   return new TranslateHttpLoader(http);
@@ -24,7 +27,7 @@ export const deepLinkConfig: DeepLinkConfig = {
   links: [
     { component: Page1, name: "contact", segment: ""},
     { component: Page2, name: "hello", segment: "hello" },
-    { component: DetailPage, name: "hello", segment: "event/:id" }
+    { component: DetailPage, name: "hello", segment: "event/:id", defaultHistory: [Page1] }
   ]
 };
 
@@ -34,11 +37,13 @@ export const deepLinkConfig: DeepLinkConfig = {
     Page1,
     Page2,
     DetailPage,
-    ImageUri
+    ImageUri,
+    ProgressBarComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
     HttpModule,
+    NgUploaderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -52,7 +57,8 @@ export const deepLinkConfig: DeepLinkConfig = {
     MyApp,
     Page1,
     Page2,
-    DetailPage
+    DetailPage,
+    ProgressBarComponent
   ],
   providers: [
     AuthService,

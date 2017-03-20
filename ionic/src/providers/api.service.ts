@@ -29,4 +29,8 @@ export class ApiService {
   getFiles(eventId:number): Promise<File[]> {
     return this._authService.getMultiple('events/' + eventId + '/files');
   }
+
+  updateEvent(id, object): Promise<Event> {
+    return this._authService.put('events/' + id, object);
+  }
 }

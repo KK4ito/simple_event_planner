@@ -31,7 +31,7 @@ GET /api/download/{id}
 
 * file-repository
 
-### getCollectionResourceCompact
+### getCollectionResource
 ```
 GET /api/events
 ```
@@ -39,7 +39,7 @@ GET /api/events
 #### Responses
 |HTTP Code|Description|Schema|
 |----|----|----|
-|200|OK|Resources«Link»|
+|200|OK|Resources«Event»|
 |401|Unauthorized|No Content|
 |403|Forbidden|No Content|
 |404|Not Found|No Content|
@@ -51,8 +51,37 @@ GET /api/events
 
 #### Produces
 
-* text/uri-list
-* application/x-spring-data-compact+json
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
+
+#### Tags
+
+* Event Entity
+
+### optionsForCollectionResource
+```
+OPTIONS /api/events
+```
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|No Content|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
 
 #### Tags
 
@@ -121,34 +150,6 @@ HEAD /api/events
 
 * Event Entity
 
-### optionsForCollectionResource
-```
-OPTIONS /api/events
-```
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|No Content|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* Event Entity
-
 ### putItemResource
 ```
 PUT /api/events/{id}
@@ -169,41 +170,6 @@ PUT /api/events/{id}
 |401|Unauthorized|No Content|
 |403|Forbidden|No Content|
 |404|Not Found|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* Event Entity
-
-### patchItemResource
-```
-PATCH /api/events/{id}
-```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|BodyParameter|payload|payload|true|Event||
-|PathParameter|id|id|true|integer (int64)||
-
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|Resources«Event»|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
 
 
 #### Consumes
@@ -288,16 +254,10 @@ GET /api/events/{id}
 
 * Event Entity
 
-### headForItemResource
+### optionsForItemResource
 ```
-HEAD /api/events/{id}
+OPTIONS /api/events/{id}
 ```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|PathParameter|id|id|true|integer (int64)||
-
 
 #### Responses
 |HTTP Code|Description|Schema|
@@ -322,10 +282,51 @@ HEAD /api/events/{id}
 
 * Event Entity
 
-### optionsForItemResource
+### patchItemResource
 ```
-OPTIONS /api/events/{id}
+PATCH /api/events/{id}
 ```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|BodyParameter|payload|payload|true|Event||
+|PathParameter|id|id|true|integer (int64)||
+
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|Resources«Event»|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
+
+#### Tags
+
+* Event Entity
+
+### headForItemResource
+```
+HEAD /api/events/{id}
+```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|PathParameter|id|id|true|integer (int64)||
+
 
 #### Responses
 |HTTP Code|Description|Schema|
@@ -362,6 +363,34 @@ GET /api/files
 |401|Unauthorized|No Content|
 |403|Forbidden|No Content|
 |404|Not Found|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
+
+#### Tags
+
+* File Entity
+
+### optionsForCollectionResource
+```
+OPTIONS /api/files
+```
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|No Content|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
 
 
 #### Consumes
@@ -439,34 +468,6 @@ HEAD /api/files
 
 * File Entity
 
-### optionsForCollectionResource
-```
-OPTIONS /api/files
-```
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|No Content|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* File Entity
-
 ### putItemResource
 ```
 PUT /api/files/{id}
@@ -487,41 +488,6 @@ PUT /api/files/{id}
 |401|Unauthorized|No Content|
 |403|Forbidden|No Content|
 |404|Not Found|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* File Entity
-
-### patchItemResource
-```
-PATCH /api/files/{id}
-```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|BodyParameter|payload|payload|true|File||
-|PathParameter|id|id|true|integer (int64)||
-
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|Resources«File»|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
 
 
 #### Consumes
@@ -606,16 +572,10 @@ GET /api/files/{id}
 
 * File Entity
 
-### headForItemResource
+### optionsForItemResource
 ```
-HEAD /api/files/{id}
+OPTIONS /api/files/{id}
 ```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|PathParameter|id|id|true|integer (int64)||
-
 
 #### Responses
 |HTTP Code|Description|Schema|
@@ -640,10 +600,51 @@ HEAD /api/files/{id}
 
 * File Entity
 
-### optionsForItemResource
+### patchItemResource
 ```
-OPTIONS /api/files/{id}
+PATCH /api/files/{id}
 ```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|BodyParameter|payload|payload|true|File||
+|PathParameter|id|id|true|integer (int64)||
+
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|Resources«File»|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
+
+#### Tags
+
+* File Entity
+
+### headForItemResource
+```
+HEAD /api/files/{id}
+```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|PathParameter|id|id|true|integer (int64)||
+
 
 #### Responses
 |HTTP Code|Description|Schema|
@@ -690,6 +691,34 @@ GET /api/users
 
 * text/uri-list
 * application/x-spring-data-compact+json
+
+#### Tags
+
+* User Entity
+
+### optionsForCollectionResource
+```
+OPTIONS /api/users
+```
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|No Content|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
 
 #### Tags
 
@@ -758,34 +787,6 @@ HEAD /api/users
 
 * User Entity
 
-### optionsForCollectionResource
-```
-OPTIONS /api/users
-```
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|No Content|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* User Entity
-
 ### putItemResource
 ```
 PUT /api/users/{id}
@@ -806,41 +807,6 @@ PUT /api/users/{id}
 |401|Unauthorized|No Content|
 |403|Forbidden|No Content|
 |404|Not Found|No Content|
-
-
-#### Consumes
-
-* application/json
-
-#### Produces
-
-* application/*+json;charset=UTF-8
-* application/json
-* application/hal+json
-
-#### Tags
-
-* User Entity
-
-### patchItemResource
-```
-PATCH /api/users/{id}
-```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|BodyParameter|payload|payload|true|User||
-|PathParameter|id|id|true|integer (int64)||
-
-
-#### Responses
-|HTTP Code|Description|Schema|
-|----|----|----|
-|200|OK|Resources«User»|
-|204|No Content|No Content|
-|401|Unauthorized|No Content|
-|403|Forbidden|No Content|
 
 
 #### Consumes
@@ -925,16 +891,10 @@ GET /api/users/{id}
 
 * User Entity
 
-### headForItemResource
+### optionsForItemResource
 ```
-HEAD /api/users/{id}
+OPTIONS /api/users/{id}
 ```
-
-#### Parameters
-|Type|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|----|
-|PathParameter|id|id|true|integer (int64)||
-
 
 #### Responses
 |HTTP Code|Description|Schema|
@@ -959,10 +919,51 @@ HEAD /api/users/{id}
 
 * User Entity
 
-### optionsForItemResource
+### patchItemResource
 ```
-OPTIONS /api/users/{id}
+PATCH /api/users/{id}
 ```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|BodyParameter|payload|payload|true|User||
+|PathParameter|id|id|true|integer (int64)||
+
+
+#### Responses
+|HTTP Code|Description|Schema|
+|----|----|----|
+|200|OK|Resources«User»|
+|204|No Content|No Content|
+|401|Unauthorized|No Content|
+|403|Forbidden|No Content|
+
+
+#### Consumes
+
+* application/json
+
+#### Produces
+
+* application/*+json;charset=UTF-8
+* application/json
+* application/hal+json
+
+#### Tags
+
+* User Entity
+
+### headForItemResource
+```
+HEAD /api/users/{id}
+```
+
+#### Parameters
+|Type|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|----|
+|PathParameter|id|id|true|integer (int64)||
+
 
 #### Responses
 |HTTP Code|Description|Schema|

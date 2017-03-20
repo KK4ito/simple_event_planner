@@ -22,6 +22,7 @@ BasePath: /
 
 * file-repository: File Repository
 * Event Entity: Repository Entity Controller
+* Event Entity Search: Event Repository
 * File Entity: Repository Entity Controller
 * User Entity: Repository Entity Controller
 
