@@ -1,14 +1,24 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler, DeepLinkConfig } from 'ionic-angular';
+import { HttpModule, Http } from '@angular/http';
+
 import { MyApp } from './app.component';
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { DetailPage } from '../pages/detail/detail';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { ApiService } from '../providers/api.service';
 import { AuthService } from '../providers/auth.service';
 
 import { ImageUri } from "../pipes/ImageUri";
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: Http) {
+  return new TranslateHttpLoader(http);
+}
 
 export const deepLinkConfig: DeepLinkConfig = {
   links: [
@@ -27,7 +37,15 @@ export const deepLinkConfig: DeepLinkConfig = {
     ImageUri
   ],
   imports: [
-    IonicModule.forRoot(MyApp, {}, deepLinkConfig)
+    IonicModule.forRoot(MyApp, {}, deepLinkConfig),
+    HttpModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [Http]
+      }
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
