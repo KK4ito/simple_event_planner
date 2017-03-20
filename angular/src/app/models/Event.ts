@@ -13,8 +13,8 @@ export class Event {
     imageUri: string;
 		startTime: string;
 		updated: string;
-
 		attendees: User[];
-		files: File[];
+    attendeesCount:number;
+    files: File[];
 		speakers: User[];
 }

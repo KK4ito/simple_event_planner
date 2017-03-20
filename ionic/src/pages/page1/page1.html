@@ -23,6 +23,15 @@
           <p>
             {{ event.description }}
           </p>
+          <ion-item>
+            <ion-icon name="calendar" item-left></ion-icon>
+            {{event.startTime | date: 'dd.MM.yy H:mm'}}
+          </ion-item>
+          <ion-item>
+            <ion-icon name="people" item-left></ion-icon>
+            Teilnehmer
+            <ion-badge item-right>{{ event.attendeesCount }}</ion-badge>
+          </ion-item>
         </ion-card-content>
       </ion-card>
 
