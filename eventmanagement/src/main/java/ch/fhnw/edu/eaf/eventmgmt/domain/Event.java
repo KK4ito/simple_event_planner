@@ -1,5 +1,7 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -31,23 +33,33 @@ public class Event {
 
     private Date endTime;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private File image;
 
+    @OneToMany
+    private Collection<File> files;
+
     @ManyToMany
     @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
+    @JsonProperty
     private Collection<User> speakers;
 
     @ManyToMany
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     private Collection<User> attendees;
 
-
     public Event() {
     }
 
-    public Long getImageId() {
-        return image.getId();
+    public String getImageUri() {
+        if (image == null) return "/default/no_content.png";
+        // TODO Load base path from configuration
+        return "/api/download/" + image.getId();
+    }
+
+    public File getImage() {
+        return this.image;
     }
 
     public void setImage(File image) {
@@ -128,5 +140,13 @@ public class Event {
 
     public void setAttendees(Collection<User> attendees) {
         this.attendees = attendees;
+    }
+
+    public Collection<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Collection<File> files) {
+        this.files = files;
     }
 }

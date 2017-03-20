@@ -1,7 +1,6 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 public class User {
@@ -19,14 +18,8 @@ public class User {
 
     private String password;
 
-
-    @ManyToMany
-    @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idevent"))
-    private Collection<Event> speakers;
-
-    @ManyToMany
-    @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "iduser"), inverseJoinColumns = @JoinColumn(name = "idevent"))
-    private Collection<Event> attendees;
+    @OneToOne
+    private File image;
 
     public User() {
     }
@@ -75,19 +68,17 @@ public class User {
         this.password = password;
     }
 
-    public Collection<Event> getSpeakers() {
-        return speakers;
+    public File getImage() {
+        return image;
     }
 
-    public void setSpeakers(Collection<Event> speakers) {
-        this.speakers = speakers;
+    public String getImageUri() {
+        if (image == null) return "/default/avatar.png";
+        // TODO Load base path from configuration
+        return "/api/download/" + image.getId();
     }
 
-    public Collection<Event> getAttendees() {
-        return attendees;
-    }
-
-    public void setAttendees(Collection<Event> attendees) {
-        this.attendees = attendees;
+    public void setImage(File image) {
+        this.image = image;
     }
 }

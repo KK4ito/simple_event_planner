@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import java.io.IOException;
 
-@Controller
+@RestController
 public class FileRepository {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -43,13 +42,10 @@ public class FileRepository {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @RequestMapping(value = "${spring.data.rest.basePath}/files/{id:.+}", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> get(@PathVariable("id") Long id) {
-        System.out.println("1");
+    @RequestMapping(value = "${spring.data.rest.basePath}/download/{id:.+}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> display(@PathVariable("id") Long id) {
         File file = em.find(File.class, id);
-        System.out.println("2");
         if (file != null) {
-            System.out.println("3");
             return ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=\"" + StringEscapeUtils.escapeJava(file.getName()) +"\"")
                     .contentType(MediaType.parseMediaType(file.getContentType()))
@@ -57,6 +53,4 @@ public class FileRepository {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-
-
 }

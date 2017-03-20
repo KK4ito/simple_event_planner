@@ -20,9 +20,9 @@ BasePath: /
 
 ### Tags
 
+* file-repository: File Repository
 * Event Entity: Repository Entity Controller
 * File Entity: Repository Entity Controller
 * User Entity: Repository Entity Controller
-* File Entity Search: File Repository
 
 

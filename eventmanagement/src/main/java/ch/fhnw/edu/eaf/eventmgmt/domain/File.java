@@ -35,10 +35,19 @@ public class File {
     public File() {
     }
 
+    public File(Long Id) {
+        this.Id = Id;
+    }
+
     public File(String name, byte[] data, String contentType) {
         this.name = name;
         this.data = data;
         this.contentType = contentType;
+    }
+
+    public String getUri() {
+        // TODO Load base path from configuration
+        return "/api/download/" + getId();
     }
 
     public Long getId() {

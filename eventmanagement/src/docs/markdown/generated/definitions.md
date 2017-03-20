@@ -2,13 +2,16 @@
 ### Event
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
+|attendees||false|Collection«User»||
 |closingTime||false|string (date-time)||
 |created||false|string (date-time)||
 |description||false|string||
 |endTime||false|string (date-time)||
-|files||false|file array||
+|files||false|Collection«File»||
 |id||false|integer (int64)||
+|imageUri||false|string||
 |name||false|string||
+|speakers||false|Collection«User»||
 |startTime||false|string (date-time)||
 |updated||false|string (date-time)||
 
@@ -16,17 +19,12 @@
 ### File
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
+|contentType||false|string||
 |created||false|string (date-time)||
-|event||false|Event||
 |id||false|integer (int64)||
 |name||false|string||
 |updated||false|string (date-time)||
-
-
-### HttpEntity
-|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|
-|body||false|object||
+|uri||false|string||
 
 
 ### Link
@@ -35,12 +33,6 @@
 |href||false|string||
 |rel||false|string||
 |templated||false|boolean||
-
-
-### RepositorySearchesResource
-|Name|Description|Required|Schema|Default|
-|----|----|----|----|----|
-|links||false|Link array||
 
 
 ### Resources«Event»
@@ -74,14 +66,17 @@
 ### Resource«Event»
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
+|attendees||false|Collection«User»||
 |closingTime||false|string (date-time)||
 |created||false|string (date-time)||
 |description||false|string||
 |endTime||false|string (date-time)||
-|files||false|file array||
+|files||false|Collection«File»||
 |id||false|integer (int64)||
+|imageUri||false|string||
 |links||false|Link array||
 |name||false|string||
+|speakers||false|Collection«User»||
 |startTime||false|string (date-time)||
 |updated||false|string (date-time)||
 
@@ -89,12 +84,13 @@
 ### Resource«File»
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
+|contentType||false|string||
 |created||false|string (date-time)||
-|event||false|Event||
 |id||false|integer (int64)||
 |links||false|Link array||
 |name||false|string||
 |updated||false|string (date-time)||
+|uri||false|string||
 
 
 ### Resource«User»
@@ -103,8 +99,12 @@
 |email||false|string||
 |firstName||false|string||
 |id||false|integer (int64)||
+|image||false|file||
+|imageUri||false|string||
+|internal||false|boolean||
 |lastName||false|string||
 |links||false|Link array||
+|password||false|string||
 
 
 ### User
@@ -113,6 +113,10 @@
 |email||false|string||
 |firstName||false|string||
 |id||false|integer (int64)||
+|image||false|file||
+|imageUri||false|string||
+|internal||false|boolean||
 |lastName||false|string||
+|password||false|string||
 
 
