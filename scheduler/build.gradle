@@ -1,0 +1,25 @@
+jar {
+    baseName = 'scheduler'
+    manifest {
+        attributes("Implementation-Title": baseName,
+                "Implementation-Version": version)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka")
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5'
+    }
+}

@@ -4,3 +4,4 @@ eventmanagement/build
 .gradle
 .idea
 frontend/build
+scheduler/build

@@ -1,0 +1,1 @@
+cd scheduler && ./gradlew clean && ./gradlew build && java -jar build/libs/scheduler-1.0.0.jar && cd ..
