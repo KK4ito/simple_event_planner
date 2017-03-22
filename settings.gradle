@@ -1,3 +1,5 @@
+include 'mailer'
 include 'registry'
 include 'eventmanagement'
 include 'frontend'
+include 'scheduler'

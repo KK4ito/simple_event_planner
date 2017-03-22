@@ -47,7 +47,7 @@ public class Scheduler {
         ResponseEntity<PagedResources<File>> responseEntity =
                 template
                         .exchange(
-                                "http://localhost:8080/api/files/search/unusedFiles/",
+                                SchedulerApplication.BASE_URL_EVENTMANAGEMENT + "api/files/search/unusedFiles/",
                                 HttpMethod.GET,
                                 HttpEntity.EMPTY,
                                 new ParameterizedTypeReference<PagedResources<File>>() {
@@ -56,7 +56,7 @@ public class Scheduler {
 
         for (File file : responseEntity.getBody().getContent()) {
             try {
-                template.delete("http://localhost:8080/api/files/" + file.getId());
+                template.delete( SchedulerApplication.BASE_URL_EVENTMANAGEMENT + "api/files/" + file.getId());
                 log.info("Deleted successful: " + file.getId() + " / " + file.getName());
             } catch (RestClientException e) {
                 log.error("Delete failed:" + file.getId() + " / " + file.getName() + " / " + e.getLocalizedMessage());
