@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.eventmgmt;
+package ch.fhnw.edu.eaf.eventmgmt.security;
 
 import org.apache.commons.lang.StringUtils;
 import org.pac4j.core.authorization.authorizer.ProfileAuthorizer;
