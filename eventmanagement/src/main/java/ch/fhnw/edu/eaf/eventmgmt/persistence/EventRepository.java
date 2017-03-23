@@ -25,6 +25,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     // DELETE
     @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasPermission(#contact, 'admin')")
     @Override
     public void delete(Event e);
 
