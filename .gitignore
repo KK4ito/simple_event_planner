@@ -5,3 +5,4 @@ eventmanagement/build
 .idea
 frontend/build
 scheduler/build
+mailer/build
