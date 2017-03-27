@@ -1,5 +1,3 @@
-import { Event } from "./Event"
-
 export class File {
 		created: string;
 		data: any[];
@@ -7,5 +5,4 @@ export class File {
 		name: string;
 		updated: string;
 		uri:string;
-		event: Event;
 }

@@ -1,6 +1,7 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class User {
@@ -23,6 +24,9 @@ public class User {
 
     public User() {
     }
+
+    @OneToMany(mappedBy = "user")
+    private Collection<EventAttendee> attends;
 
     public Long getId() {
         return Id;

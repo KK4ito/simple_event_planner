@@ -1,5 +1,3 @@
-import {Event} from "./Event";
-
 export class User {
 		email: string;
 		firstName: string;
@@ -7,7 +5,4 @@ export class User {
 		internal: boolean;
 		lastName: string;
 		password: string;
-
-		attendees: Event[];
-		speakers: Event[];
 }

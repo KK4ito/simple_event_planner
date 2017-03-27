@@ -45,9 +45,15 @@ public class Event {
     @JsonProperty
     private Collection<User> speakers;
 
+    /*
     @ManyToMany
     @JoinTable(name = "attendees", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     private Collection<User> attendees;
+    */
+
+    @OneToMany(mappedBy = "event")
+    //@JoinTable(name = "EVENT_ATTENDEE", joinColumns = @JoinColumn(name = "event"), inverseJoinColumns = @JoinColumn(name = "user"))
+    private Collection<EventAttendee> attendees;
 
     public Event() {
     }
@@ -138,11 +144,11 @@ public class Event {
         this.speakers = speakers;
     }
 
-    public Collection<User> getAttendees() {
+    public Collection<EventAttendee> getAttendees() {
         return attendees;
     }
 
-    public void setAttendees(Collection<User> attendees) {
+    public void setAttendees(Collection<EventAttendee> attendees) {
         this.attendees = attendees;
     }
 

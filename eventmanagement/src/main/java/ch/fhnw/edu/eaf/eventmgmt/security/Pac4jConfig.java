@@ -29,6 +29,8 @@ public class Pac4jConfig{
         config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
 
         config.addMatcher("events",new CustomMatcher("/api/events/", false, false, false, false));
+        config.addMatcher("events",new CustomMatcher("/api/users/", false, false, false, false));
+        config.addMatcher("events",new CustomMatcher("/api/users/search/", false, false, false, false));
 
         return config;
     }

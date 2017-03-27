@@ -23,7 +23,7 @@ export class ApiService {
   }
 
   getAttendees(eventId:number): Promise<User[]> {
-    return this._authService.getMultiple('events/' + eventId + '/attendees');
+    return this._authService.getMultiple('users/search/find', 'event=' + eventId);
   }
 
   getFiles(eventId:number): Promise<File[]> {

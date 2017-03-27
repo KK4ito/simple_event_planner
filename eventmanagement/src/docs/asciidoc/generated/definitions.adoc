@@ -3,7 +3,8 @@
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
-|attendees||false|<<Collection«User»>>|
+|attendees||false|<<Collection«EventAttendee»>>|
+|attendeesCount||false|integer (int32)|
 |closingTime||false|string (date-time)|
 |created||false|string (date-time)|
 |description||false|string|
@@ -15,6 +16,16 @@
 |speakers||false|<<Collection«User»>>|
 |startTime||false|string (date-time)|
 |updated||false|string (date-time)|
+|===
+
+=== EventAttendee
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|event||false|<<Event>>|
+|foodType||false|enum (VEGI, NORMAL, NONE)|
+|id||false|integer (int64)|
+|user||false|<<User>>|
 |===
 
 === File
@@ -29,6 +40,13 @@
 |uri||false|string|
 |===
 
+=== HttpEntity
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|body||false|object|
+|===
+
 === Link
 [options="header"]
 |===
@@ -36,6 +54,21 @@
 |href||false|string|
 |rel||false|string|
 |templated||false|boolean|
+|===
+
+=== RepositorySearchesResource
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|links||false|<<Link>> array|
+|===
+
+=== Resources«EventAttendee»
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|content||false|<<Collection«EventAttendee»>>|
+|links||false|<<Link>> array|
 |===
 
 === Resources«Event»
@@ -70,11 +103,23 @@
 |links||false|<<Link>> array|
 |===
 
+=== Resource«EventAttendee»
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|event||false|<<Event>>|
+|foodType||false|enum (VEGI, NORMAL, NONE)|
+|id||false|integer (int64)|
+|links||false|<<Link>> array|
+|user||false|<<User>>|
+|===
+
 === Resource«Event»
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
-|attendees||false|<<Collection«User»>>|
+|attendees||false|<<Collection«EventAttendee»>>|
+|attendeesCount||false|integer (int32)|
 |closingTime||false|string (date-time)|
 |created||false|string (date-time)|
 |description||false|string|

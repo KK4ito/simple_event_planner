@@ -21,9 +21,11 @@ BasePath: /
 === Tags
 
 * file-repository: File Repository
+* EventAttendee Entity: Repository Entity Controller
 * Event Entity: Repository Entity Controller
-* Event Entity Search: Event Repository
+* User Entity Search: User Repository
 * File Entity: Repository Entity Controller
+* File Entity Search: Custom File Repository
 * User Entity: Repository Entity Controller
 
 

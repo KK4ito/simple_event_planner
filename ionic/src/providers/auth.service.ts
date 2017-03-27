@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 
 
@@ -23,7 +23,8 @@ export class AuthService {
    */
   getMultiple<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters)
+      var url = this.config.baseUrl + '/' + endpoint + ((parameters === '') ? '' : '?' + parameters);
+      this.http.get(url)
         .subscribe(data => {
           // wait until not uninit
           var obj = data.json()._embedded;

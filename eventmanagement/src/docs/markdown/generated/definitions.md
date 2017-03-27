@@ -2,7 +2,8 @@
 ### Event
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
-|attendees||false|Collection«User»||
+|attendees||false|Collection«EventAttendee»||
+|attendeesCount||false|integer (int32)||
 |closingTime||false|string (date-time)||
 |created||false|string (date-time)||
 |description||false|string||
@@ -16,6 +17,15 @@
 |updated||false|string (date-time)||
 
 
+### EventAttendee
+|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|
+|event||false|Event||
+|foodType||false|enum (VEGI, NORMAL, NONE)||
+|id||false|integer (int64)||
+|user||false|User||
+
+
 ### File
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
@@ -27,12 +37,31 @@
 |uri||false|string||
 
 
+### HttpEntity
+|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|
+|body||false|object||
+
+
 ### Link
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
 |href||false|string||
 |rel||false|string||
 |templated||false|boolean||
+
+
+### RepositorySearchesResource
+|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|
+|links||false|Link array||
+
+
+### Resources«EventAttendee»
+|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|
+|content||false|Collection«EventAttendee»||
+|links||false|Link array||
 
 
 ### Resources«Event»
@@ -63,10 +92,21 @@
 |links||false|Link array||
 
 
+### Resource«EventAttendee»
+|Name|Description|Required|Schema|Default|
+|----|----|----|----|----|
+|event||false|Event||
+|foodType||false|enum (VEGI, NORMAL, NONE)||
+|id||false|integer (int64)||
+|links||false|Link array||
+|user||false|User||
+
+
 ### Resource«Event»
 |Name|Description|Required|Schema|Default|
 |----|----|----|----|----|
-|attendees||false|Collection«User»||
+|attendees||false|Collection«EventAttendee»||
+|attendeesCount||false|integer (int32)||
 |closingTime||false|string (date-time)||
 |created||false|string (date-time)||
 |description||false|string||
