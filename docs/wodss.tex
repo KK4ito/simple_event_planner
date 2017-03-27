@@ -84,8 +84,19 @@ Das Ziel dieser Arbeit ist die Entwicklung eines Tools welches das Managen von I
 \tableofcontents
 \newpage
 
+\section{Prototyp}
+
+\includegraphics[width=0.8\textwidth]{prototyp/Einladungen}
+\includegraphics[width=0.8\textwidth]{prototyp/ExternePersonen}
+\includegraphics[width=0.8\textwidth]{prototyp/Login}
+\includegraphics[width=0.8\textwidth]{prototyp/Vortrag}
+\includegraphics[width=0.8\textwidth]{prototyp/Vortragansicht}
+
 \section{Architektur}
 Unsere Implementation des "Event-Planners" wurde mit Microservices realisiert. Wir verwenden dazu "Eureka", eine Library entwickelt von Netflix https://github.com/netflix/eureka.  Unsere Applikation verwendet fünf Microservices, welche im nachfolgenden Abschnitt genauer beschrieben sind. Die Kommunikation zwischen den Microservices läuft über REST-APIs.
+
+\subsection{Datenbank}
+\includegraphics[width=1\textwidth]{dbSchema}
 
 \subsection{Microservices}
 \subsubsection{Registry}
