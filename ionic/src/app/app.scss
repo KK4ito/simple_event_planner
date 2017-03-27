@@ -15,17 +15,80 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+ion-menu {
+  max-width: 300px !important;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v11/QAUlVt1jXOgQavlW5wEfxQLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+
+body, span, button, h1, h2, h3, h4, h5, h6, p, ion-item, ion-title {
+  font-family: 'Raleway' !important;
+}
+
+// Style for H1
+h1{
+  font-size:36px;
+  display:none;
+}
+
+h1:after {
+  width: 80px;
+  display: block;
+  margin-top: 13px;
+}
+
+.content__element.has_grid:after, .page_content:after, .page_content:before, h1:after, h2.startpage__title:after {
+  content: " ";
+}
+
+h1:after, h2.startpage__title:after {
+  height: 4px;
+  background-color: #FDE70E;
+}
+
+
+@media (min-width:768px) {
+
+  h1{
+    display: inherit;
+  }
+
+  .header-md::after{
+    display: none;
+  }
+
+  .toolbar-background{
+    background: none!important;
+  }
+
+  ion-title{
+    display: none;
+  }
+}
+
+
+
+
 .side-menu {
 
-  // FIXME Somehow the header overlaps the content without a fixed height
-  ion-toolbar {
-    height: 192px;
+  ion-content, button {
+    background-color: #fde70e !important;
   }
 
   img {
-    display: block;
-    margin: 32px auto;
-    width:128px;
+    max-height: 32px;
+    margin: 25px 0 80px 0;
+    padding: 0 32px;
   }
 
 }
+
+
