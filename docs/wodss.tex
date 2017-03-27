@@ -144,7 +144,18 @@ Für die Authentifizierung verwenden wir PAC4J und verwenden das JWT (Json Web T
 \item Koordinator (kann alle Entitäten bearbeiten und löschen)
 \end{enumerate}
 
+\newpage
+\section{Design-Entscheide}
+Anfangs wollten verschiedene neue Technologien wie z.B. Elm, GraphQL und Microservices testen. Es stellte sich aber schnell heraus, dass es dabei einige Probleme gibt, welche im folgenden Abschnitt erläutert werden.
 
+\begin{enumerate}
+\item Elm\\
+Elm ist eine relativ neue funktionale Sprache, die zu Javascript kompiliert. Der grosse Vorteil von Elm sind die Typsicherheit sowie der funktionale Aspekt. Es sollte dadurch beispielsweise keine Runtime-Fehler, die in Javascript an der tagesordnung sind, mehr geben.
+Es hat sich aber herausgestellt, dass das Ökosystem zwar bereits viele Funktionen bietet, wenn man aber genaue Anforderungen hat muss man teilweise Kompormisse eingehen.
+Weiter wird user Projekt durch die Wahl einer "neuen" Programmiersprache weniger wartbar.
+\item GraphQL\\
+Durch die JPA-GraphQL ist das initiale Aufsetzen eines GraphQL Endpoints nach einigen Versuchen relativ gut gegangen. Leider fehlen der Library aber noch einige zentrale Features, weshalb man nicht komplett auf die REST-API hätte verzichten können. Anstelle von zwei verschiedenen Endpunkten haben wir uns schlussendlich aus gründen der Wartbarkeit für REST entschieden.
+\end{enumerate}
 
 \newpage
 \begin{appendices}
