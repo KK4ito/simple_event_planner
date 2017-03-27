@@ -5,14 +5,20 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+  <div class="spacer" [style.background-image]="safeStyle"></div>
+
+  <div padding>
 
   <h1>{{ event.name }}</h1>
 
-  <ion-list>
+    <p>{{event.description}}</p>
 
+
+  <ion-list no-lines>
     <ion-list-header>
-      Speakers
+      Speakers ({{(speakers) ? speakers.length : '0'}})
     </ion-list-header>
 
     <ion-item *ngFor="let speaker of speakers">
@@ -24,16 +30,11 @@
     </ion-item>
 
     <ion-list-header>
-      Attendees
+      Attendees ({{(attendees) ? attendees.length : '0'}})
     </ion-list-header>
-
-    <ion-item *ngFor="let attendee of attendees">
-      <ion-avatar item-left>
-        <img src="{{ attendee.imageUri | imageUri }}">
-      </ion-avatar>
-      <h2>{{ attendee.firstName }} {{ attendee.lastName }}</h2>
-    </ion-item>
-
+      <ion-chip *ngFor="let attendee of attendees">
+        <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
+      </ion-chip>
     <ion-list-header>
       Files
     </ion-list-header>
@@ -48,4 +49,6 @@
   </ion-list>
 
   <fileupload (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
+
+  </div>
 </ion-content>

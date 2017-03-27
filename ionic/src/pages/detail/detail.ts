@@ -6,6 +6,7 @@ import { User } from "../../models/User";
 import { File } from "../../models/File";
 import { environment } from '../../../environments/environment';
 import { NgUploaderOptions } from 'ngx-uploader';
+import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html'
@@ -17,10 +18,13 @@ export class DetailPage {
   private speakers: User[];
   private attendees: User[];
   private files: File[];
+  private safeStyle: SafeStyle;
 
-
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, public navParams: NavParams, private alertCtrl:AlertController) {
-    this._apiService.getEvent(this.navParams.get('id')).then(event => this.event = event);
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, public navParams: NavParams, private alertCtrl:AlertController, private sanitizer:DomSanitizer) {
+    this._apiService.getEvent(this.navParams.get('id')).then(event => {
+      this.event = event;
+      this.safeStyle = sanitizer.bypassSecurityTrustStyle( 'url(\'' + environment.baseUrl + event.imageUri + '\')');
+    });
     this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
     this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
     this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
