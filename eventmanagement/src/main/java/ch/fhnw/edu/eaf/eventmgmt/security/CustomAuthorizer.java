@@ -33,6 +33,7 @@ public class CustomAuthorizer extends ProfileAuthorizer<CommonProfile> {
         }
         log.info("Profile found: " + profile.getUsername());
         System.err.println("Profile found: " + profile.getUsername());
-        return StringUtils.startsWith(profile.getUsername(), "jle");
+        //return StringUtils.startsWith(profile.getUsername(), "jle");
+        return true;
     }
 }

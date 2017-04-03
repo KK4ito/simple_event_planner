@@ -26,8 +26,9 @@ public class Pac4jConfig{
 
         final Config config = new Config(new Clients(parameterClient, directBasicAuthClient));
         config.addAuthorizer("custom", new CustomAuthorizer());
-        config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
+        //config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
 
+        config.addMatcher("events",new CustomMatcher("/api/files/", false, false, false, false));
         config.addMatcher("events",new CustomMatcher("/api/events/", false, false, false, false));
         config.addMatcher("events",new CustomMatcher("/api/users/", false, false, false, false));
         config.addMatcher("events",new CustomMatcher("/api/users/search/", false, false, false, false));

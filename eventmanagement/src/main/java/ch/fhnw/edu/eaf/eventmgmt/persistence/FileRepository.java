@@ -28,6 +28,7 @@ public class FileRepository {
     @PersistenceContext
     private EntityManager em;
 
+    @CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.POST)
     @ResponseBody
     @Transactional

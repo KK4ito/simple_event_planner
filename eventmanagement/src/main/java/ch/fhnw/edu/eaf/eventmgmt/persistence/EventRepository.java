@@ -19,12 +19,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     */
 
     // POST and PUT
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @Override
     public Event save(Event e);
 
     // DELETE
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     //@PreAuthorize("hasPermission(#contact, 'admin')")
     @Override
     public void delete(Event e);
