@@ -11,9 +11,11 @@
 
   <div padding>
 
-  <h1>{{ event.name }}</h1>
+  <h1 *ngIf="!editMode">{{ event.name }}</h1>
+  <ion-input *ngIf="editMode" placeholder="Text Input" [(ngModel)]="event.name"></ion-input>
 
-    <p>{{event.description}}</p>
+  <p *ngIf="!editMode">{{event.description}}</p>
+  <p *ngIf="editMode"><ion-input placeholder="Text Input" [(ngModel)]="event.description"></ion-input></p>
 
 
   <ion-list no-lines>
@@ -51,4 +53,9 @@
   <fileupload (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 
   </div>
+
+  <ion-fab right bottom>
+    <button *ngIf="editMode" ion-fab color="primary" (click)="save()"><ion-icon name="download"></ion-icon></button>
+    <button *ngIf="!editMode" ion-fab color="primary" (click)="edit()"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
 </ion-content>

@@ -1,11 +1,11 @@
-import { Component, NgZone, Inject } from '@angular/core';
-import {NavController, NavParams, AlertController} from 'ionic-angular';
-import { ApiService } from "../../providers/api.service";
-import { Event } from '../../models/Event';
-import { User } from "../../models/User";
-import { File } from "../../models/File";
-import { environment } from '../../../environments/environment';
-import { NgUploaderOptions } from 'ngx-uploader';
+import {Component, NgZone, Inject} from '@angular/core';
+import {NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import {ApiService} from "../../providers/api.service";
+import {Event} from '../../models/Event';
+import {User} from "../../models/User";
+import {File} from "../../models/File";
+import {environment} from '../../../environments/environment';
+import {NgUploaderOptions} from 'ngx-uploader';
 import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
 @Component({
   selector: 'page-detail',
@@ -20,10 +20,13 @@ export class DetailPage {
   private files: File[];
   private safeStyle: SafeStyle;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, public navParams: NavParams, private alertCtrl:AlertController, private sanitizer:DomSanitizer) {
+  private editMode = false;
+  private oldEvent;
+
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
     this._apiService.getEvent(this.navParams.get('id')).then(event => {
       this.event = event;
-      this.safeStyle = sanitizer.bypassSecurityTrustStyle( 'url(\'' + environment.baseUrl + event.imageUri + '\')');
+      this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
     });
     this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
     this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
@@ -38,8 +41,8 @@ export class DetailPage {
   ionViewWillEnter() {
   }
 
-  public download(url:string){
-    window.location.href= environment.baseUrl + url;
+  public download(url: string) {
+    window.location.href = environment.baseUrl + url;
   }
 
   uploadFinished(success, file: File) {
@@ -73,9 +76,48 @@ export class DetailPage {
               files: files
             }).then(() => {
               this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
-            });          }
+            });
+          }
         }
       ]
     }).present();
+  }
+
+  edit() {
+    this.editMode = true;
+    this.oldEvent = Object.assign({}, this.event);
+  }
+
+  save() {
+    this.editMode = false;
+    this.saveEvent(this.event);
+  }
+
+  saveEvent(event:Event, isRestore = false){
+    this._apiService.updateEvent(event.id, event).then((event) => {
+      this.event = event;
+
+      if(isRestore) {
+        this.toastCtrl.create({
+          message: 'Event successfully restored.',
+          duration: 3000,
+          position: 'bottom right'
+        }).present();
+      }else{
+        let toast = this.toastCtrl.create({
+          message: 'Event successfully updated.',
+          duration: 3000,
+          showCloseButton: true,
+          closeButtonText: "undo",
+          position: 'bottom right'
+        });
+        toast.onDidDismiss((data, role) => {
+          if (role == "close") {
+            this.saveEvent(this.oldEvent, true);
+          }
+        });
+        toast.present();
+      }
+    });
   }
 }
