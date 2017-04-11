@@ -3,6 +3,7 @@ import {Subject} from "rxjs";
 import { CompleterService, CompleterData } from 'ng2-completer';
 import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
+import {environment} from "../../../environments/environment";
 
 /*
   Generated class for the SelectUser component.
@@ -26,6 +27,9 @@ export class SelectUserComponent {
 
   constructor(private completerService: CompleterService, private apiService:ApiService){
     this.resultsFetched = false;
+
+    this.datasource.descriptionField('email');
+    this.datasource.imageField('avatar');
   }
 
   searchUser(event:any){
@@ -37,6 +41,7 @@ export class SelectUserComponent {
             var user:any;
             user = users[i];
             user.name = (user.firstName + ' ' + user.lastName).trim();
+            user.avatar = environment.baseUrl + user.imageUri;
             newUsers.push(user);
           }
           this.results$.next(newUsers);
