@@ -3,9 +3,9 @@ import { IonicApp, IonicModule, IonicErrorHandler, DeepLinkConfig } from 'ionic-
 import { HttpModule, Http } from '@angular/http';
 
 import { MyApp } from './app.component';
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
 import { DetailPage } from '../pages/detail/detail';
+import { HomePage } from "../pages/home/home";
+import { AboutPage } from "../pages/about/about";
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -26,17 +26,16 @@ export function HttpLoaderFactory(http: Http) {
 
 export const deepLinkConfig: DeepLinkConfig = {
   links: [
-    { component: Page1, name: "contact", segment: ""},
-    { component: Page2, name: "hello", segment: "hello" },
-    { component: DetailPage, name: "hello", segment: "event/:id", defaultHistory: [Page1] }
+    { component: HomePage, name: "home", segment: ""},
+    { component: DetailPage, name: "detail", segment: "event/:id", defaultHistory: [HomePage] }
   ]
 };
 
 @NgModule({
   declarations: [
     MyApp,
-    Page1,
-    Page2,
+    HomePage,
+    AboutPage,
     DetailPage,
     ImageUri,
     ProgressBarComponent,
@@ -57,8 +56,8 @@ export const deepLinkConfig: DeepLinkConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Page1,
-    Page2,
+    HomePage,
+    AboutPage,
     DetailPage,
     ProgressBarComponent,
     FileuploadComponent

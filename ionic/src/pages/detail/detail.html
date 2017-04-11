@@ -20,7 +20,7 @@
 
   <ion-list no-lines>
     <ion-list-header>
-      Speakers ({{(speakers) ? speakers.length : '0'}})
+      {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
     </ion-list-header>
 
     <ion-item *ngFor="let speaker of speakers">
@@ -32,13 +32,13 @@
     </ion-item>
 
     <ion-list-header>
-      Attendees ({{(attendees) ? attendees.length : '0'}})
+      {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
     </ion-list-header>
       <ion-chip *ngFor="let attendee of attendees">
         <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
       </ion-chip>
     <ion-list-header>
-      Files
+      {{ 'DETAIL.FILES' | translate }}
     </ion-list-header>
 
     <ion-item *ngFor="let file of files" (click)="download(file.uri)">

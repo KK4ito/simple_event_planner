@@ -4,14 +4,14 @@
      (onUpload)="handleUpload($event)"
      [ngClass]="{'file-over': hasBaseDropZoneOver}"
      (onFileOver)="fileOverBase($event)">
-  <h1>Drag & Drop</h1>
+  <h1>{{ 'DETAIL.DRAG_AND_DROP' | translate }}</h1>
   <label class="upload-button">
     <input type="file"
            class="hidden"
            ngFileSelect
            [options]="options"
            (onUpload)="handleUpload($event)">
-    Browse
+    {{ 'DETAIL.BROWSE' | translate }}
   </label>
 </div>
 <progress-bar *ngIf="progress > 0 && progress < 100" [progress]="progress"></progress-bar>

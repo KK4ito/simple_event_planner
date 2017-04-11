@@ -1,3 +1,12 @@
 {
-  "HOME.TITLE": "Home funktioniert"
+  "NAV.EVENTS": "Events",
+  "NAV.ABOUT": "Über",
+  "HOME.PARTICIPANTS": "Teilnehmer",
+  "ABOUT.CONTENT": "Diese App wurde von der FHNW entwickelt.",
+  "DETAIL.SPEAKERS": "Referent",
+  "DETAIL.ATTENDEES": "Teilnehmer",
+  "DETAIL.FILES": "Dateien",
+  "DETAIL.CHOOSE_FILE": "Datei auswählen",
+  "DETAIL.DRAG_AND_DROP": "Ziehen und loslassen",
+  "DETAIL.BROWSE": "Auswählen"
 }

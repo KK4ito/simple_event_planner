@@ -7,10 +7,12 @@
 
       <ion-list no-lines>
         <button  ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          {{p.title}}
+          {{ p.title | translate }}
         </button>
       </ion-list>
 
+      <button ion-button (click)="changeLanguage('de')">de</button>
+      <button ion-button (click)="changeLanguage('en')">en</button>
 
       <div class="widg_header__inner-foot">
         <div class="widg_headerfoot widg_header__hide-on-shrinked">
