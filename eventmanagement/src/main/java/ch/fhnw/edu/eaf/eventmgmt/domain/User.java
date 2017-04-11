@@ -19,6 +19,14 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
+    public enum RoleType {
+        REGISTERED,
+        ADMINISTRATOR
+    }
+
     @OneToOne
     private File image;
 
@@ -84,5 +92,13 @@ public class User {
 
     public void setImage(File image) {
         this.image = image;
+    }
+
+    public RoleType getRole() {
+        return role;
+    }
+
+    public void setRole(RoleType role) {
+        this.role = role;
     }
 }

@@ -9,9 +9,9 @@ INSERT INTO PUBLIC.FILE (ID, CONTENT_TYPE, CREATED, DATA, NAME, UPDATED) VALUES 
 
 
 
-INSERT INTO PUBLIC.USER (IMAGE_ID, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES (2, 'schoenbaechler.lukas@gmail.com', 'Lukas', 'Schönbächler', 'ASDF', 0);
-INSERT INTO PUBLIC.USER (EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES ('andreas.gassmann@students.fhnw.ch', 'Andreas', 'Gassmann', 'ASDF', 0);
-INSERT INTO PUBLIC.USER (EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES ('johnas.frehner@students.fhnw.ch', 'Johnas', 'Frehner', 'ASDF', 0);
+INSERT INTO PUBLIC.USER (IMAGE_ID, ROLE, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES (2, 'ADMINISTRATOR', 'schoenbaechler.lukas@gmail.com', 'Lukas', 'Schönbächler', 'ASDF', 0);
+INSERT INTO PUBLIC.USER (EMAIL, ROLE, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES ('andreas.gassmann@students.fhnw.ch', 'REGISTERED', 'Andreas', 'Gassmann', 'ASDF', 0);
+INSERT INTO PUBLIC.USER (EMAIL, ROLE, FIRST_NAME, LAST_NAME, PASSWORD, INTERNAL) VALUES ('johnas.frehner@students.fhnw.ch', 'ADMINISTRATOR', 'Johnas', 'Frehner', 'ASDF', 0);
 
 INSERT INTO PUBLIC.EVENT (ID, IMAGE_ID, CLOSING_TIME, CREATED, DESCRIPTION, END_TIME, NAME, START_TIME, UPDATED) VALUES (1, 7, '2017-07-16 16:45:58', '2017-03-16 16:46:04', 'An introduction into Machine Learning.', '2017-06-10 16:48:13', 'Machine Learning for Dummies', '2017-06-08 16:48:23', '2017-03-16 16:48:34');
 INSERT INTO PUBLIC.EVENT (ID, IMAGE_ID, CLOSING_TIME, CREATED, DESCRIPTION, END_TIME, NAME, START_TIME, UPDATED) VALUES (2, 6, '2017-09-16 16:46:10', '2017-03-16 16:46:08', 'The new version of Ionic will include a lot of performance update and is based on Angular 4.', '2017-08-20 16:49:17', 'A closer look at Ionic 3', '2017-08-18 16:49:28', '2017-03-16 16:48:40');

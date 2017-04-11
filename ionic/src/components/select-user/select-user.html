@@ -1,0 +1,13 @@
+<!--
+  Generated template for the SelectUser component.
+
+  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
+  for more info on Angular 2 Components.
+-->
+<ng2-completer  [(ngModel)] = "searchString"
+                (ngModelChange)="searchUser($event)"
+                [(datasource)]="datasource"
+                [minSearchLength]="3"
+                matchClass="highlight-text-color"
+                (selected)="selectedItem($event)">
+</ng2-completer>

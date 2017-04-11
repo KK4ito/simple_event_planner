@@ -9,6 +9,7 @@ import { AboutPage } from "../pages/about/about";
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Ng2CompleterModule } from "ng2-completer";
 
 import { ApiService } from '../providers/api.service';
 import { AuthService } from '../providers/auth.service';
@@ -18,6 +19,9 @@ import { ImageUri } from "../pipes/ImageUri";
 import { NgUploaderModule } from 'ngx-uploader';
 import { ProgressBarComponent } from "../components/progress-bar/progress-bar";
 import { FileuploadComponent } from "../components/fileupload/fileupload";
+import {UsersPage} from "../pages/users/users";
+import {PermissionsPage} from "../pages/permissions/permissions";
+import {SelectUserComponent} from "../components/select-user/select-user";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -37,14 +41,18 @@ export const deepLinkConfig: DeepLinkConfig = {
     HomePage,
     AboutPage,
     DetailPage,
+    UsersPage,
+    PermissionsPage,
     ImageUri,
     ProgressBarComponent,
-    FileuploadComponent
+    FileuploadComponent,
+    SelectUserComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
     HttpModule,
     NgUploaderModule,
+    Ng2CompleterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -59,8 +67,11 @@ export const deepLinkConfig: DeepLinkConfig = {
     HomePage,
     AboutPage,
     DetailPage,
+    PermissionsPage,
+    UsersPage,
     ProgressBarComponent,
-    FileuploadComponent
+    FileuploadComponent,
+    SelectUserComponent
   ],
   providers: [
     AuthService,

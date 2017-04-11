@@ -1,3 +1,5 @@
+import {Role} from "./Role";
+
 export class User {
 		email: string;
 		firstName: string;
@@ -5,4 +7,5 @@ export class User {
 		internal: boolean;
 		lastName: string;
 		password: string;
+		role: Role
 }

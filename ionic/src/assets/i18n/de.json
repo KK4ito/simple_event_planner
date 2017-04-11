@@ -1,6 +1,11 @@
 {
   "NAV.EVENTS": "Events",
   "NAV.ABOUT": "Über",
+  "NAV.USERS": "Benutzer",
+  "NAV.PERMISSIONS": "Berechtigungen",
+  "PERMISSIONS.ADMINISTRATORS": "Administratoren",
+  "PERMISSIONS.ADMINISTRATOR_ADD": "Administrator hinzufügen:",
+  "USERS.USERS": "Benutzer",
   "HOME.PARTICIPANTS": "Teilnehmer",
   "ABOUT.CONTENT": "Diese App wurde von der FHNW entwickelt.",
   "DETAIL.SPEAKERS": "Referent",

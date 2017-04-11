@@ -5,6 +5,8 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { HomePage } from "../pages/home/home";
 import { AboutPage } from "../pages/about/about";
+import {UsersPage} from "../pages/users/users";
+import {PermissionsPage} from "../pages/permissions/permissions";
 
 
 @Component({
@@ -29,6 +31,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'NAV.EVENTS', component: HomePage },
+      { title: 'NAV.PERMISSIONS', component: PermissionsPage },
+      { title: 'NAV.USERS', component: UsersPage },
       { title: 'NAV.ABOUT', component: AboutPage }
     ];
 
