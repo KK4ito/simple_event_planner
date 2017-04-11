@@ -23,15 +23,18 @@ export class DetailPage {
   private editMode = false;
   private oldEvent;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
-    this._apiService.getEvent(this.navParams.get('id')).then(event => {
-      this.event = event;
-      this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
-    });
-    this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
-    this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
-    this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
-
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
+    if(this.navParams.get('id') >= 0) {
+      this._apiService.getEvent(this.navParams.get('id')).then(event => {
+        this.event = event;
+        this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
+      });
+      this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
+      this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
+      this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
+    }else {
+      this.editMode = true;
+    }
   }
 
   ionViewDidLoad() {
@@ -90,7 +93,20 @@ export class DetailPage {
 
   save() {
     this.editMode = false;
-    this.saveEvent(this.event);
+    if(this.event.id >= 0) {
+      this.saveEvent(this.event);
+    }else{
+      this.createEvent();
+    }
+  }
+
+  createEvent(){
+    this._apiService.createEvent(this.event).then((newEvent)=>{
+      console.log('event', newEvent);
+      this.navCtrl.push(DetailPage, {
+        id: newEvent.id
+      });
+    });
   }
 
   saveEvent(event:Event, isRestore = false){

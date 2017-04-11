@@ -59,7 +59,7 @@ public class Event {
     }
 
     public int getAttendeesCount(){
-        return this.attendees.size();
+        return (this.attendees == null)? 0 : this.attendees.size();
     }
 
     public String getImageUri() {

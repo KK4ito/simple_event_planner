@@ -12,10 +12,10 @@
   <div padding>
 
   <h1 *ngIf="!editMode">{{ event.name }}</h1>
-  <ion-input *ngIf="editMode" placeholder="Text Input" [(ngModel)]="event.name"></ion-input>
+  <ion-input *ngIf="editMode" placeholder="Title" [(ngModel)]="event.name"></ion-input>
 
   <p *ngIf="!editMode">{{event.description}}</p>
-  <p *ngIf="editMode"><ion-input placeholder="Text Input" [(ngModel)]="event.description"></ion-input></p>
+  <p *ngIf="editMode"><ion-input placeholder="Description" [(ngModel)]="event.description"></ion-input></p>
 
 
   <ion-list no-lines>

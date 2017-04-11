@@ -88,7 +88,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.http.post(this.config.baseUrl + '/' + endpoint + '/', object)
         .subscribe(data => {
-          resolve(data);
+          resolve(data.json());
         }, error => {
           reject(error);
         });

@@ -30,6 +30,10 @@ export class ApiService {
     return this._authService.getMultiple('events/' + eventId + '/files');
   }
 
+  createEvent(object): Promise<Event> {
+    return this._authService.post('events', object);
+  }
+
   updateEvent(id, object): Promise<Event> {
     return this._authService.put('events/' + id, object);
   }

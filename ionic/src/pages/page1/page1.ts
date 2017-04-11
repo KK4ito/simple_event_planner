@@ -19,7 +19,7 @@ export class Page1 {
   openEvent(id: number) {
     this.navCtrl.push(DetailPage, {
       id: id
-    })
+    });
   }
 
   openDialog(ev) {
