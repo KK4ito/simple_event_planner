@@ -2,5 +2,7 @@
   "NAV.EVENTS": "Events",
   "NAV.ABOUT": "About",
   "NAV.USERS": "Users",
-  "HOME.PARTICIPANTS": "Participants"
+  "HOME.PARTICIPANTS": "Participants",
+  "UPDATE_USER.EDIT": "Edit",
+  "UPDATE_USER.CREATE_USER": "Create User"
 }

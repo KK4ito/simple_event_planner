@@ -52,7 +52,8 @@ export class DetailPage {
     let files = this.files.map(f => environment.baseUrl + f.uri);
     console.log('files', files);
     files.push(environment.baseUrl + file.uri);
-    this._apiService.updateEvent(this.event.id, {
+    this._apiService.updateEvent({
+      id: this.event.id,
       files: files
     }).then(files => {
       this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
@@ -75,7 +76,8 @@ export class DetailPage {
           handler: () => {
             let bla = this.files.filter(f => f.uri !== file.uri);
             let files = bla.map(f => environment.baseUrl + f.uri);
-            this._apiService.updateEvent(this.event.id, {
+            this._apiService.updateEvent({
+              id: this.event.id,
               files: files
             }).then(() => {
               this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
@@ -110,7 +112,7 @@ export class DetailPage {
   }
 
   saveEvent(event:Event, isRestore = false){
-    this._apiService.updateEvent(event.id, event).then((event) => {
+    this._apiService.updateEvent(event).then((event) => {
       this.event = event;
 
       if(isRestore) {

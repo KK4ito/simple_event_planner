@@ -38,16 +38,26 @@ export class ApiService {
     return this._authService.getMultiple('events/' + eventId + '/files');
   }
 
-  createEvent(object): Promise<Event> {
-    return this._authService.post('events', object);
+  createEvent(event:Event): Promise<Event> {
+    return this._authService.post('events', event);
   }
 
-  updateEvent(id, object): Promise<Event> {
-    return this._authService.put('events/' + id, object);
+  createUser(user:User): Promise<User> {
+    user.internal = false;
+    user.role = Role.REGISTERED;
+    return this._authService.post('users', user);
   }
 
-  updateUser(id, object): Promise<Event> {
-    return this._authService.put('users/' + id, object);
+  updateUser(user:User): Promise<User> {
+    return this._authService.put('users/' + user.id, user);
+  }
+
+  deleteUser(id:number): Promise<User> {
+    return this._authService.delete('users/' + id);
+  }
+
+  updateEvent(event): Promise<Event> {
+    return this._authService.put('events/' + event.id, event);
   }
 
   getUsersByName(name:string): Promise<User[]>{

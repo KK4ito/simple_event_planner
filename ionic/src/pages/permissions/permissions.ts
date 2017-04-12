@@ -34,7 +34,7 @@ export class PermissionsPage {
   }
 
   updateUser(user:User, showUndo = true){
-    this.apiService.updateUser(user.id, user).then(() =>{
+    this.apiService.updateUser(user).then(() =>{
     this.refreshUsers();
       let toast = this.toastCtrl.create({
         message: 'User role successfully updated.',

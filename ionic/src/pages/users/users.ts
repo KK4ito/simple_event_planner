@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {NavController, NavParams, ModalController, Events} from 'ionic-angular';
 import {User} from "../../models/User";
 import {ApiService} from "../../providers/api.service";
+import {UpdateUserPage} from "../update-user/update-user";
 
 /*
   Generated class for the Users page.
@@ -17,16 +18,19 @@ export class UsersPage {
 
   users: User[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiService:ApiService) {
-    apiService.getUsers().then((data) => this.users = data);
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apiService:ApiService, private modalCtrl: ModalController, private events:Events) {
+    this.events.subscribe('users:changed', () => {
+      this.refreshUsers();
+    });
+    this.refreshUsers();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UsersPage');
+  refreshUsers(){
+    this.apiService.getUsers().then((data) => this.users = data);
   }
 
-  createUser(){
-
+  updateUser(user:User){
+      this.modalCtrl.create(UpdateUserPage, {user: user}, {enableBackdropDismiss: false}).present();
   }
 
 }

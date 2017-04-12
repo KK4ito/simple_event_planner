@@ -16,16 +16,17 @@
 <ion-content padding>
   <h1>{{ 'USERS.USERS' | translate }}</h1>
 
-  <ion-item *ngFor="let user of users">
+  <ion-item *ngFor="let user of users" (click)="updateUser(user)">
     <ion-avatar item-left>
       <img src="{{ user.imageUri | imageUri }}">
     </ion-avatar>
     <h2>{{ user.firstName }} {{ user.lastName }}</h2>
     <h3>{{ user.email }}</h3>
+    <ion-icon name="md-create" item-right></ion-icon>
   </ion-item>
 
   <ion-fab right bottom>
-    <button ion-fab color="primary" (click)="createUser()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="primary" (click)="updateUser(null)"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
 </ion-content>

@@ -22,6 +22,7 @@ import { FileuploadComponent } from "../components/fileupload/fileupload";
 import {UsersPage} from "../pages/users/users";
 import {PermissionsPage} from "../pages/permissions/permissions";
 import {SelectUserComponent} from "../components/select-user/select-user";
+import {UpdateUserPage} from "../pages/update-user/update-user";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -43,6 +44,7 @@ export const deepLinkConfig: DeepLinkConfig = {
     DetailPage,
     UsersPage,
     PermissionsPage,
+    UpdateUserPage,
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
@@ -68,6 +70,7 @@ export const deepLinkConfig: DeepLinkConfig = {
     AboutPage,
     DetailPage,
     PermissionsPage,
+    UpdateUserPage,
     UsersPage,
     ProgressBarComponent,
     FileuploadComponent,

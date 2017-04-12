@@ -13,5 +13,17 @@
   "DETAIL.FILES": "Dateien",
   "DETAIL.CHOOSE_FILE": "Datei auswählen",
   "DETAIL.DRAG_AND_DROP": "Ziehen und loslassen",
-  "DETAIL.BROWSE": "Auswählen"
+  "DETAIL.BROWSE": "Auswählen",
+  "UPDATE_USER.EDIT": "Bearbeite",
+  "UPDATE_USER.CREATE_USER": "Erstelle Benutzer",
+  "UPDATE_USER.FIRST_NAME": "Vorname",
+  "UPDATE_USER.LAST_NAME": "Nachname",
+  "UPDATE_USER.EMAIL": "E-Mail",
+  "UPDATE_USER.PASSWORD": "Passwort",
+  "UPDATE_USER.SAVE": "Speichern",
+  "UPDATE_USER.DELETE": "Löschen",
+  "UPDATE_USER.CREATED": "erstellt",
+  "UPDATE_USER.UPDATED": "aktualisiert",
+  "UPDATE_USER.DELETED": "gelöscht",
+  "UPDATE_USER.UNDO": "Rückgängig"
 }
