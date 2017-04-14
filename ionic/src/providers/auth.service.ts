@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 
-
 @Injectable()
 export class AuthService {
   config: any;
@@ -113,85 +112,4 @@ export class AuthService {
         });
     });
   }
-
-  /**
-   * Uploads a file blob to the server
-   *
-   * @param endpoint string: The name of the endpoint
-   * @param blob blob:
-   * @param onProgress function: Gets called when progress is made (1-100)
-   * @returns {Promise<T>|Promise}
-   */
-  /*
-  uploadBlob(endpoint: string, blob: Blob, onProgress: (n: number) => any): Promise<any> {
-    this.log('fn: uploadBlob');
-
-    return new Promise((resolve, reject) => {
-
-      let xhr:XMLHttpRequest = new XMLHttpRequest();
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            resolve(<File> JSON.parse(xhr.response));
-          } else {
-            reject(xhr.response);
-          }
-        }
-      };
-
-      xhr.upload.addEventListener("progress", function (oEvent:any) {
-        if (oEvent.lengthComputable) {
-          onProgress(oEvent.loaded / oEvent.total);
-        }
-      }, false);
-
-      xhr.open('POST', this.config.baseUrl + endpoint, true);
-
-      this.getRequestHeader().then(header => {
-        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.setRequestHeader("Authorization", header);
-
-        let formData = new FormData();
-        formData.append("file", blob);
-        xhr.send(formData);
-      }).catch(console.error);
-    });
-  }
-
-
-  uploadFile(endpoint: string, fileUri: string, onProgress: (n: number) => any): Promise<any> {
-    this.log('fn: uploadFile');
-
-    return new Promise((resolve, reject) => {
-
-      const fileTransfer = new Transfer();
-
-      this.getRequestHeader().then(header => {
-
-        let options = {
-          fileKey: 'file',
-          fileName: fileUri.substr(fileUri.lastIndexOf('/') + 1),
-          headers: {
-            "Authorization": header
-          }
-        };
-
-        fileTransfer.upload(fileUri, this.config.baseUrl + endpoint, options)
-          .then((res: any) => {
-            if (res.responseCode) {
-              if (res.responseCode === 200) {
-                resolve(<File> JSON.parse(res.response));
-              } else {
-                reject(res.response);
-              }
-            } else {
-              reject(res.exception);
-            }
-          })
-          .catch(reject);
-
-      }).catch(console.error);
-    });
-  }
-*/
 }

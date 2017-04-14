@@ -3,6 +3,8 @@ import {NavParams, ViewController, ToastController, Events, AlertController} fro
 import {User} from "../../models/User";
 import {ApiService} from "../../providers/api.service";
 import {TranslateService} from "@ngx-translate/core";
+import {File} from "../../models/File";
+import {environment} from "../../../environments/environment";
 
 /*
   Generated class for the NewUser page.
@@ -96,5 +98,9 @@ export class UpdateUserPage {
       ]
     });
     alert.present();
+  }
+
+  avatarUpdated(file:File){
+    this.user.image = file.uri;
   }
 }

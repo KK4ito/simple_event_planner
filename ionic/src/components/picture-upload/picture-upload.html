@@ -1,0 +1,14 @@
+<!--
+  Generated template for the PictureUpload component.
+
+  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
+  for more info on Angular 2 Components.
+-->
+
+<div id="spacer" *ngIf="!isEdit" [style.background-image]="safeStyle" (click)="clicked()">
+  <div id="overlay">
+    <ion-icon name="md-create"></ion-icon>
+  </div>
+</div>
+
+<fileupload *ngIf="isEdit" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>

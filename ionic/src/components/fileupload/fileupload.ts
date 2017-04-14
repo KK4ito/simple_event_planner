@@ -1,6 +1,6 @@
-import { Component, NgZone, Inject, Output, EventEmitter } from '@angular/core';
+import {Component, NgZone, Inject, Output, EventEmitter, Input, ViewChild} from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { NgUploaderOptions } from 'ngx-uploader';
+import {NgUploaderOptions, NgFileDropDirective} from 'ngx-uploader';
 import { File } from "../../models/File";
 
 @Component({
@@ -9,17 +9,28 @@ import { File } from "../../models/File";
 })
 export class FileuploadComponent {
 
+  @Input() filter:string[];
   @Output() onFinished: EventEmitter<[boolean, File]> = new EventEmitter();
+
+  @ViewChild(NgFileDropDirective) private fileSelect: NgFileDropDirective;
+
 
   options: NgUploaderOptions;
   response: any;
   hasBaseDropZoneOver: boolean;
-
   progress: number;
 
   constructor(@Inject(NgZone) private zone: NgZone) {
     this.options = new NgUploaderOptions({
-      url: environment.baseUrl + '/api/files'
+      url: environment.baseUrl + '/api/files',
+      maxSize: 2097152,
+      customHeaders: {
+        'Accept':'application/json'
+      },
+      maxUploads: 2,
+      autoUpload: true,
+      filterExtensions: true,
+      allowedExtensions: ['txt', 'pdf', 'jpg', 'png']
     });
   }
 

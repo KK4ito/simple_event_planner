@@ -23,6 +23,7 @@ import {UsersPage} from "../pages/users/users";
 import {PermissionsPage} from "../pages/permissions/permissions";
 import {SelectUserComponent} from "../components/select-user/select-user";
 import {UpdateUserPage} from "../pages/update-user/update-user";
+import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -48,7 +49,8 @@ export const deepLinkConfig: DeepLinkConfig = {
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
-    SelectUserComponent
+    SelectUserComponent,
+    PictureUploadComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
@@ -74,7 +76,8 @@ export const deepLinkConfig: DeepLinkConfig = {
     UsersPage,
     ProgressBarComponent,
     FileuploadComponent,
-    SelectUserComponent
+    SelectUserComponent,
+    PictureUploadComponent
   ],
   providers: [
     AuthService,

@@ -7,5 +7,7 @@ export class User {
 		internal: boolean;
 		lastName: string;
 		password: string;
-		role: Role
+		role: Role;
+    imageUri: string;
+    image: string;
 }
