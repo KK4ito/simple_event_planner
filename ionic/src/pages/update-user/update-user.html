@@ -20,7 +20,7 @@
 
 
 <ion-content padding>
-  <picture-upload [image]="user.imageUri" (onFinished)="avatarUpdated($event[0])"></picture-upload>
+  <picture-upload [height]="235" [image]="user.imageUri" (onFinished)="avatarUpdated($event[0])"></picture-upload>
 
   <ion-item>
     <ion-label stacked>{{'UPDATE_USER.FIRST_NAME' | translate}}</ion-label>
