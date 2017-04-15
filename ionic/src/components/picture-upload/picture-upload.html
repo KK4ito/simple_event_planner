@@ -5,10 +5,10 @@
   for more info on Angular 2 Components.
 -->
 
-<div id="spacer" *ngIf="!isEdit" [style.background-image]="safeStyle" (click)="clicked()">
-  <div id="overlay">
+<div id="spacer" *ngIf="!isEdit" [style.height]="height + 'px'" [style.background-image]="placeHolderStyle" (click)="clicked()">
+  <div id="overlay" [style.padding-top]="(height/2) + 'px'" [style.height]="height + 'px'">
     <ion-icon name="md-create"></ion-icon>
   </div>
 </div>
 
-<fileupload *ngIf="isEdit" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
+<fileupload *ngIf="isEdit" [height]="height" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>

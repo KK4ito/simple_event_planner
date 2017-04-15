@@ -7,7 +7,8 @@
 
 <ion-content>
 
-  <div class="spacer" [style.background-image]="safeStyle"></div>
+  <div *ngIf="!editMode" class="spacer" [style.background-image]="safeStyle"></div>
+  <picture-upload *ngIf="editMode" [image]="event.imageUri" [height]="450" (onFinished)="pictureChanged($event[0])"></picture-upload>
 
   <div padding>
 

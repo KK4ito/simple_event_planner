@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import {SafeStyle, DomSanitizer} from "@angular/platform-browser";
 import {environment} from '../../../environments/environment';
 import {File} from "../../models/File";
@@ -16,12 +16,13 @@ import {File} from "../../models/File";
 export class PictureUploadComponent {
 
   @Input() image: string;
+  @Input() height: number;
   @Output() onFinished: EventEmitter<[File]> = new EventEmitter();
 
-  private safeStyle: SafeStyle;
+  private placeHolderStyle: SafeStyle;
   private isEdit = false;
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -29,7 +30,8 @@ export class PictureUploadComponent {
       this.image = "/default/avatar.png";
     }
     console.log(this.image);
-    this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + this.image + '\')');
+    this.placeHolderStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + this.image + '\')');
+    this.changeDetectorRef.detectChanges();
   }
 
   clicked(){
@@ -38,7 +40,7 @@ export class PictureUploadComponent {
 
   uploadFinished(success, file: File) {
     if(success){
-      this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
+      this.placeHolderStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
       this.isEdit = false;
       this.onFinished.emit([file]);
     }

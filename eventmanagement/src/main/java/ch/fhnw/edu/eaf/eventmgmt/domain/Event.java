@@ -33,8 +33,7 @@ public class Event {
 
     private Date endTime;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private File image;
 
     @OneToMany

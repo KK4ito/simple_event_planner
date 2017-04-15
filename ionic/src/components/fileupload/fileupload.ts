@@ -9,6 +9,7 @@ import { File } from "../../models/File";
 })
 export class FileuploadComponent {
 
+  @Input() height: number;
   @Input() filter:string[];
   @Output() onFinished: EventEmitter<[boolean, File]> = new EventEmitter();
 

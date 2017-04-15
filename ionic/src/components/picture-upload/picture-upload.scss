@@ -1,19 +1,16 @@
 picture-upload {
 
   #spacer, fileupload{
-    height:235px;
     background: no-repeat center;
     background-size: cover;
   }
 
   #overlay    {
-    height: 235px;
     background:rgba(0,0,0,.75);
     text-align:center;
     opacity:0;
     -webkit-transition: opacity .25s ease;
     -moz-transition: opacity .25s ease;
-    padding-top:100px;
   }
 
   #spacer:hover #overlay {

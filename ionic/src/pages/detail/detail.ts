@@ -1,11 +1,10 @@
-import {Component, NgZone, Inject} from '@angular/core';
+import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
 import {NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {Event} from '../../models/Event';
 import {User} from "../../models/User";
 import {File} from "../../models/File";
 import {environment} from '../../../environments/environment';
-import {NgUploaderOptions} from 'ngx-uploader';
 import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
 @Component({
   selector: 'page-detail',
@@ -23,7 +22,7 @@ export class DetailPage {
   private editMode = false;
   private oldEvent;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer) {
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
     if(this.navParams.get('id') >= 0) {
       this._apiService.getEvent(this.navParams.get('id')).then(event => {
         this.event = event;
@@ -114,7 +113,6 @@ export class DetailPage {
   saveEvent(event:Event, isRestore = false){
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
-
       if(isRestore) {
         this.toastCtrl.create({
           message: 'Event successfully restored.',
@@ -137,5 +135,11 @@ export class DetailPage {
         toast.present();
       }
     });
+  }
+
+  pictureChanged(file:File){
+    this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
+    this.event.image = file.uri;
+    this.changeDetectorRef.detectChanges();
   }
 }
