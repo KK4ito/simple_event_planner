@@ -5,14 +5,13 @@ import {Event} from '../../models/Event';
 import {User} from "../../models/User";
 import {File} from "../../models/File";
 import {environment} from '../../../environments/environment';
-import {DomSanitizer, SafeStyle, SafeUrl} from "@angular/platform-browser";
+import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html'
 })
 export class DetailPage {
 
-  private progress: number = 0;
   private event: Event = new Event();
   private speakers: User[];
   private attendees: User[];

@@ -29,7 +29,6 @@ export class PictureUploadComponent {
     if(this.image == undefined || this.image == ""){
       this.image = "/default/avatar.png";
     }
-    console.log(this.image);
     this.placeHolderStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + this.image + '\')');
     this.changeDetectorRef.detectChanges();
   }
