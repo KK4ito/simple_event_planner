@@ -21,7 +21,7 @@
 
   <ion-list no-lines>
     <ion-list-header>
-      {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
+      {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}}) <select-user *ngIf="editMode" item-right [placeholder]="'Add speaker'" (onSelected)="onSpeakerSelected($event[0])"></select-user>
     </ion-list-header>
 
     <ion-item *ngFor="let speaker of speakers">
@@ -30,7 +30,10 @@
       </ion-avatar>
       <h2>{{ speaker.firstName }} {{ speaker.lastName }}</h2>
       <h3>{{ speaker.email }}</h3>
+      <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)" name="close-circle" item-right></ion-icon>
     </ion-item>
+
+
 
     <ion-list-header>
       {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
@@ -47,8 +50,7 @@
         <img src="{{ file.uri | imageUri }}">
       </ion-avatar>
       <h2>{{ file.name }} </h2>
-      <ion-icon (click)="deleteFile($event, file)" name="close-circle" item-right></ion-icon>
-    </ion-item>
+k    </ion-item>
   </ion-list>
 
   <fileupload (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>

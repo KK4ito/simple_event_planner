@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
 import {Subject} from "rxjs";
 import { CompleterService, CompleterData } from 'ng2-completer';
 import {ApiService} from "../../providers/api.service";
@@ -17,6 +17,7 @@ import {environment} from "../../../environments/environment";
 })
 export class SelectUserComponent {
 
+  @Input() placeholder: string;
   @Output() onSelected: EventEmitter<[User]> = new EventEmitter();
 
   private results$ = new Subject();

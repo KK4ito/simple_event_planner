@@ -111,6 +111,8 @@ export class DetailPage {
   }
 
   saveEvent(event:Event, isRestore = false){
+    // Set speaker list
+    event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
       if(isRestore) {
@@ -141,5 +143,14 @@ export class DetailPage {
     this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
     this.event.image = file.uri;
     this.changeDetectorRef.detectChanges();
+  }
+
+  onSpeakerSelected(user:User){
+    if(this.speakers.map(s => s.id).indexOf(user.id) > -1) return;
+    this.speakers.push(user);
+  }
+
+  deleteSpeaker(ev, user: User){
+    this.speakers = this.speakers.filter(item => item !== user);
   }
 }

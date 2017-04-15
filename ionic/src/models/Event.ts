@@ -1,3 +1,4 @@
+import {User} from "./User";
 export class Event {
 		closingTime: string;
 		created: string;
@@ -9,4 +10,5 @@ export class Event {
     imageUri: string;
 		startTime: string;
 		updated: string;
+		speakers: string[];
 }
