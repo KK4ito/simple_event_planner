@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User AS u WHERE UPPER(u.firstName) like %:name% OR (u.lastName) like %:name%")
     public List<User> name(@Param("name") String name);
 
+    @Query(value = "SELECT u FROM User AS u WHERE UPPER(u.email) = UPPER(:email)")
+    public List<User> me(@Param("email") String email);
 }

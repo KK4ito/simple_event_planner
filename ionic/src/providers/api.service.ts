@@ -78,6 +78,18 @@ export class ApiService {
     });
   }
 
+  getMe(email:string): Promise<User>{
+    return new Promise((resolve, reject) => {
+      this._authService
+        .getMultiple('users/search/me', 'email=' + encodeURI(email.trim().toUpperCase()))
+        .then((result: User[]) => {
+          if(result.length > 0) resolve(result[0]);
+          reject();
+        })
+        .catch((err) => reject(err));
+    });
+  }
+
   deleteEventAttendee(id: number): Promise<EventAttendee> {
     return this._authService.delete('eventAttendees/' + id);
   }

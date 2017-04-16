@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler, DeepLinkConfig } from 'ionic-angular';
-import { HttpModule, Http } from '@angular/http';
+import {HttpModule, Http, RequestOptions} from '@angular/http';
 
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
@@ -26,6 +26,7 @@ import {UpdateUserPage} from "../pages/update-user/update-user";
 import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import {Autoresize} from "../components/autoresize/autoresize";
+import {ProfilePage} from "../pages/login/profile";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -48,6 +49,7 @@ export const deepLinkConfig: DeepLinkConfig = {
     UsersPage,
     PermissionsPage,
     UpdateUserPage,
+    ProfilePage,
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
@@ -78,6 +80,7 @@ export const deepLinkConfig: DeepLinkConfig = {
     PermissionsPage,
     UpdateUserPage,
     UsersPage,
+    ProfilePage,
     ProgressBarComponent,
     FileuploadComponent,
     SelectUserComponent,

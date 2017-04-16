@@ -7,6 +7,7 @@ import { HomePage } from "../pages/home/home";
 import { AboutPage } from "../pages/about/about";
 import {UsersPage} from "../pages/users/users";
 import {PermissionsPage} from "../pages/permissions/permissions";
+import {ProfilePage} from "../pages/login/profile";
 
 
 @Component({
@@ -33,6 +34,7 @@ export class MyApp {
       { title: 'NAV.EVENTS', component: HomePage },
       { title: 'NAV.PERMISSIONS', component: PermissionsPage },
       { title: 'NAV.USERS', component: UsersPage },
+      { title: 'NAV.LOGIN', component: ProfilePage },
       { title: 'NAV.ABOUT', component: AboutPage }
     ];
 

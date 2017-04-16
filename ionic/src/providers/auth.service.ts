@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import {Http, Headers} from '@angular/http';
 import { environment } from '../../environments/environment';
+import {User} from "../models/User";
 
 @Injectable()
 export class AuthService {
+
+  public user:User;
   config: any;
 
   constructor(private http: Http) {
@@ -11,6 +14,38 @@ export class AuthService {
     this.config = {
       baseUrl: environment.baseUrl + '/api'
     };
+
+    var user = JSON.parse(localStorage.getItem('user')) as User;
+    if(user) {
+      this.user = user;
+      this.refreshAuthToken();
+    }
+  }
+
+  public isAuthed(){
+    return this.user == null;
+  }
+
+  public login(user:User){
+    this.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
+    this.refreshAuthToken();
+  }
+
+  public logout(){
+    this.user = null;
+    localStorage.removeItem('user');
+    this.refreshAuthToken();
+  }
+
+  private refreshAuthToken(){
+    let anyHttp = this.http as any;
+    if(!this.user){
+      anyHttp._defaultOptions.headers = new Headers();
+    }else{
+      var tok = this.user.email + ':' + this.user.password;
+      anyHttp._defaultOptions.headers.append('Authorization', "Basic " + btoa(tok));
+    }
   }
 
   /**
