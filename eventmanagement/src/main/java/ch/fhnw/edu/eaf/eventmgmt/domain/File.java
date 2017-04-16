@@ -5,6 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
@@ -23,13 +25,17 @@ public class File {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    @NotNull
+    @Size(min = 3, max = 1024)
     private String name;
 
+    @Size(max = 255)
     private String contentType;
 
     @JsonIgnore
     @Basic(fetch = LAZY)
     @Lob
+    @NotNull
     private byte[] data;
 
     public File() {

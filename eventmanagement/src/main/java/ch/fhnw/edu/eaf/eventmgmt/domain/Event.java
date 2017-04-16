@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 
@@ -23,9 +25,16 @@ public class Event {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    @NotNull
+    @Size(min = 3, max = 1024)
     private String name;
 
+    @NotNull
     private String description;
+
+    @NotNull
+    @Size(min = 3, max = 1024)
+    private String location;
 
     private Date startTime;
 
@@ -157,5 +166,13 @@ public class Event {
 
     public void setFiles(Collection<File> files) {
         this.files = files;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

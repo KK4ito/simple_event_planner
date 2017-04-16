@@ -1,6 +1,8 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -9,14 +11,22 @@ public class User {
     @GeneratedValue
     private Long Id;
 
+    @NotNull
+    @Size(max = 1024)
     private String lastName;
 
+    @NotNull
+    @Size(max = 1024)
     private String firstName;
 
+    @NotNull
+    @Size(max = 2048)
     private String email;
 
     private boolean internal;
 
+    @NotNull
+    @Size(max = 1024)
     private String password;
 
     @Enumerated(EnumType.STRING)

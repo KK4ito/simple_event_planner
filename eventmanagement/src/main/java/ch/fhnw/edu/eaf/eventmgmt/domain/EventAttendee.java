@@ -1,6 +1,7 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -25,10 +26,12 @@ public class EventAttendee implements Serializable{
 
     @ManyToOne
     @JoinColumn
+    @NotNull
     private Event event;
 
     @ManyToOne
     @JoinColumn
+    @NotNull
     private User user;
 
     public Long getId() {
@@ -60,6 +63,7 @@ public class EventAttendee implements Serializable{
     }
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private FoodType foodType;
 
 }
