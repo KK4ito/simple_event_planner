@@ -6,6 +6,10 @@ import java.io.Serializable;
 /**
  * Created by lukasschonbachler on 27.03.17.
  */
+@Table(
+        uniqueConstraints=
+        @UniqueConstraint(columnNames={"user_id", "event_id"})
+)
 @Entity
 public class EventAttendee implements Serializable{
 

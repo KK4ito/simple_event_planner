@@ -18,6 +18,12 @@
   <p *ngIf="!editMode">{{event.description}}</p>
   <p *ngIf="editMode"><ion-input placeholder="Description" [(ngModel)]="event.description"></ion-input></p>
 
+  <ion-item>
+    <ion-label *ngIf="!eventAttendee">Join now!</ion-label>
+    <ion-label *ngIf="eventAttendee">Joined: You selected {{eventAttendee.foodType}}</ion-label>
+    <ion-toggle (ionChange)="attendEvent()" [(ngModel)]="attends"></ion-toggle>
+  </ion-item>
+
 
   <ion-list no-lines>
     <ion-list-header>
@@ -53,7 +59,7 @@
 k    </ion-item>
   </ion-list>
 
-  <fileupload (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
+  <fileupload *ngIf="editMode" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 
   </div>
 

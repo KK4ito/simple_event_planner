@@ -1,11 +1,12 @@
 import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
-import {NavController, NavParams, AlertController, ToastController} from 'ionic-angular';
+import {NavController, NavParams, AlertController, ToastController, AlertInputOptions} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {Event} from '../../models/Event';
 import {User} from "../../models/User";
 import {File} from "../../models/File";
 import {environment} from '../../../environments/environment';
 import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
+import {EventAttendee} from "../../models/EventAttendee";
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html'
@@ -21,25 +22,43 @@ export class DetailPage {
   private editMode = false;
   private oldEvent;
 
+  private attendsLocked = true;
+  private attends = false;
+  private eventAttendee:EventAttendee;
+  private menus = [{'value': 'VEGI', 'label': 'Vegi'}, {'value': 'NORMAL', 'label': 'Normal'}, {
+    'value': 'NONE',
+    'label': 'None'
+  }];
+
   constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
-    if(this.navParams.get('id') >= 0) {
+    if (this.navParams.get('id') >= 0) {
+      let self = this;
       this._apiService.getEvent(this.navParams.get('id')).then(event => {
         this.event = event;
         this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
+        // TODO Provide logged in user id instead of hardcoded one
+        this._apiService.getAttends(1, this.event.id)
+          .then((eventAttendee) => {
+            self.eventAttendee = eventAttendee;
+            self.attends = true;
+            // Needed because of initialization delay
+            setTimeout(() => self.attendsLocked = false, 1000);
+          })
+          .catch(() => {
+            self.attends = false;
+            // Needed because of initialization delay
+            setTimeout(() => self.attendsLocked = false, 1000);
+          });
+
       });
       this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
       this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
-      this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
-    }else {
+      this._apiService.getFiles(this.navParams.get('id')).then(files => {
+        this.files = files;
+      });
+    } else {
       this.editMode = true;
     }
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad DetailPage');
-  }
-
-  ionViewWillEnter() {
   }
 
   public download(url: string) {
@@ -93,15 +112,15 @@ export class DetailPage {
 
   save() {
     this.editMode = false;
-    if(this.event.id >= 0) {
+    if (this.event.id >= 0) {
       this.saveEvent(this.event);
-    }else{
+    } else {
       this.createEvent();
     }
   }
 
-  createEvent(){
-    this._apiService.createEvent(this.event).then((newEvent)=>{
+  createEvent() {
+    this._apiService.createEvent(this.event).then((newEvent) => {
       console.log('event', newEvent);
       this.navCtrl.push(DetailPage, {
         id: newEvent.id
@@ -109,18 +128,18 @@ export class DetailPage {
     });
   }
 
-  saveEvent(event:Event, isRestore = false){
+  saveEvent(event: Event, isRestore = false) {
     // Set speaker list
     event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
-      if(isRestore) {
+      if (isRestore) {
         this.toastCtrl.create({
           message: 'Event successfully restored.',
           duration: 3000,
           position: 'bottom right'
         }).present();
-      }else{
+      } else {
         let toast = this.toastCtrl.create({
           message: 'Event successfully updated.',
           duration: 3000,
@@ -138,18 +157,70 @@ export class DetailPage {
     });
   }
 
-  pictureChanged(file:File){
+  pictureChanged(file: File) {
     this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
     this.event.image = file.uri;
     this.changeDetectorRef.detectChanges();
   }
 
-  onSpeakerSelected(user:User){
-    if(this.speakers.map(s => s.id).indexOf(user.id) > -1) return;
+  onSpeakerSelected(user: User) {
+    if (this.speakers.map(s => s.id).indexOf(user.id) > -1) return;
     this.speakers.push(user);
   }
 
-  deleteSpeaker(ev, user: User){
+  deleteSpeaker(ev, user: User) {
     this.speakers = this.speakers.filter(item => item !== user);
+  }
+
+
+  attendEvent() {
+    if (!this.attendsLocked) {
+      this.attendsLocked = true;
+      if (!this.attends) {
+        this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
+          this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
+          this.eventAttendee = undefined;
+          this.attends = false;
+          this.attendsLocked = false;
+        }).catch(()=> this.attendsLocked = false);
+      } else {
+        let alert = this.alertCtrl.create({
+          title: 'Select your menu',
+          enableBackdropDismiss: false
+        });
+        for (var i = 0; i < this.menus.length; i++) {
+          alert.addInput(<AlertInputOptions>{
+            type: 'radio',
+            value: this.menus[i].value,
+            label: this.menus[i].label,
+            checked: false
+          });
+        }
+        alert.addButton({
+          text: 'Cancel',
+          handler: () => {
+            this.attends = false;
+            setTimeout(() => this.attendsLocked = false, 1000);
+          }
+        });
+        alert.addButton({
+          text: 'Ok',
+          handler: data => {
+            var eventAttendee = new EventAttendee();
+            eventAttendee.event = '/event/' + this.event.id;
+            // TODO use logged in user id
+            eventAttendee.user = '/user/' + 1;
+            eventAttendee.foodType = data;
+            this._apiService.createEventAttendee(eventAttendee).then((result) => {
+              this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
+              this.eventAttendee = result;
+              this.attends = true;
+              this.attendsLocked = false;
+            }).catch(() => this.attendsLocked = false);
+          }
+        });
+        alert.present();
+      }
+    }
   }
 }
