@@ -4,7 +4,6 @@ import {User} from "../../models/User";
 import {ApiService} from "../../providers/api.service";
 import {TranslateService} from "@ngx-translate/core";
 import {File} from "../../models/File";
-import {environment} from "../../../environments/environment";
 
 /*
   Generated class for the NewUser page.
