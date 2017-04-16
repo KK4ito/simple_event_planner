@@ -24,6 +24,8 @@ import {PermissionsPage} from "../pages/permissions/permissions";
 import {SelectUserComponent} from "../components/select-user/select-user";
 import {UpdateUserPage} from "../pages/update-user/update-user";
 import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+import {Autoresize} from "../components/autoresize/autoresize";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -50,12 +52,14 @@ export const deepLinkConfig: DeepLinkConfig = {
     ProgressBarComponent,
     FileuploadComponent,
     SelectUserComponent,
-    PictureUploadComponent
+    PictureUploadComponent,
+    Autoresize
   ],
   imports: [
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
     HttpModule,
     NgUploaderModule,
+    NguiDatetimePickerModule,
     Ng2CompleterModule,
     TranslateModule.forRoot({
       loader: {

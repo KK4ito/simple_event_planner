@@ -3,6 +3,7 @@ export class Event {
 		closingTime: string;
 		created: string;
 		description: string;
+		location: string;
 		endTime: string;
 		id: number;
 		name: string;
