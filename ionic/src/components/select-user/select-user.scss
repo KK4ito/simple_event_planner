@@ -1,3 +1,66 @@
 select-user {
+	.completer-input {
+		height: 40px;
+		border: none;
+		border-bottom: 2px solid color($colors, secondary);
+		font-size: 16px;
+		//Necessary for Chrome, Firefox works without this
+		width: 100%;
+	}
+	//Stretch completer-line across the whole width
+	width: 100%;
 
+
+	//Sooo… all rows in spans have a white-space property of pre-wrap (I have no
+	//idea where this value is set…). This preserves the tabs and linebreaks in the
+	//code and thus separates the user-infos nicely but leaves some not so nice additional gaps and spaces.
+	//We therefore select all spans in the user-select-component, reset the white-space-property
+	//and give the completer-list-item-holder.completer-[title|description] a display:block
+	//If we would not do that all information of a user would be displayed on one line
+	//With the display block we organize the different infos about a user on separate rows.
+
+	.completer-selected-row {
+		background-color: color($colors, primary) !important;
+		color: #000 !important;
+	}
+
+	.completer-holder {
+
+		span {
+			white-space: normal;
+		}
+		.completer-dropdown-holder {
+			//Give it a position relativ so that the children get the length of this
+			//parent container
+			position: relative;
+			width: 100%;
+
+			.completer-dropdown {
+				width: 100%;
+
+				.completer-row-wrapper {
+
+					.completer-row {
+						width: 100%;
+
+						.completer-image-holder {
+							width: 40px;
+							height: 40px;
+						}
+
+						.completer-item-text-image {
+							float: left;
+							margin-left: 20px;
+
+							.completer-list-item-holder {
+								&.completer-title, &.completer-description {
+									display: block;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
