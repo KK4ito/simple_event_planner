@@ -16,7 +16,7 @@
     <h1 *ngIf="!editMode">{{ event.name }}</h1>
     <ion-item *ngIf="editMode">
       <ion-label floating>Title</ion-label>
-      <ion-input placeholder="Title" [(ngModel)]="event.name"></ion-input>
+      <ion-input class="input__title" placeholder="Title" [(ngModel)]="event.name"></ion-input>
     </ion-item>
 
     <span *ngIf="!editMode">{{event.description}}</span>
@@ -24,7 +24,7 @@
       <ion-label floating>Description</ion-label>
       <ion-textarea placeholder="Description" autoresize [(ngModel)]="event.description"></ion-textarea>
     </ion-item>
-    
+
     <ion-item>
       <ion-icon item-left name="pin"></ion-icon>
       <h2>Location</h2>
@@ -32,7 +32,7 @@
       <ion-input item-right *ngIf="editMode" placeholder="Location" [(ngModel)]="event.location"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Start date</h2>
       <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
@@ -40,7 +40,7 @@
              [(ngModel)]="event.startTime" ngui-datetime-picker/>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Closing date</h2>
       <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
@@ -48,7 +48,7 @@
              [(ngModel)]="event.closingTime" ngui-datetime-picker/>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>End date</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
@@ -69,9 +69,12 @@
     <ion-list no-lines>
       <ion-list-header>
         {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
-        <select-user *ngIf="editMode" item-right [placeholder]="'Add speaker'"
-                     (onSelected)="onSpeakerSelected($event[0])"></select-user>
       </ion-list-header>
+
+			<ion-item class="item--containNone">
+				<select-user *ngIf="editMode" item-left [placeholder]="'Add speaker'"
+                     (onSelected)="onSpeakerSelected($event[0])"></select-user>
+			</ion-item>
 
       <ion-item *ngFor="let speaker of speakers">
         <ion-avatar item-left>

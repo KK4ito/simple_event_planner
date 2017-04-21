@@ -24,5 +24,30 @@ page-detail {
     white-space:pre-wrap;
   }
 
+	.input {
+		&__title {
+			margin-top: -0.3rem;
+			font-size: 36px;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+	}
+
+	ion-item {
+		&.item__datepicker {
+			overflow: visible;
+
+			& > div.item-inner {
+				overflow: visible;
+			}
+		}
+	}
+
+	.item--containNone {
+		&.item {
+			contain: none;
+			overflow: visible;
+		}
+	}
 
 }
