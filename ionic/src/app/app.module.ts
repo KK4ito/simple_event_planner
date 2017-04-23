@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler, DeepLinkConfig } from 'ionic-angular';
-import {HttpModule, Http, RequestOptions} from '@angular/http';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import {HttpModule, Http} from '@angular/http';
 
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
@@ -24,16 +24,21 @@ import {PermissionsPage} from "../pages/permissions/permissions";
 import {SelectUserComponent} from "../components/select-user/select-user";
 import {UpdateUserPage} from "../pages/update-user/update-user";
 import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
-import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import {Autoresize} from "../components/autoresize/autoresize";
 import {ProfilePage} from "../pages/login/profile";
+
+import { Md2DatepickerModule }  from '../../node_modules/md2/datepicker/index';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserModule} from "@angular/platform-browser";
+
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
   return new TranslateHttpLoader(http);
 }
 
-export const deepLinkConfig: DeepLinkConfig = {
+export const deepLinkConfig: any = {
   links: [
     { component: HomePage, name: "home", segment: ""},
     { component: DetailPage, name: "detail", segment: "event/:id", defaultHistory: [HomePage] }
@@ -58,10 +63,12 @@ export const deepLinkConfig: DeepLinkConfig = {
     Autoresize
   ],
   imports: [
+    BrowserModule,
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
     HttpModule,
+    BrowserAnimationsModule,
     NgUploaderModule,
-    NguiDatetimePickerModule,
+    Md2DatepickerModule,
     Ng2CompleterModule,
     TranslateModule.forRoot({
       loader: {

@@ -32,28 +32,26 @@
       <ion-input item-right *ngIf="editMode" placeholder="Location" [(ngModel)]="event.location"></ion-input>
     </ion-item>
 
+
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Start date</h2>
       <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
-      <input item-right *ngIf="editMode" date-format="DD.MM.YY H:mm" parse-format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-             [(ngModel)]="event.startTime" ngui-datetime-picker/>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.startTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Closing date</h2>
       <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
-      <input item-right *ngIf="editMode" date-format="DD.MM.YY H:mm" parse-format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-             [(ngModel)]="event.closingTime" ngui-datetime-picker/>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.closingTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>End date</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
-      <input item-right *ngIf="editMode" date-format="DD.MM.YY H:mm" parse-format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-             [(ngModel)]="event.endTime" ngui-datetime-picker/>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.endTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
 

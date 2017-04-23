@@ -1,5 +1,13 @@
 page-detail {
 
+  .md2-datepicker-button{
+    display:none;
+  }
+
+  .md2-datepicker-trigger{
+    padding:0;
+  }
+
   @media (min-width:768px) {
     ion-header button {
       color: white !important;
@@ -30,16 +38,6 @@ page-detail {
 			font-size: 36px;
 			font-weight: 500;
 			line-height: 1.2;
-		}
-	}
-
-	ion-item {
-		&.item__datepicker {
-			overflow: visible;
-
-			& > div.item-inner {
-				overflow: visible;
-			}
 		}
 	}
 
