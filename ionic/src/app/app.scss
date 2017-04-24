@@ -74,13 +74,13 @@ h1:after, h2.startpage__title:after {
   }
 }
 
-
+$side-menu-padding: 8px 32px;
 
 
 .side-menu {
 
   .item{
-    padding:8px 32px;
+    padding: $side-menu-padding;
   }
 
   ion-content, button {
@@ -101,6 +101,35 @@ h1:after, h2.startpage__title:after {
   .item:hover{
     background-color: #f5dd19!important;
   }
+
+	.button {
+		&__container {
+			margin: $side-menu-padding;
+			border-bottom: 1px solid black;
+		}
+
+		&--lang {
+			line-height: 2.4em;
+			font-size: 1em;
+			text-decoration: none;
+			border: none;
+			box-shadow: none;
+			opacity: .7;
+			text-transform: uppercase;
+			font-weight: 500;
+			padding: 0;
+			padding-right: 10px;
+
+			&:hover {
+				opacity: 1;
+			}
+
+			&.active {
+				font-weight: 700;
+				opacity: 1;
+			}
+		}
+	}
 
 }
 
