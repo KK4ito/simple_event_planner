@@ -66,6 +66,10 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
+	isLanguage(lang) {
+		return lang == this.translate.currentLang;
+	}
+
   changeLanguage(language) {
     this.translate.use(language);
   }

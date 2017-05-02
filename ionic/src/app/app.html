@@ -14,9 +14,10 @@
           {{ p.title | translate }}
         </button>
       </ion-list>
-
-      <button ion-button (click)="changeLanguage('de')">de</button>
-      <button ion-button (click)="changeLanguage('en')">en</button>
+			<div class="button__container">
+				<button class="button--lang" [ngClass]="{'active': isLanguage('de')}" (click)="changeLanguage('de')">de</button>
+				<button class="button--lang" [ngClass]="{'active': isLanguage('en')}" (click)="changeLanguage('en')">en</button>
+			</div>
 
       <div class="widg_header__inner-foot">
         <div class="widg_headerfoot widg_header__hide-on-shrinked">
