@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform, Events} from 'ionic-angular';
+import {Nav, Platform, Events, MenuController} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {TranslateService} from "@ngx-translate/core";
 
@@ -24,7 +24,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
   public user: User;
 
-  constructor(public platform: Platform, private translate: TranslateService, private events: Events, private authService: AuthService) {
+  constructor(private menuCtrl: MenuController, public platform: Platform, private translate: TranslateService, private events: Events, private authService: AuthService) {
     this.initializeApp();
 
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -82,6 +82,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+    this.menuCtrl.close();
   }
 
   isLanguage(lang) {

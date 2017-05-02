@@ -4,14 +4,14 @@
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>users</ion-title>
+<ion-header >
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'NAV.USERS' | translate }}</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <h1>{{ 'USERS.USERS' | translate }}</h1>
