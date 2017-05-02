@@ -117,10 +117,10 @@
   </div>
 
   <ion-fab right bottom>
-    <button *ngIf="editMode" ion-fab color="primary" (click)="save()">
+    <button *ngIf="editMode && (authService.getRole() == RoleType.ADMINISTRATOR || isSpeaker)" ion-fab color="primary" (click)="save()">
       <ion-icon name="download"></ion-icon>
     </button>
-    <button *ngIf="!editMode" ion-fab color="primary" (click)="edit()">
+    <button *ngIf="!editMode && (authService.getRole() == RoleType.ADMINISTRATOR || isSpeaker)" ion-fab color="primary" (click)="edit()">
       <ion-icon name="create"></ion-icon>
     </button>
   </ion-fab>

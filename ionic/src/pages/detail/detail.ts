@@ -23,6 +23,7 @@ export class DetailPage {
   private safeStyle: SafeStyle;
 
   private editMode = false;
+  private isSpeaker = false;
   private oldEvent;
 
   private attendsLocked = true;
@@ -57,7 +58,14 @@ export class DetailPage {
           });
 
       });
-      this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => this.speakers = speakers);
+      this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {
+        this.speakers = speakers;
+        if(this.authService.getRole() > RoleType.ANONYMOUS) {
+          this.isSpeaker = this.speakers.filter(speaker => {
+              return speaker.email == this.authService.getUser().email;
+            }).length > 0;
+        }
+      });
       this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
       this._apiService.getFiles(this.navParams.get('id')).then(files => {
         this.files = files;
