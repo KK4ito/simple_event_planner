@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Headers} from '@angular/http';
 import { environment } from '../../environments/environment';
 import {User} from "../models/User";
+import {Events} from "ionic-angular";
 
 @Injectable()
 export class AuthService {
@@ -9,7 +10,7 @@ export class AuthService {
   public user:User;
   config: any;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, public events: Events) {
     console.log(environment);
     this.config = {
       baseUrl: environment.baseUrl + '/api'
@@ -26,16 +27,50 @@ export class AuthService {
     return this.user == null;
   }
 
-  public login(user:User){
+  public login(user:User): Promise<User>{
+    let oldUser = this.user;
+    let self = this;
+
     this.user = user;
-    localStorage.setItem('user', JSON.stringify(user));
     this.refreshAuthToken();
+
+    return new Promise((resolve, reject) => {
+      this.getMe(user.email).then(
+        (user) =>{
+          // set new state
+          self.user = user;
+          console.log('getme', user);
+          localStorage.setItem('user', JSON.stringify(self.user));
+          this.events.publish('user:changed', self.user);
+          resolve(self.user);
+        }
+      ).catch(
+        () =>{
+          // restore old state
+          self.user = oldUser;
+          self.refreshAuthToken();
+          reject();
+        }
+      );
+    });
+  }
+
+  private getMe(email:string): Promise<User>{
+    return new Promise((resolve, reject) => {
+      this.getMultiple('users/search/me', 'email=' + encodeURI(email.trim().toUpperCase()))
+        .then((result: User[]) => {
+          if(result.length > 0) resolve(result[0]);
+          reject();
+        })
+        .catch((err) => reject(err));
+    });
   }
 
   public logout(){
     this.user = null;
     localStorage.removeItem('user');
     this.refreshAuthToken();
+    this.events.publish('user:changed', this.user);
   }
 
   private refreshAuthToken(){

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import {Nav, Platform, Events} from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { TranslateService } from "@ngx-translate/core";
 
@@ -8,6 +8,8 @@ import { AboutPage } from "../pages/about/about";
 import {UsersPage} from "../pages/users/users";
 import {PermissionsPage} from "../pages/permissions/permissions";
 import {ProfilePage} from "../pages/login/profile";
+import {User} from "../models/User";
+import {AuthService} from "../providers/auth.service";
 
 
 @Component({
@@ -19,8 +21,9 @@ export class MyApp {
   rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
+  public user: User;
 
-  constructor(public platform: Platform, private translate: TranslateService) {
+  constructor(public platform: Platform, private translate: TranslateService, private events: Events, private authService:AuthService) {
     this.initializeApp();
 
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -28,6 +31,14 @@ export class MyApp {
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     translate.use('de');
+
+
+    let self = this;
+    events.subscribe('user:changed', (user:User) => {
+      self.user = user;
+    });
+    this.user = authService.user;
+    console.log(this.user);
 
     // used for an example of ngFor and navigation
     this.pages = [

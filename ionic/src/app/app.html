@@ -2,8 +2,12 @@
   <ion-menu [content]="content" class="side-menu">
 
     <ion-content>
-    <img src="../assets/icon/fhnw.svg" />
+    <img class="logo" src="../assets/icon/fhnw.svg" />
 
+      <ion-avatar *ngIf="user" (click)="openPage(pages[3])">
+        <img src="{{user.imageUri | imageUri}}">
+        <p>{{user.email}}</p>
+      </ion-avatar>
 
       <ion-list no-lines>
         <button  ion-item *ngFor="let p of pages" (click)="openPage(p)">

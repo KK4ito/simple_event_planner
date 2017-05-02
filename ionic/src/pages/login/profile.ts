@@ -24,8 +24,7 @@ export class ProfilePage {
   }
 
   login(){
-    this.authService.login(this.user);
-    this.apiService.getMe(this.user.email).then((user) => {
+    this.authService.login(this.user).then((user) => {
       this.navCtrl.push(HomePage);
     }).catch(() =>{
       this.authService.logout();

@@ -37,26 +37,28 @@
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Start date</h2>
       <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.startTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.startTime" type="'datetime'" openOnFocus="true"
+                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>Closing date</h2>
       <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.closingTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.closingTime" type="'datetime'" openOnFocus="true"
+                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>End date</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.endTime" type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm" item-right></md2-datepicker>
+      <md2-datepicker *ngIf="editMode" [(ngModel)]="event.endTime" type="'datetime'" openOnFocus="true"
+                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
 
-
-    <ion-item>
+    <ion-item *ngIf="!editMode">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label *ngIf="!eventAttendee">I want to go</ion-label>
       <ion-label *ngIf="eventAttendee">Going! You selected {{eventAttendee.foodType}}</ion-label>
@@ -69,10 +71,10 @@
         {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
       </ion-list-header>
 
-			<ion-item class="item--containNone">
-				<select-user *ngIf="editMode" item-left [placeholder]="'Add speaker'"
+      <ion-item class="item--containNone" *ngIf="editMode">
+        <select-user  item-left [placeholder]="'Add speaker'"
                      (onSelected)="onSpeakerSelected($event[0])"></select-user>
-			</ion-item>
+      </ion-item>
 
       <ion-item *ngFor="let speaker of speakers">
         <ion-avatar item-left>
@@ -84,14 +86,17 @@
       </ion-item>
 
 
+      <div *ngIf="!editMode">
+        <ion-list-header>
+          {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
+        </ion-list-header>
+        <ion-chip *ngFor="let attendee of attendees">
+          <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
+        </ion-chip>
+      </div>
+
       <ion-list-header>
-        {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
-      </ion-list-header>
-      <ion-chip *ngFor="let attendee of attendees">
-        <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
-      </ion-chip>
-      <ion-list-header>
-        {{ 'DETAIL.FILES' | translate }}
+        {{ 'DETAIL.FILES' | translate }} ({{(files) ? files.length : '0'}})
       </ion-list-header>
 
       <ion-item *ngFor="let file of files" (click)="download(file.uri)">
@@ -99,7 +104,6 @@
           <img src="{{ file.uri | imageUri }}">
         </ion-avatar>
         <h2>{{ file.name }} </h2>
-        k
       </ion-item>
     </ion-list>
 
