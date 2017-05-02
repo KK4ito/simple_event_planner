@@ -29,7 +29,7 @@ export class ProfilePage {
 
   login(){
     this.authService.login(this.user).then((user) => {
-      this.navCtrl.push(HomePage);
+      this.navCtrl.setRoot(HomePage);
     }).catch(() =>{
       this.authService.logout();
       this.user.password = "";

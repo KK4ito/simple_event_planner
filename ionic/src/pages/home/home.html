@@ -42,7 +42,7 @@
   </ion-grid>
 
   <ion-fab right bottom>
-    <button ion-fab color="primary" (click)="openEvent(-1)"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="primary" (click)="openEvent(-1)" *ngIf="authService.getRole() == RoleType.ADMINISTRATOR"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
 

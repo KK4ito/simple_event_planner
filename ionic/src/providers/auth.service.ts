@@ -21,6 +21,9 @@ export class AuthService {
     if (user) {
       this.user = user;
       this.refreshAuthToken();
+      this.login(this.user).catch(() =>{
+        this.logout();
+      });
     }
   }
 
