@@ -29,10 +29,11 @@ public class User {
     @Size(max = 1024)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private RoleType role;
 
     public enum RoleType {
+        ANONYMOUS,
         REGISTERED,
         ADMINISTRATOR
     }
@@ -104,8 +105,8 @@ public class User {
         this.image = image;
     }
 
-    public RoleType getRole() {
-        return role;
+    public int getRole() {
+        return role.ordinal();
     }
 
     public void setRole(RoleType role) {

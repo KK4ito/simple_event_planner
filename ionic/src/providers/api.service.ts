@@ -3,8 +3,8 @@ import {AuthService} from './auth.service';
 import {Event} from '../models/Event';
 import {User} from "../models/User";
 import {File} from "../models/File";
-import {Role} from "../models/Role";
 import {EventAttendee} from "../models/EventAttendee";
+import {RoleType} from "../models/RoleType";
 
 @Injectable()
 export class ApiService {
@@ -32,8 +32,8 @@ export class ApiService {
     return this._authService.getMultiple('users/search/attendees', 'event=' + eventId);
   }
 
-  getUsersByRole(role: Role): Promise<User[]> {
-    return this._authService.getMultiple('users/search/role', 'role=' + role.toString());
+  getUsersByRole(roleType: RoleType): Promise<User[]> {
+    return this._authService.getMultiple('users/search/role', 'role=' + roleType);
   }
 
   getFiles(eventId: number): Promise<File[]> {
@@ -46,7 +46,7 @@ export class ApiService {
 
   createUser(user: User): Promise<User> {
     user.internal = false;
-    user.role = Role.REGISTERED;
+    user.role = RoleType.REGISTERED;
     return this._authService.post('users', user);
   }
 

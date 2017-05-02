@@ -1,15 +1,16 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform, Events} from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
-import { TranslateService } from "@ngx-translate/core";
+import {StatusBar, Splashscreen} from 'ionic-native';
+import {TranslateService} from "@ngx-translate/core";
 
-import { HomePage } from "../pages/home/home";
-import { AboutPage } from "../pages/about/about";
+import {HomePage} from "../pages/home/home";
+import {AboutPage} from "../pages/about/about";
 import {UsersPage} from "../pages/users/users";
 import {PermissionsPage} from "../pages/permissions/permissions";
-import {ProfilePage} from "../pages/login/profile";
+import {ProfilePage} from "../pages/profile/profile";
 import {User} from "../models/User";
 import {AuthService} from "../providers/auth.service";
+import {RoleType} from "../models/RoleType";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
   public user: User;
 
-  constructor(public platform: Platform, private translate: TranslateService, private events: Events, private authService:AuthService) {
+  constructor(public platform: Platform, private translate: TranslateService, private events: Events, private authService: AuthService) {
     this.initializeApp();
 
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -34,21 +35,38 @@ export class MyApp {
 
 
     let self = this;
-    events.subscribe('user:changed', (user:User) => {
+    events.subscribe('user:changed', (user: User) => {
       self.user = user;
+      self.propagateNavigation();
     });
-    this.user = authService.user;
-    console.log(this.user);
+    this.user = authService.getUser();
+    console.log('user', this.user);
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'NAV.EVENTS', component: HomePage },
-      { title: 'NAV.PERMISSIONS', component: PermissionsPage },
-      { title: 'NAV.USERS', component: UsersPage },
-      { title: 'NAV.LOGIN', component: ProfilePage },
-      { title: 'NAV.ABOUT', component: AboutPage }
-    ];
+    this.propagateNavigation();
+  }
 
+  private propagateNavigation() {
+    if (this.authService.getRole() == RoleType.ADMINISTRATOR) {
+      this.pages = [
+        {title: 'NAV.EVENTS', component: HomePage},
+        {title: 'NAV.PERMISSIONS', component: PermissionsPage},
+        {title: 'NAV.USERS', component: UsersPage},
+        {title: 'NAV.LOGOUT', component: ProfilePage},
+        {title: 'NAV.ABOUT', component: AboutPage}
+      ];
+    } else if (this.authService.getRole() == RoleType.REGISTERED) {
+      this.pages = [
+        {title: 'NAV.EVENTS', component: HomePage},
+        {title: 'NAV.LOGOUT', component: ProfilePage},
+        {title: 'NAV.ABOUT', component: AboutPage}
+      ];
+    } else {
+      this.pages = [
+        {title: 'NAV.LOGIN', component: ProfilePage},
+        {title: 'NAV.EVENTS', component: HomePage},
+        {title: 'NAV.ABOUT', component: AboutPage}
+      ];
+    }
   }
 
   initializeApp() {
@@ -66,9 +84,9 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-	isLanguage(lang) {
-		return lang == this.translate.currentLang;
-	}
+  isLanguage(lang) {
+    return lang == this.translate.currentLang;
+  }
 
   changeLanguage(language) {
     this.translate.use(language);

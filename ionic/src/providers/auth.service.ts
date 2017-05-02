@@ -1,33 +1,41 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 import {User} from "../models/User";
 import {Events} from "ionic-angular";
+import {RoleType} from "../models/RoleType";
 
 @Injectable()
 export class AuthService {
 
-  public user:User;
+  private user: User;
   config: any;
 
   constructor(private http: Http, public events: Events) {
-    console.log(environment);
+
     this.config = {
       baseUrl: environment.baseUrl + '/api'
     };
 
     var user = JSON.parse(localStorage.getItem('user')) as User;
-    if(user) {
+    if (user) {
       this.user = user;
       this.refreshAuthToken();
     }
   }
 
-  public isAuthed(){
-    return this.user == null;
+  public getUser(): User {
+    return this.user;
   }
 
-  public login(user:User): Promise<User>{
+  public getRole():RoleType {
+    if (this.user != null) {
+      return this.user.role;
+    }
+    return RoleType.ANONYMOUS;
+  }
+
+  public login(user: User): Promise<User> {
     let oldUser = this.user;
     let self = this;
 
@@ -36,7 +44,7 @@ export class AuthService {
 
     return new Promise((resolve, reject) => {
       this.getMe(user.email).then(
-        (user) =>{
+        (user) => {
           // set new state
           self.user = user;
           console.log('getme', user);
@@ -45,7 +53,7 @@ export class AuthService {
           resolve(self.user);
         }
       ).catch(
-        () =>{
+        () => {
           // restore old state
           self.user = oldUser;
           self.refreshAuthToken();
@@ -55,29 +63,29 @@ export class AuthService {
     });
   }
 
-  private getMe(email:string): Promise<User>{
+  private getMe(email: string): Promise<User> {
     return new Promise((resolve, reject) => {
       this.getMultiple('users/search/me', 'email=' + encodeURI(email.trim().toUpperCase()))
         .then((result: User[]) => {
-          if(result.length > 0) resolve(result[0]);
+          if (result.length > 0) resolve(result[0]);
           reject();
         })
         .catch((err) => reject(err));
     });
   }
 
-  public logout(){
+  public logout() {
     this.user = null;
     localStorage.removeItem('user');
     this.refreshAuthToken();
     this.events.publish('user:changed', this.user);
   }
 
-  private refreshAuthToken(){
+  private refreshAuthToken() {
     let anyHttp = this.http as any;
-    if(!this.user){
+    if (!this.user) {
       anyHttp._defaultOptions.headers = new Headers();
-    }else{
+    } else {
       var tok = this.user.email + ':' + this.user.password;
       anyHttp._defaultOptions.headers.append('Authorization', "Basic " + btoa(tok));
     }

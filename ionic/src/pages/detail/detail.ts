@@ -4,9 +4,12 @@ import {ApiService} from "../../providers/api.service";
 import {Event} from '../../models/Event';
 import {User} from "../../models/User";
 import {File} from "../../models/File";
+import {RoleType} from "../../models/RoleType";
 import {environment} from '../../../environments/environment';
 import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
 import {EventAttendee} from "../../models/EventAttendee";
+import {ProfilePage} from "../profile/profile";
+import {AuthService} from "../../providers/auth.service";
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html'
@@ -30,7 +33,10 @@ export class DetailPage {
     'label': 'None'
   }];
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef) {
+  // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
+  public RoleType = RoleType;
+
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService) {
     if (this.navParams.get('id') >= 0) {
       let self = this;
       this._apiService.getEvent(this.navParams.get('id')).then(event => {
@@ -170,6 +176,10 @@ export class DetailPage {
 
   deleteSpeaker(ev, user: User) {
     this.speakers = this.speakers.filter(item => item !== user);
+  }
+
+  openProfilePage() {
+    this.navCtrl.setRoot(ProfilePage);
   }
 
 

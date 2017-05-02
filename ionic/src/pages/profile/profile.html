@@ -17,7 +17,7 @@
 
   <h1>{{ 'PROFILE.PROFILE' | translate }}</h1>
 
-  <ion-card *ngIf="authService.isAuthed()">
+  <ion-card *ngIf="authService.getRole() == RoleType.ANONYMOUS">
     <ion-card-content>
       <ion-card-title>
         Login
@@ -38,7 +38,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="!authService.isAuthed()">
+  <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS">
     <ion-card-content>
       <ion-item>
         <h2>E-Mail</h2>

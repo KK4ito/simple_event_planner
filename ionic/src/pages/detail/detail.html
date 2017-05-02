@@ -57,12 +57,17 @@
                       format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
 
-
-    <ion-item *ngIf="!editMode">
+    <ion-item *ngIf="!editMode && authService.getRole() > RoleType.ANONYMOUS">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label *ngIf="!eventAttendee">I want to go</ion-label>
       <ion-label *ngIf="eventAttendee">Going! You selected {{eventAttendee.foodType}}</ion-label>
       <ion-toggle (ionChange)="attendEvent()" [(ngModel)]="attends"></ion-toggle>
+    </ion-item>
+
+    <ion-item *ngIf="!editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
+      <ion-icon item-left name="people"></ion-icon>
+      <ion-label *ngIf="!eventAttendee">I want to go</ion-label>
+      <ion-label *ngIf="eventAttendee">Login to register yourself fo the event</ion-label>
     </ion-item>
 
 

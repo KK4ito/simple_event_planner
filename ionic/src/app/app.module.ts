@@ -25,7 +25,7 @@ import {SelectUserComponent} from "../components/select-user/select-user";
 import {UpdateUserPage} from "../pages/update-user/update-user";
 import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
 import {Autoresize} from "../components/autoresize/autoresize";
-import {ProfilePage} from "../pages/login/profile";
+import {ProfilePage} from "../pages/profile/profile";
 
 import { Md2DatepickerModule }  from '../../node_modules/md2/datepicker/index';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

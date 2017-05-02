@@ -1,8 +1,11 @@
 {
   "NAV.EVENTS": "Events",
   "NAV.ABOUT": "Über",
+  "NAV.LOGIN": "Login",
+  "NAV.LOGOUT": "Logout",
   "NAV.USERS": "Benutzer",
   "NAV.PERMISSIONS": "Berechtigungen",
+  "PROFILE.PROFILE": "Profil",
   "PERMISSIONS.ADMINISTRATORS": "Administratoren",
   "PERMISSIONS.ADMINISTRATOR_ADD": "Administrator hinzufügen:",
   "USERS.USERS": "Benutzer",

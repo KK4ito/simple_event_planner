@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {NavController, NavParams, ToastController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
-import {Role} from "../../models/Role";
+import {RoleType} from "../../models/RoleType";
 
 @Component({
   selector: 'page-permissions',
@@ -18,18 +18,18 @@ export class PermissionsPage {
   }
 
   refreshUsers(){
-    this.apiService.getUsersByRole(Role.ADMINISTRATOR).then((data) => this.users = data);
+    this.apiService.getUsersByRole(RoleType.ADMINISTRATOR).then((data) => this.users = data);
   }
 
   onSelected(user:User){
     this.oldUser = Object.assign({}, user);
-    user.role = Role.ADMINISTRATOR;
+    user.role = RoleType.ADMINISTRATOR;
     this.updateUser(user);
   }
 
   removeRole($event, user:User){
     this.oldUser = Object.assign({}, user);
-    user.role = Role.REGISTERED;
+    user.role = RoleType.REGISTERED;
     this.updateUser(user);
   }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {User} from "../../models/User";
+import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {HomePage} from "../home/home";
@@ -17,9 +18,12 @@ import {HomePage} from "../home/home";
 })
 export class ProfilePage {
 
+  // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
+  public RoleType = RoleType;
+
   private user = new User();
 
-  constructor(public navCtrl: NavController,public authService:AuthService, private apiService:ApiService) {
+  constructor(public navCtrl: NavController,public authService:AuthService, public  apiService:ApiService) {
 
   }
 

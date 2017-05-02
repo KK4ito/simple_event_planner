@@ -1,4 +1,4 @@
-import {Role} from "./Role";
+import {RoleType} from "./RoleType";
 
 export class User {
 		email: string;
@@ -7,7 +7,7 @@ export class User {
 		internal: boolean;
 		lastName: string;
 		password: string;
-		role: Role;
+		role: RoleType;
     imageUri: string;
     image: string;
 }
