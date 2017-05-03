@@ -10,24 +10,15 @@
       </ion-avatar>
 
       <ion-list no-lines>
-        <button  ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <button ion-item *ngFor="let p of pages" (click)="openPage(p)" [ngStyle]="{'background-color':(p.component == rootPage)? '#ead20a': ''}">
           {{ p.title | translate }}
+          <ion-icon name="arrow-dropright" [ngStyle]="{'visibility':(p.component == rootPage)? 'visible': 'hidden'}"></ion-icon>
         </button>
       </ion-list>
 			<div class="button__container">
 				<button class="button--lang" [ngClass]="{'active': isLanguage('de')}" (click)="changeLanguage('de')">de</button>
 				<button class="button--lang" [ngClass]="{'active': isLanguage('en')}" (click)="changeLanguage('en')">en</button>
 			</div>
-
-      <div class="widg_header__inner-foot">
-        <div class="widg_headerfoot widg_header__hide-on-shrinked">
-          <div class="widg_langswitcher" data-init="langswitcher"><a class="widg_langswitcher__lang not-default " href="https://www0.fhnw.ch/@@multilingual-selector/d6350b02c828467cb8c7e6c2cdbafb28/de?set_language=de">DE</a><a class="widg_langswitcher__lang not-default is_active" href="https://www0.fhnw.ch/@@multilingual-selector/d6350b02c828467cb8c7e6c2cdbafb28/en?set_language=en">EN</a><a class="widg_langswitcher__lang not-default " href="https://www0.fhnw.ch/@@multilingual-selector/d6350b02c828467cb8c7e6c2cdbafb28/fr?set_language=fr">FR</a></div>
-          <div class="widg_headermetanavigation" data-init="headermetanavigation">
-            <ul></ul>
-          </div>
-          <div class="widg_somelinks" data-init="somelinks"><a href="http://www.xing.com" target="_blank" data-somelink-target="xing"></a><a href="http://www.twitter.com" target="_blank" data-somelink-target="tw"></a><a href="http://www.facebook.com" target="_blank" data-somelink-target="fb"></a></div>
-        </div>
-      </div>
 
     </ion-content>
   </ion-menu>

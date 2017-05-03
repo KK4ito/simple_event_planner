@@ -19,8 +19,7 @@ import {RoleType} from "../models/RoleType";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
-
+  public rootPage:any = HomePage;
   pages: Array<{title: string, component: any}>;
   public user: User;
 
@@ -76,11 +75,13 @@ export class MyApp {
 
   openPage(page) {
     this.nav.setRoot(page.component);
+    this.rootPage = page.component;
     this.menuCtrl.close();
   }
 
   openProfilePage(){
     this.nav.setRoot(ProfilePage);
+    this.rootPage = ProfilePage;
     this.menuCtrl.close();
   }
 

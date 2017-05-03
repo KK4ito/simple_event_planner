@@ -79,12 +79,16 @@ $side-menu-padding: 8px 32px;
 
 .side-menu {
 
+  ion-icon{
+    float:right;
+  }
+
   .item{
     padding: $side-menu-padding;
   }
 
   ion-content, button {
-    background-color: #fde70e !important;
+    background-color: #fde70e;
   }
 
   p{
@@ -104,10 +108,6 @@ $side-menu-padding: 8px 32px;
   button{
     font-size: 18px;
     font-weight:500;
-  }
-
-  .item:hover{
-    background-color: #f5dd19!important;
   }
 
 	.button {
@@ -148,29 +148,3 @@ ion-alert .button-inner{
 .cdk-overlay-pane{
   left:50%!important;
 }
-
-/*
-
-$primary: map-get($colors, primary);
-
-.md2-datepicker-header {
-  background: mat-color($primary) !important;
-}
-
-.md2-button, .md2-calendar-year.selected, md2-datepicker:focus:not(.md2-datepicker-disabled) .md2-datepicker-arrow {
-  color: mat-color($primary) !important;
-}
-
-md2-datepicker:focus:not(.md2-datepicker-disabled) .md2-datepicker-input {
-  color: mat-color($primary) !important;
-  border-color: mat-color($primary) !important;
-}
-
-.md2-calendar-day.selected {
-  background: mat-color($primary) !important;
-}
-
-.md2-clock-center, .md2-clock-hand, .md2-clock-hand::before, .md2-clock-hour.active, .md2-clock-minute.active {
-  background: mat-color($primary) !important;
-}
-*/
