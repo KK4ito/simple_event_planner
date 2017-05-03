@@ -40,7 +40,6 @@ export class MyApp {
       self.propagateNavigation();
     });
     this.user = authService.getUser();
-    console.log('user', this.user);
 
     this.propagateNavigation();
   }
@@ -51,20 +50,17 @@ export class MyApp {
         {title: 'NAV.EVENTS', component: HomePage},
         {title: 'NAV.PERMISSIONS', component: PermissionsPage},
         {title: 'NAV.USERS', component: UsersPage},
-        {title: 'NAV.LOGOUT', component: ProfilePage},
-        {title: 'NAV.ABOUT', component: AboutPage}
+        {title: 'NAV.LOGOUT', component: ProfilePage}
       ];
     } else if (this.authService.getRole() == RoleType.REGISTERED) {
       this.pages = [
         {title: 'NAV.EVENTS', component: HomePage},
-        {title: 'NAV.LOGOUT', component: ProfilePage},
-        {title: 'NAV.ABOUT', component: AboutPage}
+        {title: 'NAV.LOGOUT', component: ProfilePage}
       ];
     } else {
       this.pages = [
         {title: 'NAV.LOGIN', component: ProfilePage},
-        {title: 'NAV.EVENTS', component: HomePage},
-        {title: 'NAV.ABOUT', component: AboutPage}
+        {title: 'NAV.EVENTS', component: HomePage}
       ];
     }
   }
@@ -79,9 +75,12 @@ export class MyApp {
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+    this.menuCtrl.close();
+  }
+
+  openProfilePage(){
+    this.nav.setRoot(ProfilePage);
     this.menuCtrl.close();
   }
 

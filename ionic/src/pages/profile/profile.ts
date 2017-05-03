@@ -23,7 +23,7 @@ export class ProfilePage {
 
   private user = new User();
 
-  constructor(public navCtrl: NavController,public authService:AuthService, public  apiService:ApiService) {
+  constructor(public navCtrl: NavController,public authService:AuthService, public apiService:ApiService) {
 
   }
 

@@ -50,7 +50,6 @@ export class AuthService {
         (user) => {
           // set new state
           self.user = user;
-          console.log('getme', user);
           localStorage.setItem('user', JSON.stringify(self.user));
           this.events.publish('user:changed', self.user);
           resolve(self.user);

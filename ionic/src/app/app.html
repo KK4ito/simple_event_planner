@@ -4,7 +4,7 @@
     <ion-content>
     <img class="logo" src="../assets/icon/fhnw.svg" />
 
-      <ion-avatar *ngIf="user" (click)="openPage(pages[3])">
+      <ion-avatar *ngIf="user" (click)="openProfilePage()">
         <img src="{{user.imageUri | imageUri}}">
         <p>{{user.email}}</p>
       </ion-avatar>

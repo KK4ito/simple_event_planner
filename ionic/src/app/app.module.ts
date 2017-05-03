@@ -5,7 +5,6 @@ import {HttpModule, Http} from '@angular/http';
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
 import { HomePage } from "../pages/home/home";
-import { AboutPage } from "../pages/about/about";
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -49,7 +48,6 @@ export const deepLinkConfig: any = {
   declarations: [
     MyApp,
     HomePage,
-    AboutPage,
     DetailPage,
     UsersPage,
     PermissionsPage,
@@ -82,7 +80,6 @@ export const deepLinkConfig: any = {
   entryComponents: [
     MyApp,
     HomePage,
-    AboutPage,
     DetailPage,
     PermissionsPage,
     UpdateUserPage,
