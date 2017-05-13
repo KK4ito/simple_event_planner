@@ -10,6 +10,8 @@ import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
 import {EventAttendee} from "../../models/EventAttendee";
 import {ProfilePage} from "../profile/profile";
 import {AuthService} from "../../providers/auth.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 @Component({
   selector: 'page-detail',
   templateUrl: 'detail.html'
@@ -37,11 +39,29 @@ export class DetailPage {
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService) {
+  public eventForm: FormGroup;
+
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+    this.eventForm = formBuilder.group({
+      name: ['', Validators.compose([Validators.required])],
+      description: ['', Validators.compose([Validators.required])],
+      location: ['', Validators.compose([Validators.required])],
+      startTime: ['', Validators.compose([Validators.required])],
+      closingTime: ['', Validators.compose([Validators.required])],
+      endTime: ['', Validators.compose([Validators.required])],
+    });
+
     if (this.navParams.get('id') >= 0) {
       let self = this;
       this._apiService.getEvent(this.navParams.get('id')).then(event => {
         this.event = event;
+
+        this.eventForm.controls['name'].setValue(event.name);
+        this.eventForm.controls['description'].setValue(event.description);
+        this.eventForm.controls['location'].setValue(event.location);
+        this.eventForm.controls['startTime'].setValue(event.startTime);
+        this.eventForm.controls['closingTime'].setValue(event.closingTime);
+        this.eventForm.controls['endTime'].setValue(event.endTime);
         this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
         // TODO Provide logged in user id instead of hardcoded one
         this._apiService.getAttends(1, this.event.id)
@@ -73,6 +93,10 @@ export class DetailPage {
     } else {
       this.editMode = true;
     }
+  }
+
+  saveForm() {
+    console.log(this.eventForm.value);
   }
 
   public download(url: string) {
@@ -125,6 +149,13 @@ export class DetailPage {
   }
 
   save() {
+    console.log(this.event); // TODO: This has the right value before object.assign happens... Why?
+    console.log('assign');
+    Object.assign(this.event, this.eventForm.value);
+    console.log(this.event);
+
+    // TODO: When updating an event where you are "angemeldet", the "anmeldung" modal pops up again.
+
     this.editMode = false;
     if (this.event.id >= 0) {
       this.saveEvent(this.event);
