@@ -12,21 +12,21 @@ public class User {
     private Long Id;
 
     @NotNull
-    @Size(max = 1024)
+    @Size(min = 1, max = 1024)
     private String lastName;
 
     @NotNull
-    @Size(max = 1024)
+    @Size(min = 1, max = 1024)
     private String firstName;
 
     @NotNull
-    @Size(max = 2048)
+    @Size(min = 5, max = 2048)
     private String email;
 
     private boolean internal;
 
     @NotNull
-    @Size(max = 1024)
+    @Size(min = 32, max = 1024)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
