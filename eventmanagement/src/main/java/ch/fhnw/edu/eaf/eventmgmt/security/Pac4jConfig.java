@@ -1,17 +1,22 @@
 package ch.fhnw.edu.eaf.eventmgmt.security;
 
+import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
 import org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
 import org.pac4j.http.client.direct.DirectBasicAuthClient;
 import org.pac4j.http.client.direct.ParameterClient;
 import org.pac4j.jwt.credentials.authenticator.JwtAuthenticator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
 public class Pac4jConfig{
+
+    @Autowired
+    private UserRepository userRepo;
 
     @Bean
     public Config Config() {
@@ -23,7 +28,7 @@ public class Pac4jConfig{
         parameterClient.setSupportPostRequest(false);
 
         // basic auth
-        final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new CustomAuthenticator());
+        final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new CustomAuthenticator(this.userRepo));
 
         final Config config = new Config(new Clients(parameterClient, directBasicAuthClient));
         config.addAuthorizer("custom", new CustomAuthorizer());

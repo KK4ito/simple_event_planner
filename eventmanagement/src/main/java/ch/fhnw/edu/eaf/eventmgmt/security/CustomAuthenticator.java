@@ -13,16 +13,16 @@ import org.pac4j.core.exception.HttpAction;
 import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.util.CommonHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public class CustomAuthenticator implements Authenticator<UsernamePasswordCredentials> {
 
-    @Autowired
-    JpaRepository<User, Long> userRepo;
+    private final UserRepository userRepo;
+
+    CustomAuthenticator(UserRepository userRepo){
+        this.userRepo = userRepo;
+    }
 
     @Override
     public void validate(final UsernamePasswordCredentials credentials, final WebContext context) throws HttpAction {
@@ -62,9 +62,12 @@ public class CustomAuthenticator implements Authenticator<UsernamePasswordCreden
         // Read password from user
         char[] userPassword = password.toCharArray();
 
+        System.out.println(this.userRepo == null);
+        System.out.println(this.userRepo.toString());
+
         try {
 
-            List<User> users = userRepo.findBy(username);
+            List<User> users = userRepo.me(username);
             if(users.size() == 0) return false;
             User user = users.get(0);
 
