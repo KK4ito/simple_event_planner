@@ -15,7 +15,7 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let event of events" col-md-4 col-sm-1>
+      <ion-col *ngFor="let event of events" col-xs-12 col-sm-12 col-md-6 col-lg-4>
         <ion-card  (click)="openEvent(event.id)">
           <img src="{{ event.imageUri | imageUri }}"/>
           <ion-card-content>
