@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -39,6 +40,18 @@ public class Mailer {
     @Value("${mailer.smtp.password}")
     private String smtpPassword;
 
+    @Value("${mailer.svgroup.to}")
+    private String svgroupTo;
+
+    @Value("${mailer.svgroup.cc}")
+    private String svgroupCc;
+
+    @Value("${mailer.svgroup.subject}")
+    private String svgroupSubject;
+
+    @Value("${mailer.svgroup.text}")
+    private String svgroupText;
+
     private Logger log = LoggerFactory.getLogger(this.getClass());
     private Session session;
 
@@ -58,21 +71,40 @@ public class Mailer {
                 }
         );
 
-        this.sendMail("schoenbaechler.lukas@gmail.com", "jonas.frehner@students.fhnw.ch", "Subject", "Body");
     }
 
     @CrossOrigin
-    @RequestMapping(value = "${spring.data.rest.basePath}/send", method = RequestMethod.POST)
+    @RequestMapping(value = "${spring.data.rest.basePath}/send/{type:.+}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Void> post(@RequestParam("file") MultipartFile file) {
-
+    public ResponseEntity<Void> post(@PathVariable("type") String type, @RequestParam("parameters") String[] parameters) {
+        try {
+            switch (type){
+                case "invitation":
+                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    break;
+                case "referent":
+                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    break;
+                case "svgroup":
+                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    break;
+                case "raumkoordination":
+                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    break;
+                default:
+                    log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+            log.info(this.getClass().getName(), "Sending mail successfull");
+        } catch (MessagingException e) {
+            log.error(this.getClass().getName(), "Sending mail failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    public void sendMail(String recipients, String cc, String subject, String message, String[] parameters) {
 
-        try {
-
+    private void sendMail(String recipients, String cc, String subject, String message) throws MessagingException {
             MimeMessage msg = new MimeMessage(session);
             // msg.setFrom(new InternetAddress(from));
             msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
@@ -80,11 +112,10 @@ public class Mailer {
             msg.setSubject(subject);
             msg.setText(message);
             Transport.send(msg);
+    }
 
-        } catch(MessagingException e) {
-            e.printStackTrace();
-        }
-
+    private String prepareText(String body, String[] parameters){
+        return body;
     }
 
 
