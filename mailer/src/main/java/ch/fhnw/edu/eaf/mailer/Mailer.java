@@ -39,6 +39,9 @@ public class Mailer {
     @Value("${mailer.smtp.password}")
     private String smtpPassword;
 
+    @Value("${mail.invitation.text}")
+    private String text;
+
     private Logger log = LoggerFactory.getLogger(this.getClass());
     private Session session;
 
@@ -58,7 +61,8 @@ public class Mailer {
                 }
         );
 
-        this.sendMail("schoenbaechler.lukas@gmail.com", "jonas.frehner@students.fhnw.ch", "Subject", "Body");
+        String[] p = new String[1];
+        this.sendMail("schoenbaechler.lukas@gmail.com,jonas.frehner@students.fhnw.ch", "jonas.frehner@students.fhnw.ch", "Subject", text, p);
     }
 
     @CrossOrigin
@@ -77,8 +81,8 @@ public class Mailer {
             // msg.setFrom(new InternetAddress(from));
             msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
             msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-            msg.setSubject(subject);
-            msg.setText(message);
+            msg.setSubject(subject, "UTF-8");
+            msg.setText(message, "UTF-8");
             Transport.send(msg);
 
         } catch(MessagingException e) {
