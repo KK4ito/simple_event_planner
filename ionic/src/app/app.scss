@@ -110,6 +110,10 @@ $side-menu-padding: 8px 32px;
     font-weight:500;
   }
 
+  .item:hover{
+    background-color: #f5dd19!important;
+  }
+
 	.button {
 		&__container {
 			margin: $side-menu-padding;

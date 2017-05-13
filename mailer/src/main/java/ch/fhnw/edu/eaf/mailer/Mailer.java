@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -40,17 +39,29 @@ public class Mailer {
     @Value("${mailer.smtp.password}")
     private String smtpPassword;
 
-    @Value("${mailer.svgroup.to}")
+    @Value("${mail.referent.subject}")
+    private String referentSubject;
+
+    @Value("${mail.referent.text}")
+    private String referentText;
+
+    @Value("${mail.svgroup.to}")
     private String svgroupTo;
 
-    @Value("${mailer.svgroup.cc}")
-    private String svgroupCc;
-
-    @Value("${mailer.svgroup.subject}")
+    @Value("${mail.svgroup.subject}")
     private String svgroupSubject;
 
-    @Value("${mailer.svgroup.text}")
+    @Value("${mail.svgroup.text}")
     private String svgroupText;
+
+    @Value("${mail.raumkoordination.to}")
+    private String raumkoordinationTo;
+
+    @Value("${mail.raumkoordination.subject}")
+    private String raumkoordinationSubject;
+
+    @Value("${mail.raumkoordination.text}")
+    private String raumkoordinationText;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
     private Session session;
@@ -70,26 +81,25 @@ public class Mailer {
                     }
                 }
         );
-
     }
 
     @CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/send/{type:.+}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Void> post(@PathVariable("type") String type, @RequestParam("parameters") String[] parameters) {
+    public ResponseEntity<Void> post(@PathVariable("type") String type, @RequestBody() Mail mail) {
         try {
             switch (type){
                 case "invitation":
-                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    this.sendMail(mail.to, mail.cc, mail.subject, mail.body);
                     break;
                 case "referent":
-                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    this.sendMail(mail.to, "", this.referentSubject, this.prepareText(this.referentText, mail.parameters));
                     break;
                 case "svgroup":
-                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    this.sendMail(this.svgroupTo, "", this.svgroupSubject, this.prepareText(this.svgroupText, mail.parameters));
                     break;
                 case "raumkoordination":
-                    this.sendMail(this.svgroupTo, this.svgroupCc, this.svgroupSubject, this.prepareText(this.svgroupText, parameters));
+                    this.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, this.prepareText(this.raumkoordinationText, mail.parameters));
                     break;
                 default:
                     log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
@@ -109,12 +119,12 @@ public class Mailer {
             // msg.setFrom(new InternetAddress(from));
             msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
             msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-            msg.setSubject(subject);
-            msg.setText(message);
+            msg.setSubject(subject, "UTF-8");
+            msg.setText(message, "UTF-8");
             Transport.send(msg);
     }
 
-    private String prepareText(String body, String[] parameters){
+    private String prepareText(String body, Map<String, String> parameters){
         return body;
     }
 
