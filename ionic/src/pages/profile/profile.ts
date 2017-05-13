@@ -24,7 +24,9 @@ export class ProfilePage {
   private user = new User();
 
   constructor(public navCtrl: NavController,public authService:AuthService, public apiService:ApiService) {
+    this.user = authService.getUser();
 
+    if(this.user == null) this.user = new User();
   }
 
   login(){
