@@ -36,5 +36,8 @@ public class SchedulerApplication {
 		} catch (IOException e) {
 			throw new RuntimeException("Eureka Server not found: " + e.getMessage());
 		}
+
+
+		Mailer.getInstance().sendMail("jonas.frehner@students.fhnw.ch,andreas.gassmann@students.fhnw.ch", "schoenbaechler.lukas@gmail.com", "Test", "ITS OVER 9000");
 	}
 }

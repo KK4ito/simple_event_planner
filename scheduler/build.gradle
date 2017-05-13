@@ -15,7 +15,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.cloud:spring-cloud-starter-eureka")
     compile("org.springframework.boot:spring-boot-starter-hateoas")
-
+    compile("javax.mail:mail:1.4.5")
 }
 
 dependencyManagement {
