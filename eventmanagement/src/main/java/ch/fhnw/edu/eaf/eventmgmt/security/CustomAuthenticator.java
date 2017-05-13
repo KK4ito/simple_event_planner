@@ -49,8 +49,10 @@ public class CustomAuthenticator implements Authenticator<UsernamePasswordCreden
         profile.setId(username);
         profile.addAttribute(Pac4jConstants.USERNAME, username);
 
-        //profile.addRole("ADMIN");
-        //profile.addPermission();
+        List<User> users = userRepo.me(username);
+        if(users.size() == 0) {
+            users.get(0).getRole();
+        }
 
         credentials.setUserProfile(profile);
     }
@@ -62,19 +64,10 @@ public class CustomAuthenticator implements Authenticator<UsernamePasswordCreden
         // Read password from user
         char[] userPassword = password.toCharArray();
 
-        System.out.println(this.userRepo == null);
-        System.out.println(this.userRepo.toString());
-
         try {
-
             List<User> users = userRepo.me(username);
             if(users.size() == 0) return false;
             User user = users.get(0);
-
-            System.out.println("checking passwords");
-            System.out.println(user.getPassword());
-            System.out.println(userPassword);
-            System.out.println(argon2.verify(user.getPassword(), userPassword));
 
             return argon2.verify(user.getPassword(), userPassword);
         } finally {
