@@ -16,6 +16,7 @@ public class Pac4jConfig{
     @Bean
     public Config Config() {
 
+        System.out.println("CONFIG LOADED");
         // REST authent with JWT for a token passed in the url as the token parameter
         ParameterClient parameterClient = new ParameterClient("token", new JwtAuthenticator("wefweifwoeh"));
         parameterClient.setSupportGetRequest(true);
@@ -30,8 +31,7 @@ public class Pac4jConfig{
 
         config.addMatcher("events",new CustomMatcher("/api/files/", false, false, false, false));
         config.addMatcher("events",new CustomMatcher("/api/events/", false, false, false, false));
-        config.addMatcher("events",new CustomMatcher("/api/users/", false, false, false, false));
-        config.addMatcher("events",new CustomMatcher("/api/users/search/", false, false, false, false));
+        config.addMatcher("events",new CustomMatcher("/api/users/", true, false, false, false));
 
         return config;
     }

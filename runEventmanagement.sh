@@ -1,0 +1,1 @@
+cd eventmanagement && ./gradlew clean && ./gradlew build && java -jar build/libs/eventmanagement-1.0.0.jar && cd ..

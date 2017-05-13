@@ -4,13 +4,8 @@ import {User} from "../../models/User";
 import {ApiService} from "../../providers/api.service";
 import {TranslateService} from "@ngx-translate/core";
 import {File} from "../../models/File";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-/*
-  Generated class for the NewUser page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-update-user',
   templateUrl: 'update-user.html'
@@ -18,21 +13,32 @@ import {File} from "../../models/File";
 export class UpdateUserPage {
 
   public user = new User();
-  oldUser:User;
+  oldUser: User;
 
-  constructor(private params: NavParams, private viewCtrl: ViewController,private apiService:ApiService, private toastCtrl:ToastController, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController) {
-    var user = params.get('user');
+  userForm: FormGroup;
+
+  constructor(private params: NavParams, private viewCtrl: ViewController,private apiService:ApiService, private toastCtrl:ToastController, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController, public formBuilder: FormBuilder) {
+    let user = params.get('user');
     if(user){
       this.user = user;
       this.oldUser = Object.assign({}, this.user);
     }
+
+    this.userForm = formBuilder.group({
+      firstName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
+      lastName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
+      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(1024), Validators.email])],
+      password: ['', Validators.compose([Validators.required])],
+    });
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
-  save(user: User, showToast = true){
+  save(user: User, showToast = true) {
+    Object.assign(user, this.userForm.value);
+    console.log(user);
     if(this.oldUser){
       this.apiService.updateUser(user).then(user =>{
         if(showToast) {
@@ -55,7 +61,7 @@ export class UpdateUserPage {
         this.dismiss();
         this.events.publish('users:changed');
       });
-    }else {
+    } else {
       this.apiService.createUser(this.user).then(user => {
         this.translateService.get(['UPDATE_USER.CREATED']).subscribe(translated => {
           this.toastCtrl.create({

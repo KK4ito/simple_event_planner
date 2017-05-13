@@ -1,6 +1,10 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -20,7 +24,7 @@ public class User {
     private String firstName;
 
     @NotNull
-    @Size(min = 5, max = 2048)
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
     private boolean internal;
@@ -88,7 +92,19 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        // Create instance
+        Argon2 argon2 = Argon2Factory.create();
+
+        // Read password from user
+        char[] userPassword = password.toCharArray();
+
+        try {
+            // Hash password
+            this.password = argon2.hash(2, 65536, 1, userPassword);
+        } finally {
+            // Wipe confidential data
+            argon2.wipeArray(userPassword);
+        }
     }
 
     public File getImage() {

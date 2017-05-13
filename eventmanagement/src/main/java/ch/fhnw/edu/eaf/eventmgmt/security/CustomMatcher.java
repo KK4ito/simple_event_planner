@@ -31,7 +31,12 @@ public class CustomMatcher implements Matcher {
 
     @Override
     public boolean matches(WebContext context) throws HttpAction {
-        if(!context.getPath().equalsIgnoreCase(this.path)){
+        System.out.println("context path");
+        System.out.println(context.getPath());
+        System.out.println("internal path");
+        System.out.println(this.path);
+
+        if(!context.getPath().startsWith(this.path)){
             logger.info("Path " + context.getPath() + " didn't match");
             return false;
         }
