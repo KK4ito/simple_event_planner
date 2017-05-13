@@ -1,0 +1,1 @@
+cd mailer && ./gradlew clean && ./gradlew build && java -jar build/libs/mailer-1.0.0.jar && cd ..

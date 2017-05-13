@@ -38,6 +38,5 @@ public class SchedulerApplication {
 		}
 
 
-		Mailer.getInstance().sendMail("jonas.frehner@students.fhnw.ch,andreas.gassmann@students.fhnw.ch", "schoenbaechler.lukas@gmail.com", "Test", "ITS OVER 9000");
 	}
 }

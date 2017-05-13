@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.frontend;
+package ch.fhnw.edu.eaf.mailer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

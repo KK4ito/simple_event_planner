@@ -42,6 +42,8 @@ public class Event {
 
     private Date endTime;
 
+    private boolean closingMailSend = false;
+
     @OneToOne
     private File image;
 
@@ -174,5 +176,9 @@ public class Event {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean isClosingMailSend() {
+        return closingMailSend;
     }
 }
