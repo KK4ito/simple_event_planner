@@ -2,42 +2,24 @@ package ch.fhnw.edu.eaf.mailer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Map;
-import java.util.Properties;
 
 
 @RestController
 public class Mailer {
 
-    @Value("${mailer.from}")
-    private String from;
-
-    @Value("${mailer.smtp.host}")
-    private String smtpHost;
-
-    @Value("${mailer.smtp.port}")
-    private String smtpPort;
-
-    @Value("${mailer.smtp.auth}")
-    private String smtpAuth;
-
-    @Value("${mailer.smtp.starttls.enable}")
-    private String smtpStarttlsEnable;
-
-    @Value("${mailer.smtp.username}")
-    private String smtpUsername;
-
-    @Value("${mailer.smtp.password}")
-    private String smtpPassword;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Value("${mail.referent.subject}")
     private String referentSubject;
@@ -64,25 +46,14 @@ public class Mailer {
     private String raumkoordinationText;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
-    private Session session;
 
-    @PostConstruct
-    public void postConstruct() {
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", smtpHost);
-        properties.put("mail.smtp.auth", smtpAuth);
-        properties.put("mail.smtp.starttls.enable", smtpStarttlsEnable);
-        properties.put("mail.smtp.port", smtpPort);
-
-        session = Session.getInstance(properties,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(smtpUsername, smtpPassword);
-                    }
-                }
-        );
-    }
-
+    /**
+     * Sends an email.
+     *
+     * @param type      The type of the email.
+     * @param mail      A mail object, consisting of to, cc, subject, text and parameters
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/send/{type:.+}", method = RequestMethod.POST)
     @ResponseBody
@@ -90,16 +61,16 @@ public class Mailer {
         try {
             switch (type){
                 case "invitation":
-                    this.sendMail(mail.to, mail.cc, mail.subject, mail.body);
+                    this.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
                     break;
                 case "referent":
-                    this.sendMail(mail.to, "", this.referentSubject, this.prepareText(this.referentText, mail.parameters));
+                    this.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
                     break;
                 case "svgroup":
-                    this.sendMail(this.svgroupTo, "", this.svgroupSubject, this.prepareText(this.svgroupText, mail.parameters));
+                    this.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
                     break;
                 case "raumkoordination":
-                    this.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, this.prepareText(this.raumkoordinationText, mail.parameters));
+                    this.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
                     break;
                 default:
                     log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
@@ -113,20 +84,31 @@ public class Mailer {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-
+    /**
+     * Sends an email to the passed recipients.
+     *
+     * @param recipients    Comma-separated list of email-addresses the email is to be sent to
+     * @param cc            Comma-separated list of email-addresses to be included as 'cc' in the email
+     * @param subject       The subject of the email
+     * @param message       The message of the email
+     * @throws MessagingException
+     */
     private void sendMail(String recipients, String cc, String subject, String message) throws MessagingException {
-            MimeMessage msg = new MimeMessage(session);
-            // msg.setFrom(new InternetAddress(from));
-            msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
-            msg.addRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-            msg.setSubject(subject, "UTF-8");
-            msg.setText(message, "UTF-8");
-            Transport.send(msg);
-    }
 
-    private String prepareText(String body, Map<String, String> parameters){
-        return body;
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            helper.setTo(recipients);
+            //Todo: Add check if stuff is set or not
+//            helper.setReplyTo("");
+//            helper.setFrom("");
+            helper.setSubject(subject);
+//            helper.setCc(cc);
+            helper.setText(message);
+        } catch(MessagingException e) {
+            e.printStackTrace();
+        }
+        javaMailSender.send(mail);
     }
-
 
 }
