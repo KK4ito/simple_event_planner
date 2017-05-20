@@ -1,5 +1,6 @@
 package ch.fhnw.edu.eaf.eventmgmt.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
@@ -33,6 +34,7 @@ public class User {
 
     @NotNull
     @Size(min = 32, max = 1024)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
