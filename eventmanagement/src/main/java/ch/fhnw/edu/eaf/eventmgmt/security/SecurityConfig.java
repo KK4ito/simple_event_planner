@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         filter.setAuthorizers(mapToCommaSeparatedString(config.getAuthorizers()));
 
         http
-                .csrf().disable()
                 .antMatcher("/**")
                 .addFilterBefore(filter, BasicAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
     }
 
     private String mapToCommaSeparatedString(Map<String, ?> map){
