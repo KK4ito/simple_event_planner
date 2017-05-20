@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import {HttpModule, Http} from '@angular/http';
+import { HttpModule, Http, CookieXSRFStrategy, XSRFStrategy } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
@@ -95,7 +95,8 @@ export const deepLinkConfig: any = {
   providers: [
     AuthService,
     ApiService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: XSRFStrategy,  useValue: new CookieXSRFStrategy('pac4jCsrfToken')}
     ]
 })
 export class AppModule {}
