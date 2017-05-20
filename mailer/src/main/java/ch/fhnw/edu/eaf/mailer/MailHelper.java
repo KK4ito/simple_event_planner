@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by apple on 19.05.17.
- */
 public class MailHelper {
 
     static final long ONE_MINUTE_IN_MILLISECONDS=60000;
@@ -34,27 +31,27 @@ public class MailHelper {
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        String eventDate = dateFormat.format(data.getEvent().getStartTime());
+        String eventDate = dateFormat.format(data.event.startTime);
         String eventTime = "";
         String eventTimeMinus15 = "";
-        Date eventDateMinus15Minutes = new Date(data.getEvent().getStartTime().getTime() - (15 * ONE_MINUTE_IN_MILLISECONDS));
+        Date eventDateMinus15Minutes = new Date(data.event.startTime.getTime() - (15 * ONE_MINUTE_IN_MILLISECONDS));
         eventTimeMinus15 = timeFormat.format(eventDateMinus15Minutes);
-        Date eventDateTime = new Date(data.getEvent().getStartTime().getTime());
+        Date eventDateTime = new Date(data.event.startTime.getTime());
         eventTime = timeFormat.format(eventDateTime);
 
-        int numOfAttendees = data.getAttendees().size();
-        String eventRoom = data.getEvent().getLocation();
-        String name = data.getEvent().getName();
+        int numOfAttendees = data.attendees.size();
+        String eventRoom = data.event.location;
+        String name = data.event.name;
 
         int numOfMeatSandwich = 0;
         // Per default, the speaker receives a vegi-sandwich
         int numOfVegiSandwichPlus1 = 1;
-        int numOfDrinksPlus1 = data.getAttendees().size();
+        int numOfDrinksPlus1 = data.attendees.size() + 1;
 
-        numOfMeatSandwich += (int)data.getAttendees().stream().filter(a -> a.getFoodType() == FoodType.NORMAL).count();
-        numOfVegiSandwichPlus1 += (int)data.getAttendees().stream().filter(a -> a.getFoodType() == FoodType.VEGI).count();
+        numOfMeatSandwich += (int)data.attendees.stream().filter(a -> a.foodType == FoodType.NORMAL).count();
+        numOfVegiSandwichPlus1 += (int)data.attendees.stream().filter(a -> a.foodType == FoodType.VEGI).count();
 
-        boolean internal = data.getSpeaker().getInternal();
+        boolean internal = data.speaker.internal;
 
         //TODO: Build eventLink from eventID
         String koordinator = "";
@@ -69,6 +66,7 @@ public class MailHelper {
         parameters.put("name", name);
         parameters.put("numOfMeatSandwich", Integer.toString(numOfMeatSandwich));
         parameters.put("numOfVegiSandwichPlus1", Integer.toString(numOfVegiSandwichPlus1));
+        parameters.put("numOfDrinksPlus1", Integer.toString(numOfDrinksPlus1));
         parameters.put("internal", Boolean.toString(internal));
         parameters.put("koordinator", koordinator);
         parameters.put("eventLink", eventLink);

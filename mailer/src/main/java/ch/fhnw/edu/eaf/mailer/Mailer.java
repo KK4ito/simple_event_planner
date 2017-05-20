@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import javax.mail.internet.MimeMessage;
 public class Mailer {
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private customJavaMailSender javaMailSender;
 
     @Value("${mail.referent.subject}")
     private String referentSubject;
@@ -47,6 +48,15 @@ public class Mailer {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @PostConstruct
+    public void afterConstruct() {
+        try {
+            javaMailSender.sendMail("jonas.frehner@students.fhnw.ch", "jonas.frehner@students.fhnw.ch", "test", "test");
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Sends an email.
      *
@@ -61,16 +71,16 @@ public class Mailer {
         try {
             switch (type){
                 case "invitation":
-                    this.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
+                    javaMailSender.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
                     break;
                 case "referent":
-                    this.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
+                    javaMailSender.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
                     break;
                 case "svgroup":
-                    this.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
+                    javaMailSender.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
                     break;
                 case "raumkoordination":
-                    this.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
+                    javaMailSender.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
                     break;
                 default:
                     log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
@@ -83,32 +93,4 @@ public class Mailer {
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
-    /**
-     * Sends an email to the passed recipients.
-     *
-     * @param recipients    Comma-separated list of email-addresses the email is to be sent to
-     * @param cc            Comma-separated list of email-addresses to be included as 'cc' in the email
-     * @param subject       The subject of the email
-     * @param message       The message of the email
-     * @throws MessagingException
-     */
-    private void sendMail(String recipients, String cc, String subject, String message) throws MessagingException {
-
-        MimeMessage mail = javaMailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            helper.setTo(recipients);
-            //Todo: Add check if stuff is set or not
-//            helper.setReplyTo("");
-//            helper.setFrom("");
-            helper.setSubject(subject);
-//            helper.setCc(cc);
-            helper.setText(message);
-        } catch(MessagingException e) {
-            e.printStackTrace();
-        }
-        javaMailSender.send(mail);
-    }
-
 }
