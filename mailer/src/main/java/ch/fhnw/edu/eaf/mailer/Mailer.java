@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import org.stringtemplate.v4.ST;
 
-import javax.annotation.PostConstruct;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Iterator;
 import java.util.Map;
 
 
 @RestController
 public class Mailer {
+
+    static final long ONE_MINUTE_IN_MILLISECONDS=60000;
 
     @Value("${mailer.token}")
     private String token;
@@ -62,7 +65,7 @@ public class Mailer {
     @ResponseBody
     public ResponseEntity<Void> post(@RequestBody() Mail mail) {
         try {
-            this.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(mail.body, mail.parameters));
+            this.sendMail(mail.to, mail.cc, mail.subject, this.prepareText(mail.body, mail.parameters));
             log.info(this.getClass().getName(), "Sending mail successfull");
         } catch (MessagingException e) {
             log.error(this.getClass().getName(), "Sending mail failed", e);
@@ -137,5 +140,31 @@ public class Mailer {
             Transport.send(msg);
     }
     */
+
+    /**
+     * Parametrizes a given text with the passed parameters.
+     * The parameters are passed in a map with the key being the placeholder in the text that is to be replaced by
+     * the value.
+     *
+     * @param body          Text to process
+     * @param data          Body-Wrapper-object containing all the data for an event
+     * @return              Processed text
+     */
+    public String prepareText(String body, Map<String, String> parameters){
+        ST template = new ST(body);
+
+        Iterator it = parameters.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            if(Boolean.getBoolean(entry.getValue().toString())) {
+                template.add(entry.getKey().toString(), Boolean.parseBoolean(entry.getValue().toString()));
+            } else {
+                template.add(entry.getKey().toString(), entry.getValue().toString());
+            }
+        }
+
+        String text = template.render();
+        return text;
+    }
 
 }
