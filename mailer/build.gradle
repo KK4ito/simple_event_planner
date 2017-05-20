@@ -17,6 +17,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile("javax.mail:mail:1.4.5")
     compile("org.antlr:stringtemplate:4.0")
+    testCompile("org.subethamail:subethasmtp:3.1.6")
+    testCompile("org.mockito:mockito-all:1.9.5")
 }
 
 dependencyManagement {
