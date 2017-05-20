@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by lukasschonbachler on 15.03.17.
  */
 
-
+/*
 
 
 //@WebAppConfiguration
@@ -68,3 +68,4 @@ public class Swagger2MarkupTest {
     }
 }
 
+*/

@@ -9,6 +9,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.MediaTypes;
@@ -33,6 +34,57 @@ import java.util.List;
  */
 @Component
 public class Scheduler {
+
+    /*
+    @Value("${mail.referent.subject}")
+    private String referentSubject;
+
+    @Value("${mail.referent.text}")
+    private String referentText;
+
+    @Value("${mail.svgroup.to}")
+    private String svgroupTo;
+
+    @Value("${mail.svgroup.subject}")
+    private String svgroupSubject;
+
+    @Value("${mail.svgroup.text}")
+    private String svgroupText;
+
+    @Value("${mail.raumkoordination.to}")
+    private String raumkoordinationTo;
+
+    @Value("${mail.raumkoordination.subject}")
+    private String raumkoordinationSubject;
+
+    @Value("${mail.raumkoordination.text}")
+    private String raumkoordinationText;
+
+        try {
+            switch (type){
+                case "invitation":
+                    javaMailSender.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
+                    break;
+                case "referent":
+                    javaMailSender.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
+                    break;
+                case "svgroup":
+                    javaMailSender.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
+                    break;
+                case "raumkoordination":
+                    javaMailSender.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
+                    break;
+                default:
+                    log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+            log.info(this.getClass().getName(), "Sending mail successfull");
+        } catch (MessagingException e) {
+            log.error(this.getClass().getName(), "Sending mail failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+*/
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
     private final RestTemplate template;
