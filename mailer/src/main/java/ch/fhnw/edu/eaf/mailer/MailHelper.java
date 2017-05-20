@@ -31,13 +31,16 @@ public class MailHelper {
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateTimeFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
         String eventDate = dateFormat.format(data.event.startTime);
         String eventTime = "";
         String eventTimeMinus15 = "";
+        String eventDeadline = "";
         Date eventDateMinus15Minutes = new Date(data.event.startTime.getTime() - (15 * ONE_MINUTE_IN_MILLISECONDS));
         eventTimeMinus15 = timeFormat.format(eventDateMinus15Minutes);
         Date eventDateTime = new Date(data.event.startTime.getTime());
         eventTime = timeFormat.format(eventDateTime);
+        eventDeadline = dateTimeFormat.format(new Date(data.event.closingTime.getTime()));
 
         int numOfAttendees = data.attendees.size();
         String eventRoom = data.event.location;
@@ -61,13 +64,13 @@ public class MailHelper {
         parameters.put("eventDate", eventDate);
         parameters.put("eventTimeMinus15", eventTimeMinus15);
         parameters.put("eventTime", eventTime);
+        parameters.put("eventDeadline", eventDeadline);
         parameters.put("numOfAttendees", Integer.toString(numOfAttendees));
         parameters.put("eventRoom", eventRoom);
         parameters.put("name", name);
         parameters.put("numOfMeatSandwich", Integer.toString(numOfMeatSandwich));
         parameters.put("numOfVegiSandwichPlus1", Integer.toString(numOfVegiSandwichPlus1));
         parameters.put("numOfDrinksPlus1", Integer.toString(numOfDrinksPlus1));
-        parameters.put("internal", Boolean.toString(internal));
         parameters.put("koordinator", koordinator);
         parameters.put("eventLink", eventLink);
 
@@ -76,6 +79,10 @@ public class MailHelper {
             Map.Entry entry = (Map.Entry)it.next();
             template.add(entry.getKey().toString(), entry.getValue());
         }
+        // Add internal separately because it needs to be a boolean
+        template.add("internal", internal);
+        boolean numOfAttendeesOver40 = numOfAttendees > 40? true : false;
+        template.add("numOfAttendeesOver40", numOfAttendeesOver40);
         String text = template.render();
         return text;
     }
