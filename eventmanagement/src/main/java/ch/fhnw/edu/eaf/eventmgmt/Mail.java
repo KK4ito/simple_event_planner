@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.mailer;
+package ch.fhnw.edu.eaf.eventmgmt;
 
 import java.util.Map;
 

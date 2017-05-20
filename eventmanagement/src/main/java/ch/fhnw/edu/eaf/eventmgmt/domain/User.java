@@ -29,12 +29,22 @@ public class User {
 
     private boolean internal;
 
+    private boolean optOut;
+
     @NotNull
     @Size(min = 32, max = 1024)
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
     private RoleType role;
+
+    public boolean isOptOut() {
+        return optOut;
+    }
+
+    public void setOptOut(boolean optOut) {
+        this.optOut = optOut;
+    }
 
     public enum RoleType {
         ANONYMOUS,
@@ -128,4 +138,6 @@ public class User {
     public void setRole(RoleType role) {
         this.role = role;
     }
+
+
 }

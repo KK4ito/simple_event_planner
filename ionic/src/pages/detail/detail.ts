@@ -40,6 +40,8 @@ export class DetailPage {
     'label': 'None'
   }];
 
+  private eventDuration: any = 0;
+
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;
 
@@ -59,6 +61,7 @@ export class DetailPage {
       let self = this;
       this._apiService.getEvent(this.navParams.get('id')).then(event => {
         this.event = event;
+        this.eventDuration = (new Date(event.endTime).getTime() - new Date(event.startTime).getTime()) / 1000;
 
         this.eventForm.controls['name'].setValue(event.name);
         this.eventForm.controls['description'].setValue(event.description);

@@ -13,6 +13,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { ApiService } from '../providers/api.service';
 import { AuthService } from '../providers/auth.service';
 
+import { DurationPipe } from "../pipes/duration.pipe";
 import { ImageUri } from "../pipes/ImageUri";
 
 import { NgUploaderModule } from 'ngx-uploader';
@@ -57,6 +58,7 @@ export const deepLinkConfig: any = {
     UpdateUserPage,
     ProfilePage,
     InvitePage,
+    DurationPipe,
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
