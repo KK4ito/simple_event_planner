@@ -5,10 +5,10 @@ import java.util.Collection;
 /**
  * Created by apple on 19.05.17.
  */
-public interface Body {
+public class Body {
 
-    Event getEvent();
-    User getSpeaker();
-    Collection<EventAttendee> getAttendees();
+    public Event event;
+    public User speaker;
+    public Collection<EventAttendee> attendees;
 
 }

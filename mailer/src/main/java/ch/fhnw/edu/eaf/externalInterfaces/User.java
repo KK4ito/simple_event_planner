@@ -5,14 +5,14 @@ import java.util.Collection;
 /**
  * Created by apple on 19.05.17.
  */
-public interface User {
+public class User {
 
-    Long getId();
-    String getLastName();
-    String getFirstName();
-    String getEmail();
-    boolean getInternal();
-    RoleType getRole();
-    Collection<EventAttendee> getAttends();
+    public Long id;
+    public String lastName;
+    public String firstName;
+    public String email;
+    public boolean internal;
+    public RoleType role;
+    public Collection<EventAttendee> attends;
 
 }

@@ -3,11 +3,11 @@ package ch.fhnw.edu.eaf.externalInterfaces;
 /**
  * Created by apple on 19.05.17.
  */
-public interface EventAttendee {
+public class EventAttendee {
 
-    Long getId();
-    Event getEvent();
-    User getUser();
-    FoodType getFoodType();
+    public Long id;
+    public Event event;
+    public User user;
+    public FoodType foodType;
 
 }
