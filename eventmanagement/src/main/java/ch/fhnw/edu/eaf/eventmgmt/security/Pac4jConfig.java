@@ -32,18 +32,18 @@ public class Pac4jConfig{
         parameterClient.setSupportGetRequest(true);
         parameterClient.setSupportPostRequest(false);
 */
-        CookieClient cc = new CookieClient("yolo", new CookieAuthenticator());
+        //CookieClient cc = new CookieClient("yolo", new CookieAuthenticator());
 
         // basic auth
         final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new CustomAuthenticator(this.userRepo));
 
-        final Config config = new Config(new Clients(cc, directBasicAuthClient));
+        final Config config = new Config(new Clients(directBasicAuthClient));
         config.addAuthorizer("custom", new CustomAuthorizer());
         //config.addAuthorizer("admin", new RequireAnyRoleAuthorizer("ROLE_ADMIN"));
 
         config.addMatcher("events",new CustomMatcher("/api/files/", false, false, false, false));
         config.addMatcher("events",new CustomMatcher("/api/events/", false, false, false, false));
-        config.addMatcher("events",new CustomMatcher("/api/users/", true, false, false, false));
+        config.addMatcher("events",new CustomMatcher("/api/users/", false, false, false, false));
 
         return config;
     }
