@@ -23,4 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT u FROM User AS u WHERE UPPER(u.email) = UPPER(:email)")
     public List<User> me(@Param("email") String email);
+
+    @Query(value = "SELECT u FROM User AS u WHERE u.optOut = false AND u.internal = true")
+    public List<User> externalOptIn();
 }
