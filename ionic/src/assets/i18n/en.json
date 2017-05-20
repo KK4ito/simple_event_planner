@@ -33,6 +33,7 @@
   "DETAIL.ATTEND": "Attend",
   "DETAIL.ATTENDING": "Attending",
   "DETAIL.END_DATE": "End",
+  "DETAIL.DURATION": "Duration",
   "DETAIL.LOGIN": "Please log in to attend this event.",
   "UPDATE_USER.EDIT": "Edit",
   "UPDATE_USER.CREATE_USER": "Create User",

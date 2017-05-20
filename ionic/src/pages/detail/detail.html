@@ -13,7 +13,6 @@
 
   <div padding>
     <form [formGroup]="eventForm" (submit)="saveForm()" novalidate>
-
     <h1 *ngIf="!editMode">{{ event.name }}</h1>
     <ion-item *ngIf="editMode">
       <ion-label floating>{{'DETAIL.TITLE' | translate}}</ion-label>
@@ -53,6 +52,14 @@
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>{{'DETAIL.END_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
+      <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
+                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
+    </ion-item>
+
+    <ion-item class="item__datepicker item--containNone">
+      <ion-icon item-left name="calendar"></ion-icon>
+      <h2>{{'DETAIL.DURATION' | translate}}</h2>
+      <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
       <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
                       format="dd.MM.y HH:mm" item-right></md2-datepicker>
     </ion-item>
