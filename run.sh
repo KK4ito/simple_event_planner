@@ -5,11 +5,11 @@
   java -jar registry/build/libs/*.jar &
 
 # wait to allow registry to boot
-sleep 5
+sleep 50
 
 # start now all microservices
-# PROJECTS="eventmanagement moviemanagement usermanagement rentalmanagement"
-PROJECTS="eventmanagement frontend"
+# PROJECTS="eventmanagement"
+PROJECTS="mailer eventmanagement frontend"
 
 for PROJECT in $PROJECTS
 do

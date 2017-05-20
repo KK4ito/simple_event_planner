@@ -6,6 +6,7 @@ import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,26 @@ public class MailerController {
         String result = restTemplate.postForObject(url, mail, String.class);
 
         return new ResponseEntity<String>("OK", HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/template", method = RequestMethod.GET)
+    public ResponseEntity<Mail> getTemplate() {
+
+        List<User> external = userRepository.externalOptIn();
+        StringBuilder s = new StringBuilder();
+        for(User u: external) {
+            s.append(u.getEmail());
+        }
+
+        Mail mail = new Mail();
+        s.append(mail.to);
+        mail.from = invitationFrom;
+
+        mail.cc = invitationCc;
+        mail.subject = invitationSubject;
+        mail.body = invitationText;
+
+        return new ResponseEntity<Mail>(mail, HttpStatus.OK);
     }
 
 
