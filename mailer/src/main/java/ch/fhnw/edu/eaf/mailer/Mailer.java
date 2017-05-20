@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.stringtemplate.v4.ST;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -17,6 +18,9 @@ import java.util.Properties;
 
 @RestController
 public class Mailer {
+
+    @Value("${mailer.token}")
+    private String token;
 
     @Value("${mailer.from}")
     private String from;
@@ -125,7 +129,11 @@ public class Mailer {
     }
 
     private String prepareText(String body, Map<String, String> parameters){
-        return body;
+        ST template = new ST(body);
+        for(String key : parameters.keySet()){
+            template.add(key, parameters.get(key));
+        }
+        return template.render();
     }
 
 

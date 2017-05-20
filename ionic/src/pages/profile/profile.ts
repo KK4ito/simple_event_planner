@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController, ToastController} from 'ionic-angular';
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
@@ -23,7 +23,7 @@ export class ProfilePage {
 
   private user = new User();
 
-  constructor(public navCtrl: NavController,public authService:AuthService, public apiService:ApiService) {
+  constructor(public navCtrl: NavController,public authService:AuthService, public apiService:ApiService, private toastCtrl:ToastController) {
     this.user = authService.getUser();
 
     if(this.user == null) this.user = new User();
@@ -35,6 +35,11 @@ export class ProfilePage {
     }).catch(() =>{
       this.authService.logout();
       this.user.password = "";
+      this.toastCtrl.create({
+        message: 'Login failed',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
     });
   }
 
