@@ -3,6 +3,7 @@ import {NavController, NavParams, ToastController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'page-permissions',
@@ -13,7 +14,7 @@ export class PermissionsPage {
   users: User[];
   oldUser: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiService:ApiService, private toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private apiService: ApiService, private toastCtrl: ToastController, private translate: TranslateService) {
     this.refreshUsers();
   }
 
@@ -36,11 +37,12 @@ export class PermissionsPage {
   updateUser(user:User, showUndo = true){
     this.apiService.updateUser(user).then(() =>{
     this.refreshUsers();
+    this.translate.get(['PERMISSIONS.USER_UPDATED', 'PERMISSIONS.USER_UPDATED_UNDO']).subscribe(str => {
       let toast = this.toastCtrl.create({
-        message: 'User role successfully updated.',
+        message: str[0],
         duration: 3000,
         showCloseButton: true,
-        closeButtonText: "undo",
+        closeButtonText: str[1],
         position: 'bottom right'
       });
       toast.onDidDismiss((data, role) => {
@@ -49,6 +51,7 @@ export class PermissionsPage {
         }
       });
       toast.present();
+    });
   });
   }
 }

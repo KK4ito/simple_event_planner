@@ -17,7 +17,7 @@
 
 <ion-content padding>
   <h1>{{ 'PERMISSIONS.ADMINISTRATORS' | translate }}</h1>
-  <select-user [placeholder]="('PERMISSIONS.ADMINISTRATOR_ADD' | translate)" (onSelected)="onSelected($event[0])"></select-user>
+  <select-user placeholder="{{ 'PERMISSIONS.ADMINISTRATOR_ADD' | translate }}" (onSelected)="onSelected($event[0])"></select-user>
   <br />
 
   <ion-item *ngFor="let user of users">
