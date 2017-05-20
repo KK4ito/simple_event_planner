@@ -29,6 +29,9 @@ import {ProfilePage} from "../pages/profile/profile";
 import { Md2DatepickerModule }  from '../../node_modules/md2/datepicker/index';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {BrowserModule} from "@angular/platform-browser";
+import {InvitePage} from "../pages/invite/invite";
+import { RecipientComponent } from '../components/recipient/recipient';
+declare var tinymce: any;
 
 
 
@@ -53,12 +56,14 @@ export const deepLinkConfig: any = {
     PermissionsPage,
     UpdateUserPage,
     ProfilePage,
+    InvitePage,
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
     SelectUserComponent,
     PictureUploadComponent,
-    Autoresize
+    Autoresize,
+    RecipientComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +90,7 @@ export const deepLinkConfig: any = {
     UpdateUserPage,
     UsersPage,
     ProfilePage,
+    InvitePage,
     ProgressBarComponent,
     FileuploadComponent,
     SelectUserComponent,

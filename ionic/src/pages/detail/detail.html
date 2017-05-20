@@ -117,13 +117,31 @@
 
   </div>
 
-  <ion-fab *ngIf="editMode && (authService.getRole() == RoleType.ADMINISTRATOR || isSpeaker)" right bottom>
+
+
+  <ion-fab *ngIf="authService.getRole() == RoleType.ADMINISTRATOR" bottom right>
+    <button ion-fab><ion-icon name="ios-arrow-dropup"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab color="primary" *ngIf="!editMode" (click)="edit(fab)">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-fab color="primary" *ngIf="editMode" [disabled]="!eventForm.valid" (click)="save()">
+        <ion-icon name="download"></ion-icon>
+      </button>
+      <button ion-fab color="primary" (click)="sendInvite()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+
+  <ion-fab *ngIf="editMode && isSpeaker && authService.getRole() != RoleType.ADMINISTRATOR" right bottom>
     <button ion-fab color="primary" [disabled]="!eventForm.valid" (click)="save()">
       <ion-icon name="download"></ion-icon>
     </button>
   </ion-fab>
 
-  <ion-fab *ngIf="!editMode && (authService.getRole() == RoleType.ADMINISTRATOR || isSpeaker)" right bottom>
+  <ion-fab *ngIf="!editMode && isSpeaker && authService.getRole() != RoleType.ADMINISTRATOR" right bottom>
     <button ion-fab color="primary" (click)="edit()">
       <ion-icon name="create"></ion-icon>
     </button>

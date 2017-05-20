@@ -1,0 +1,8 @@
+<!-- Generated template for the RecipientComponent component -->
+<ion-label>{{label}}</ion-label>
+<ion-input placeholder="Add recipient" [(ngModel)]="input" (keyup.space)="addRecipient()" (keyup.enter)="addRecipient()"></ion-input>
+
+<ion-chip *ngFor="let recipient of recipients" color="primary">
+  <ion-label>{{recipient}}</ion-label>
+  <ion-icon name="close" (click)="removeRecipient(recipient)"></ion-icon>
+</ion-chip>

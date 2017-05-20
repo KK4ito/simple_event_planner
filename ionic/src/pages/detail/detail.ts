@@ -1,5 +1,8 @@
 import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
-import {NavController, NavParams, AlertController, ToastController, AlertInputOptions} from 'ionic-angular';
+import {
+  NavController, NavParams, AlertController, ToastController, AlertInputOptions,
+  ModalController, FabContainer
+} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {Event} from '../../models/Event';
 import {User} from "../../models/User";
@@ -11,6 +14,7 @@ import {EventAttendee} from "../../models/EventAttendee";
 import {ProfilePage} from "../profile/profile";
 import {AuthService} from "../../providers/auth.service";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {InvitePage} from "../invite/invite";
 
 @Component({
   selector: 'page-detail',
@@ -41,7 +45,7 @@ export class DetailPage {
 
   public eventForm: FormGroup;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       description: ['', Validators.compose([Validators.required])],
@@ -143,7 +147,12 @@ export class DetailPage {
     }).present();
   }
 
-  edit() {
+  sendInvite() {
+    this.modalCtrl.create(InvitePage, { event: this.event }).present();
+  }
+
+  edit(fab: FabContainer) {
+    if(fab) fab.close();
     this.editMode = true;
     this.oldEvent = Object.assign({}, this.event);
   }
