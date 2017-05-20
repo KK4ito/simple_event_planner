@@ -6,16 +6,16 @@ import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
-import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +30,6 @@ public class MailerController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Value("${mail.invitation.to}")
     private String invitationTo;
@@ -67,7 +64,7 @@ public class MailerController {
         mail.body = invitationText;
         mail.parameters = params;
 
-        String result = restTemplate.postForObject(url, mail, String.class);
+        String result = new RestTemplate().postForObject(url, mail, String.class);
 
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
