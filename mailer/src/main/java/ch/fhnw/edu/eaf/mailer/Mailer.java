@@ -22,29 +22,8 @@ public class Mailer {
     @Value("${mailer.token}")
     private String token;
 
-    @Value("${mailer.from}")
-    private String from;
-
-    @Value("${mailer.smtp.host}")
-    private String smtpHost;
-
-    @Value("${mailer.smtp.port}")
-    private String smtpPort;
-
-    @Value("${mailer.smtp.auth}")
-    private String smtpAuth;
-
-    @Value("${mailer.smtp.starttls.enable}")
-    private String smtpStarttlsEnable;
-
-    @Value("${mailer.smtp.username}")
-    private String smtpUsername;
-
-    @Value("${mailer.smtp.password}")
-    private String smtpPassword;
-
     @Autowired
-    private customJavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     @Value("${mail.referent.subject}")
     private String referentSubject;
@@ -72,50 +51,78 @@ public class Mailer {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @PostConstruct
-    public void afterConstruct() {
-        try {
-            javaMailSender.sendMail("jonas.frehner@students.fhnw.ch", "jonas.frehner@students.fhnw.ch", "test", "test");
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Sends an email.
      *
-     * @param type      The type of the email.
      * @param mail      A mail object, consisting of to, cc, subject, text and parameters
      * @return
      */
     @CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/send/{type:.+}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Void> post(@PathVariable("type") String type, @RequestBody() Mail mail) {
+    public ResponseEntity<Void> post(@RequestBody() Mail mail) {
         try {
-            switch (type){
-                case "invitation":
-                    javaMailSender.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
-                    break;
-                case "referent":
-                    javaMailSender.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
-                    break;
-                case "svgroup":
-                    javaMailSender.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
-                    break;
-                case "raumkoordination":
-                    javaMailSender.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
-                    break;
-                default:
-                    log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
+            this.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(mail.body, mail.parameters));
             log.info(this.getClass().getName(), "Sending mail successfull");
         } catch (MessagingException e) {
             log.error(this.getClass().getName(), "Sending mail failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(null);
+
+
+
+//        try {
+//            switch (type){
+//                case "invitation":
+//                    javaMailSender.sendMail(mail.to, mail.cc, mail.subject, MailHelper.prepareText(this.referentText, mail.body));
+//                    break;
+//                case "referent":
+//                    javaMailSender.sendMail(mail.to, "", this.referentSubject, MailHelper.prepareText(this.referentText, mail.body));
+//                    break;
+//                case "svgroup":
+//                    javaMailSender.sendMail(this.svgroupTo, "", this.svgroupSubject, MailHelper.prepareText(this.svgroupText, mail.body));
+//                    break;
+//                case "raumkoordination":
+//                    javaMailSender.sendMail(this.raumkoordinationTo, "", this.raumkoordinationSubject, MailHelper.prepareText(this.raumkoordinationText, mail.body));
+//                    break;
+//                default:
+//                    log.error(this.getClass().getName(), "Sending mail failed", "Type not found");
+//                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//            }
+//            log.info(this.getClass().getName(), "Sending mail successfull");
+//        } catch (MessagingException e) {
+//            log.error(this.getClass().getName(), "Sending mail failed", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    /**
+     * Sends an email to the passed recipients.
+     *
+     * @param recipients    Comma-separated list of email-addresses the email is to be sent to
+     * @param cc            Comma-separated list of email-addresses to be included as 'cc' in the email
+     * @param subject       The subject of the email
+     * @param message       The message of the email
+     * @throws MessagingException
+     */
+    public void sendMail(String recipients, String cc, String subject, String message) throws MessagingException {
+
+        MimeMessage mail = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            helper.setTo(recipients);
+            //Todo: Add check if stuff is set or not
+//            helper.setReplyTo("");
+//            helper.setFrom("");
+            helper.setSubject(subject);
+//            helper.setCc(cc);
+            helper.setText(message);
+        } catch(MessagingException e) {
+            e.printStackTrace();
+        }
+        javaMailSender.send(mail);
     }
 
 
@@ -130,14 +137,5 @@ public class Mailer {
             Transport.send(msg);
     }
     */
-
-    private String prepareText(String body, Map<String, String> parameters){
-        ST template = new ST(body);
-        for(String key : parameters.keySet()){
-            template.add(key, parameters.get(key));
-        }
-        return template.render();
-    }
-
 
 }
