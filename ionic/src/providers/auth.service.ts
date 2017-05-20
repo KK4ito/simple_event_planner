@@ -103,7 +103,7 @@ export class AuthService {
   getMultiple<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
       var url = this.config.baseUrl + '/' + endpoint + ((parameters === '') ? '' : '?' + parameters);
-      this.http.get(url)
+      this.http.get(url, { withCredentials: true })
         .subscribe(data => {
           // wait until not uninit
           var obj = data.json()._embedded;
@@ -123,7 +123,7 @@ export class AuthService {
    */
   getSingle<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters)
+      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters, { withCredentials: true })
         .subscribe(data => {
           // wait until not uninit
           resolve(data.json());
@@ -142,7 +142,7 @@ export class AuthService {
    */
   put(endpoint, object): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.put(this.config.baseUrl + '/' + endpoint + '/', object)
+      this.http.put(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
         .subscribe(data => {
           try { // TODO: Is there a better way to do this?
             resolve(data.json());
@@ -165,7 +165,7 @@ export class AuthService {
    */
   post(endpoint, object): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.config.baseUrl + '/' + endpoint + '/', object)
+      this.http.post(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
         .subscribe(data => {
           resolve(data.json());
         }, error => {
@@ -182,7 +182,7 @@ export class AuthService {
    */
   delete(endpoint): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.delete(this.config.baseUrl + '/' + endpoint + '/')
+      this.http.delete(this.config.baseUrl + '/' + endpoint + '/', { withCredentials: true })
         .subscribe(data => {
           //this.log('delete response', data.json());
           //resolve(data.json());
