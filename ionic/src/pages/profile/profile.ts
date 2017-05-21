@@ -33,7 +33,6 @@ export class ProfilePage {
     this.authService.login(this.user).then((user) => {
       this.navCtrl.setRoot(HomePage);
     }).catch(() =>{
-      this.authService.logout();
       this.user.password = "";
       this.toastCtrl.create({
         message: 'Login failed',

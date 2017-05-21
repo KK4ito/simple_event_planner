@@ -18,7 +18,7 @@ export class HomePage {
   public RoleType = RoleType;
 
   constructor(private _apiService: ApiService, private navCtrl: NavController, public authService: AuthService) {
-    this._apiService.getEvents().then(data => this.events = data);
+    this._apiService.getEvents().then(data => this.events = data).catch((reason) => console.log(reason));
   }
 
   openEvent(id: number) {

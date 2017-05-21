@@ -26,12 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private Config config;
 
     protected void configure(final HttpSecurity http) throws Exception {
-
         // Glue code to automatically add Clients, Matchers and Authorizers
         final SecurityFilter filter = new SecurityFilter(config, listToCommaSeparatedString(config.getClients().findAllClients().stream().map(i -> i.getName()).collect(Collectors.toSet())));
         filter.setMatchers(mapToCommaSeparatedString(config.getMatchers()));
         filter.setAuthorizers(mapToCommaSeparatedString(config.getAuthorizers()));
-
         http
                 .antMatcher("/**")
                 .addFilterBefore(filter, BasicAuthenticationFilter.class)

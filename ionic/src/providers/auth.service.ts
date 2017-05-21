@@ -16,15 +16,7 @@ export class AuthService {
     this.config = {
       baseUrl: environment.baseUrl + '/api'
     };
-
-    var user = JSON.parse(localStorage.getItem('user')) as User;
-    if (user) {
-      this.user = user;
-      this.refreshAuthToken();
-      this.login(this.user).catch(() =>{
-        this.logout();
-      });
-    }
+    this.login().catch(() => console.log('The error above was expected (session has no logged in user), please ignore.'));
   }
 
   public getUser(): User {
@@ -38,59 +30,32 @@ export class AuthService {
     return RoleType.ANONYMOUS;
   }
 
-  public login(user: User): Promise<User> {
-    let oldUser = this.user;
+  public login(user:User = null): Promise<User> {
     let self = this;
-
-    this.user = user;
-    this.refreshAuthToken();
-
+    var headers = new Headers();
+    if(user){
+      headers.append("Authorization", "Basic " + btoa(user.email + ':' + user.password));
+    }
     return new Promise((resolve, reject) => {
-      this.getMe(user.email).then(
-        (user) => {
-          // set new state
-          self.user = user;
-          localStorage.setItem('user', JSON.stringify(self.user));
+      var url = this.config.baseUrl +'/login/login';
+      this.http.get(url, { withCredentials: true, headers: headers }).toPromise().then(data => {
+          // wait until not uninit
+          self.user = data.json();
           this.events.publish('user:changed', self.user);
           resolve(self.user);
-        }
-      ).catch(
-        () => {
-          // restore old state
-          self.user = oldUser;
-          self.refreshAuthToken();
+        }).catch(error => {
+          this.events.publish('user:changed', self.user);
           reject();
-        }
-      );
-    });
-  }
-
-  private getMe(email: string): Promise<User> {
-    return new Promise((resolve, reject) => {
-      this.getMultiple('users/search/me', 'email=' + encodeURI(email.trim().toUpperCase()))
-        .then((result: User[]) => {
-          if (result.length > 0) resolve(result[0]);
-          reject();
-        })
-        .catch((err) => reject(err));
+        });
     });
   }
 
   public logout() {
-    this.user = null;
-    localStorage.removeItem('user');
-    this.refreshAuthToken();
-    this.events.publish('user:changed', this.user);
-  }
-
-  private refreshAuthToken() {
-    let anyHttp = this.http as any;
-    if (!this.user) {
-      anyHttp._defaultOptions.headers = new Headers();
-    } else {
-      var tok = this.user.email + ':' + this.user.password;
-      anyHttp._defaultOptions.headers.append('Authorization', "Basic " + btoa(tok));
-    }
+    console.log('cookie', document.cookie);
+    this.http.get(this.config.baseUrl + '/login/logout', { withCredentials: true }).toPromise().then(() =>{
+      this.user = null;
+      this.events.publish('user:changed', this.user);
+    });
   }
 
   /**

@@ -1,6 +1,5 @@
 package ch.fhnw.edu.eaf.eventmgmt.security;
 
-import org.apache.commons.lang.StringUtils;
 import org.pac4j.core.authorization.authorizer.*;
 import org.pac4j.core.authorization.authorizer.csrf.CsrfAuthorizer;
 import org.pac4j.core.authorization.authorizer.csrf.CsrfTokenGeneratorAuthorizer;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Created by lukasschonbachler on 23.03.17.
  */
-public class CustomAuthorizer extends ProfileAuthorizer<CommonProfile> {
+public class SecureAuthorizer extends ProfileAuthorizer<CommonProfile> {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -62,12 +61,17 @@ public class CustomAuthorizer extends ProfileAuthorizer<CommonProfile> {
     @Override
     public boolean isProfileAuthorized(final WebContext context, final CommonProfile profile) {
         if (profile == null) {
-            log.error("Profile null");
-            System.err.println("Profile null");
+            log.error("Request for empty profile");
             return false;
         }
+
+        // Check if session was invalidated -> abort
+        Object attr = context.getSessionAttribute("invalidated");
+        if(attr != null && (boolean) attr && !context.getPath().equals("/api/login/logout")){
+            return false;
+        }
+
         log.info("Profile found: " + profile.getUsername());
-        System.err.println("Profile found: " + profile.getUsername());
-        return true; //StringUtils.startsWith(profile.getUsername(), "jle");
+        return true;
     }
 }

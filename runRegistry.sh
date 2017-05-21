@@ -1,0 +1,1 @@
+cd registry && ./gradlew clean && ./gradlew build && java -jar build/libs/registry-1.0.0.jar && cd ..
