@@ -12,17 +12,19 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomizablePathMatcher implements Matcher {
 
-    private final static Logger logger = LoggerFactory.getLogger(ExcludedPathMatcher.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomizablePathMatcher.class);
     private final SecurePath[] securePaths;
 
-    public CustomizablePathMatcher(SecurePath[] securePaths) {
+    public CustomizablePathMatcher(final SecurePath[] securePaths) {
         this.securePaths = securePaths;
     }
 
     @Override
     public boolean matches(WebContext context) throws HttpAction {
 
-        for(SecurePath securePath : securePaths){
+        logger.debug("Received match request for '" + context.getPath() + "' with method " + context.getRequestMethod());
+
+        for(SecurePath securePath : this.securePaths){
             if(context.getPath().startsWith(securePath.path)){
                 boolean result = false;
                 switch (context.getRequestMethod()){
@@ -38,10 +40,14 @@ public class CustomizablePathMatcher implements Matcher {
                     case "DELETE":
                         result = securePath.DELETE;
                         break;
+                    case "OPTIONS":
+                        result = securePath.OPTIONS;
                 }
-                if(result) return result;
+                logger.debug("Match found for '" + context.getPath() + "' -> '" + securePath.path + "' with method " + context.getRequestMethod());
+                return result;
             }
         }
-       return false;
+        logger.debug("No match found for '" + context.getPath() + "' with method " + context.getRequestMethod());
+        return false;
     }
 }

@@ -11,12 +11,16 @@ import org.pac4j.core.credentials.authenticator.Authenticator;
 import org.pac4j.core.exception.HttpAction;
 import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.util.CommonHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCredentials> {
 
     private final UserRepository userRepo;
+    private final static Logger logger = LoggerFactory.getLogger(BasicAuthAuthenticator.class);
+
 
     BasicAuthAuthenticator(UserRepository userRepo){
         this.userRepo = userRepo;
@@ -28,14 +32,17 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
         final CommonProfile profile = new CommonProfile();
 
         if (credentials != null) {
-            String username = credentials.getUsername();
+            String email = credentials.getUsername();
             String password = credentials.getPassword();
-            if (!CommonHelper.isBlank(username) &&  !CommonHelper.isBlank(password) && isValidPassword(username, password)) {
-                profile.addAttribute(Pac4jConstants.USERNAME, username);
-                List<User> users = userRepo.me(username);
+            if (!CommonHelper.isBlank(email) &&  !CommonHelper.isBlank(password) && isValidPassword(email, password)) {
+                profile.addAttribute(Pac4jConstants.USERNAME, email);
+                List<User> users = userRepo.findByEmail(email);
                 profile.addRole("REGISTERED");
+                logger.debug(email + " received role REGISTERED");
                 if(users.get(0).getRole() == 2) {
                     profile.addRole("ADMINISTRATOR");
+                    logger.debug(email + " received role ADMINISTRATOR");
+
                 }
             }
         }
@@ -44,7 +51,7 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
         context.setSessionAttribute("profile", profile);
     }
 
-    protected boolean isValidPassword(String username, String password) {
+    protected boolean isValidPassword(String email, String password) {
         // Create instance
         Argon2 argon2 = Argon2Factory.create();
 
@@ -52,7 +59,7 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
         char[] userPassword = password.toCharArray();
 
         try {
-            List<User> users = userRepo.me(username);
+            List<User> users = userRepo.findByEmail(email);
             if(users.size() == 0) return false;
             User user = users.get(0);
 

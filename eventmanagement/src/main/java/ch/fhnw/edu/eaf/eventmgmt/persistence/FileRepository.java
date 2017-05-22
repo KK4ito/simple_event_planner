@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,10 +29,11 @@ public class FileRepository {
     @PersistenceContext
     private EntityManager em;
 
-    @CrossOrigin
+    //@CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
+    @PreAuthorize("hasAuthority('REGISTERED')")
     public ResponseEntity<File> post(@RequestParam("file") MultipartFile file) {
         try {
             File f = new File(file.getOriginalFilename(), file.getBytes(), file.getContentType());

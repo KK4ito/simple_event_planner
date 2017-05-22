@@ -23,11 +23,13 @@ public class Pac4jConfig {
         final Config config = new Config(new Clients(cookieClient, directBasicAuthClient));
         config.addAuthorizer("custom", new SecureAuthorizer());
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{
-                new SecurePath("/api/login/", true),
-                new SecurePath("/api/users/search/me", true),
-                new SecurePath("/api/files/", false, true, true, true),
-                new SecurePath("/api/events/", false, true, true, true),
-                new SecurePath("/api/users/", false),
+                new SecurePath("/api/login/", true, false),
+                //new SecurePath("/api/users/search/me", true),
+                new SecurePath("/api/users/search/role", true),
+                new SecurePath("/api/users/search/attendees", false),
+                new SecurePath("/api/files/", false, true, true, true, true),
+                new SecurePath("/api/events/", false, true, true, true, true),
+                new SecurePath("/api/users/", true, true, true, true, true),
         }
         ));
 
