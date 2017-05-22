@@ -5,13 +5,8 @@ import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {HomePage} from "../home/home";
+import {TranslateService} from "@ngx-translate/core";
 
-/*
-  Generated class for the Login page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html'
@@ -23,26 +18,35 @@ export class ProfilePage {
 
   private user = new User();
 
-  constructor(public navCtrl: NavController,public authService:AuthService, public apiService:ApiService, private toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public authService: AuthService, public apiService: ApiService, private toastCtrl: ToastController, private translateService: TranslateService) {
     this.user = authService.getUser();
 
+    console.log(this.user);
     if(this.user == null) this.user = new User();
   }
 
-  login(){
+  /**
+   * Try to log the user in and redirect to the HomePage if successful, show toast if unsuccessful.
+   */
+  login() {
     this.authService.login(this.user).then((user) => {
       this.navCtrl.setRoot(HomePage);
     }).catch(() =>{
       this.user.password = "";
-      this.toastCtrl.create({
-        message: 'Login failed',
-        duration: 3000,
-        position: 'bottom'
-      }).present();
+      this.translateService.get('PROFILE.LOGIN_FAILED').subscribe(translated => {
+        this.toastCtrl.create({
+          message: translated,
+          duration: 3000,
+          position: 'bottom'
+        }).present();
+      });
     });
   }
 
-  logout(){
+  /**
+   * Log the user out
+   */
+  logout() {
     this.authService.logout();
     this.user = new User();
   }

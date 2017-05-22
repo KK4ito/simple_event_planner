@@ -12,6 +12,7 @@
   "PROFILE.EMAIL": "E-Mail",
   "PROFILE.PASSWORD": "Password",
   "PROFILE.LOGOUT": "Logout",
+  "PROFILE.LOGIN_FAILED": "Login failed",
   "PERMISSIONS.ADMINISTRATORS": "Administrators",
   "PERMISSIONS.ADMINISTRATOR_ADD": "Add administrator:",
   "PERMISSIONS.USER_UPDATED": "Changed user successfully.",
