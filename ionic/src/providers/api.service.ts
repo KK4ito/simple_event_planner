@@ -76,8 +76,8 @@ export class ApiService {
       this._authService
         .getMultiple('eventAttendees/search/attends', 'user=\/user\/' + userId + '&event=\/event\/' + eventId)
         .then((result: User[]) => {
-        if(result.length > 0) resolve(result[0]);
-        reject();
+          if(result.length > 0) resolve(result[0]);
+          reject();
         })
         .catch((err) => reject(err));
     });

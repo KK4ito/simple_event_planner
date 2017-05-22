@@ -4,18 +4,15 @@ import {User} from "../../models/User";
 import {ApiService} from "../../providers/api.service";
 import {UpdateUserPage} from "../update-user/update-user";
 
-/*
-  Generated class for the Users page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-users',
   templateUrl: 'users.html'
 })
 export class UsersPage {
 
+  /**
+   * Store the list of users
+   */
   users: User[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private apiService:ApiService, private modalCtrl: ModalController, private events:Events) {
@@ -25,11 +22,19 @@ export class UsersPage {
     this.refreshUsers();
   }
 
+  /**
+   * Load list of users from the server
+   */
   refreshUsers(){
     this.apiService.getUsers().then((data) => this.users = data);
   }
 
-  updateUser(user:User){
+  /**
+   * Update a user
+   *
+   * @param user
+   */
+  updateUser(user: User){
       this.modalCtrl.create(UpdateUserPage, {user: user}, {enableBackdropDismiss: false}).present();
   }
 

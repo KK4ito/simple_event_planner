@@ -12,6 +12,7 @@
   "PROFILE.EMAIL": "E-Mail",
   "PROFILE.PASSWORD": "Password",
   "PROFILE.LOGOUT": "Logout",
+  "PROFILE.LOGIN_FAILED": "Login failed",
   "PERMISSIONS.ADMINISTRATORS": "Administrators",
   "PERMISSIONS.ADMINISTRATOR_ADD": "Add administrator:",
   "PERMISSIONS.USER_UPDATED": "Changed user successfully.",
@@ -46,5 +47,7 @@
   "UPDATE_USER.CREATED": "created",
   "UPDATE_USER.UPDATED": "updated",
   "UPDATE_USER.DELETED": "deleted",
-  "UPDATE_USER.UNDO": "Undo"
+  "UPDATE_USER.UNDO": "Undo",
+  "UPDATE_USER.CONFIRM_DELETE": "Are you sure you want to delete this user?",
+  "UPDATE_USER.CANCEL": "Cancel"
 }

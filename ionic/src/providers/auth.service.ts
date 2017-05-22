@@ -19,25 +19,41 @@ export class AuthService {
     this.login().catch(() => console.log('The error above was expected (session has no logged in user), please ignore.'));
   }
 
+  /**
+   * Get the current user
+   *
+   * @returns {User}
+   */
   public getUser(): User {
     return this.user;
   }
 
-  public getRole():RoleType {
+  /**
+   * Get the role of the current user
+   *
+   * @returns {RoleType}
+   */
+  public getRole(): RoleType {
     if (this.user != null) {
       return this.user.role;
     }
     return RoleType.ANONYMOUS;
   }
 
+  /**
+   * Log the user in using Basic Auth
+   *
+   * @param user
+   * @returns {Promise<User>}
+   */
   public login(user:User = null): Promise<User> {
     let self = this;
-    var headers = new Headers();
+    let headers = new Headers();
     if(user){
       headers.append("Authorization", "Basic " + btoa(user.email + ':' + user.password));
     }
     return new Promise((resolve, reject) => {
-      var url = this.config.baseUrl +'/login/login';
+      let url = this.config.baseUrl +'/login/login';
       this.http.get(url, { withCredentials: true, headers: headers }).toPromise().then(data => {
           // wait until not uninit
           self.user = data.json();
@@ -50,7 +66,10 @@ export class AuthService {
     });
   }
 
-  public logout() {
+  /**
+   * Log the user out
+   */
+  logout() {
     console.log('cookie', document.cookie);
     this.http.get(this.config.baseUrl + '/login/logout', { withCredentials: true }).toPromise().then(() =>{
       this.user = null;
