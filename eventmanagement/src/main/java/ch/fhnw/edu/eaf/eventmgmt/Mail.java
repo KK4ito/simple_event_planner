@@ -6,6 +6,7 @@ import java.util.Map;
  * Created by lukasschonbachler on 13.05.17.
  */
 public class Mail {
+    public String token;
     public String from;
     public String to;
     public String cc;
