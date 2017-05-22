@@ -8,15 +8,15 @@
 <ion-content padding>
 
   <recipient [label]="'TO'" [(recipients)]="tos"></recipient>
-  <recipient [label]="'CC'" [(recipients)]="css"></recipient>
+  <recipient [label]="'CC'" [(recipients)]="ccs"></recipient>
 
   <ion-item>
     <ion-label fixed>Subject</ion-label>
-    <ion-input type="text" value=""></ion-input>
+    <ion-input [(ngModel)]="subject" type="text"></ion-input>
   </ion-item>
 
   <ion-label fixed>Message</ion-label>
-  <div class="tinymce">
+  <div #tinymceText class="tinymce">
     Hallo velo
 
     <br />

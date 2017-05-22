@@ -6,6 +6,7 @@ import {File} from "../models/File";
 import {EventAttendee} from "../models/EventAttendee";
 import {RoleType} from "../models/RoleType";
 import {EventAttendeeFlat} from "../models/EventAttendeeFlat";
+import {Mail} from "../models/Mail";
 
 @Injectable()
 export class ApiService {
@@ -88,5 +89,13 @@ export class ApiService {
   }
   createEventAttendee(eventAttendee: EventAttendee): Promise<EventAttendee> {
     return this._authService.post('eventAttendees', eventAttendee);
+  }
+
+  createInvitationEmail(mail: Mail): Promise<Mail> {
+    return this._authService.post('mail', mail);
+  }
+
+  getInvitationTemplate(): Promise<Mail> {
+    return this._authService.getSingle('template');
   }
 }

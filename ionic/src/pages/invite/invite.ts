@@ -1,5 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {ApiService} from "../../providers/api.service";
+import {Mail} from "../../models/Mail";
+import {Event} from "../../models/Event";
 declare var tinymce: any;
 
 /**
@@ -16,33 +19,53 @@ declare var tinymce: any;
 
 export class InvitePage {
 
-  public tos =['schoenbaechler.lukas@gmail.com'];
-  public css =['asdf@asdf.com'];
+  public tos = [];
+  public ccs = [];
+  public subject = '';
+  public event: Event;
+  public body: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  @ViewChild('tinymceText') tinymceText: ElementRef;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService) {
+    this.event = navParams.data.event;
   }
 
   ionViewDidLoad() {
+    this._apiService.getInvitationTemplate().then(template => {
+      if(template.to) {
+        this.tos = template.to.split(",");
+      }
+      if(template.cc) {
+        this.ccs = template.cc.split(",");
+      }
+      this.subject = template.subject;
 
-    tinymce.init({
-      skin_url: 'assets/skins/lightgray',
-      selector: 'div.tinymce',
-      theme: 'modern',
-      plugins: 'placeholder image table link paste contextmenu textpattern autolink',
-      placeholder_tokens: [
-        { token: "foo", title: "Foo example"}
-      ],
-      insert_toolbar: 'placeholder quickimage quicktable',
-      selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
-      inline: false,
-      paste_data_images: false,
+      this.tinymceText.nativeElement.innerHtml = template.body;
+
+      tinymce.init({
+        skin_url: 'assets/skins/lightgray',
+        selector: 'div.tinymce',
+        theme: 'modern',
+        plugins: 'placeholder image table link paste contextmenu textpattern autolink',
+        placeholder_tokens: [
+          { token: "foo", title: "Foo example"}
+        ],
+        insert_toolbar: 'placeholder quickimage quicktable',
+        selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+        inline: false,
+        paste_data_images: false,
+      });
     });
-
   }
 
   sendMail(){
-    alert('send');
+    var mail = new Mail();
+    mail.to = this.tos.join(",");
+    mail.cc = this.ccs.join(",");
+    mail.subject = this.subject;
+    // mail.body = this.body;
+    mail.eventId = this.event.id;
   }
 
 
