@@ -15,6 +15,7 @@ import {ProfilePage} from "../profile/profile";
 import {AuthService} from "../../providers/auth.service";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {InvitePage} from "../invite/invite";
+import {DetailPrintPage} from "../detail-print/detail-print";
 
 @Component({
   selector: 'page-detail',
@@ -40,7 +41,7 @@ export class DetailPage {
     'label': 'None'
   }];
 
-  private eventDuration: any = 0;
+  private eventDuration = 0;
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;
@@ -283,5 +284,11 @@ export class DetailPage {
         alert.present();
       }
     }
+  }
+
+  print() {
+    this.navCtrl.push(DetailPrintPage, {
+      id: this.navParams.get('id')
+    });
   }
 }

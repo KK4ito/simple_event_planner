@@ -13,6 +13,7 @@
 
   <div padding>
     <form [formGroup]="eventForm" (submit)="saveForm()" novalidate>
+
     <h1 *ngIf="!editMode">{{ event.name }}</h1>
     <ion-item *ngIf="editMode">
       <ion-label floating>{{'DETAIL.TITLE' | translate}}</ion-label>
@@ -137,6 +138,9 @@
       </button>
       <button ion-fab color="primary" (click)="sendInvite()">
         <ion-icon name="send"></ion-icon>
+      </button>
+      <button ion-fab color="primary" (click)="print()">
+        <ion-icon name="print"></ion-icon>
       </button>
     </ion-fab-list>
   </ion-fab>

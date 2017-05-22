@@ -4,6 +4,7 @@ import { HttpModule, Http, CookieXSRFStrategy, XSRFStrategy } from '@angular/htt
 
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
+import { DetailPrintPage } from '../pages/detail-print/detail-print';
 import { HomePage } from "../pages/home/home";
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -53,6 +54,7 @@ export const deepLinkConfig: any = {
     MyApp,
     HomePage,
     DetailPage,
+    DetailPrintPage,
     UsersPage,
     PermissionsPage,
     UpdateUserPage,
@@ -88,6 +90,7 @@ export const deepLinkConfig: any = {
     MyApp,
     HomePage,
     DetailPage,
+    DetailPrintPage,
     PermissionsPage,
     UpdateUserPage,
     UsersPage,
@@ -103,6 +106,6 @@ export const deepLinkConfig: any = {
     ApiService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: XSRFStrategy,  useValue: new CookieXSRFStrategy('csrftoken')}
-    ]
+  ]
 })
 export class AppModule {}
