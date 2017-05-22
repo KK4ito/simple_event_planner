@@ -77,7 +77,8 @@
 \end{titlepage}
 
 \begin{abstract}
-Das Ziel dieser Arbeit ist die Entwicklung eines Tools welches das Managen von IT-Kolloquien der FHNW erlaubt.
+Das vorliegende Projekt wurde im Rahmen des Moduls "wodss" der FHNW realisiert. Es wurde eine Plattform entwickelt, mit deren Hilfe auf einfache Art und Weise einerseits CS-Seminare und Anmeldungen zu den entsprechenden Anlässen verwaltet werden können.
+Die Lösung wurde mit Hilfe von Angular2 im Frontend und SpringBoot im Backend realisiert. Architektonisch basiert das Projekt auf der Serverseite auf so genannten Microservices.
 \end{abstract}
 
 \newpage
@@ -102,6 +103,15 @@ Das Ziel dieser Arbeit ist die Entwicklung eines Tools welches das Managen von I
 \section{Architektur}
 Unsere Implementation des "Event-Planners" wird als Microservices realisiert. Wir verwenden dazu "Eureka", eine Library entwickelt von Netflix https://github.com/netflix/eureka.  Die Applikation lässt sich in fünf Microservices unterteilen, welche im nachfolgenden Abschnitt genauer beschrieben werden. Die Microservices kommunizieren per REST untereinander.
 
+\subsection{Schichtenarchitektur}
+\subsubsection{Webschicht}
+Wahrgenommen durch RepositoryRestController
+
+\subsubsection{Businesschicht}
+Wahrgenommen durch RepositoryRestController
+
+\subsubsection{Datenbankschicht}
+Siehe unterkapitel Datenbank
 
 \subsection{Microservices}
 \subsubsection{Registry}
