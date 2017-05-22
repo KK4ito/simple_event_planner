@@ -12,18 +12,29 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class UpdateUserPage {
 
-  public user = new User();
+  /**
+   * Store the current user
+   */
+  user = new User();
+
+  /**
+   * The old user info
+   */
   oldUser: User;
 
+  /**
+   * Store the form control
+   */
   userForm: FormGroup;
 
   constructor(private params: NavParams, private viewCtrl: ViewController,private apiService:ApiService, private toastCtrl:ToastController, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController, public formBuilder: FormBuilder) {
     let user = params.get('user');
-    if(user){
+    if(user) {
       this.user = user;
       this.oldUser = Object.assign({}, this.user);
     }
 
+    // define the form and set up validators
     this.userForm = formBuilder.group({
       firstName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
       lastName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
@@ -32,10 +43,18 @@ export class UpdateUserPage {
     });
   }
 
+  /**
+   * Dismiss/Close the current page
+   */
   dismiss() {
     this.viewCtrl.dismiss();
   }
 
+  /**
+   * Save the current user by sending it to the API
+   * @param user
+   * @param showToast
+   */
   save(user: User, showToast = true) {
     Object.assign(user, this.userForm.value);
     console.log(user);
@@ -76,36 +95,47 @@ export class UpdateUserPage {
     }
   }
 
-  delete(){
-    let alert = this.alertCtrl.create({
-      message: 'Are you sure you want to delete this user?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.apiService.deleteUser(this.user.id).then(() =>{
-              this.translateService.get(['UPDATE_USER.DELETED']).subscribe(translated => {
-                this.toastCtrl.create({
-                  message: this.user.firstName + ' ' + this.user.lastName + ' ' + translated['UPDATE_USER.DELETED'],
-                  duration: 5000,
-                  position: 'bottom right'
-                }).present();
+  /**
+   * Delete the current user from the database
+   */
+  delete() {
+    this.translateService.get(['UPDATE_USER.CONFIRM_DELETE', 'UPDATE_USER.CANCEL', 'UPDATE_USER.DELETE']).subscribe(translated => {
+
+      let alert = this.alertCtrl.create({
+        message: translated[0],
+        buttons: [
+          {
+            text: translated[1],
+            role: 'cancel'
+          },
+          {
+            text: translated[2],
+            handler: () => {
+              this.apiService.deleteUser(this.user.id).then(() => {
+                this.translateService.get(['UPDATE_USER.DELETED']).subscribe(translated => {
+                  this.toastCtrl.create({
+                    message: this.user.firstName + ' ' + this.user.lastName + ' ' + translated['UPDATE_USER.DELETED'],
+                    duration: 5000,
+                    position: 'bottom right'
+                  }).present();
+                });
+                this.dismiss();
+                this.events.publish('users:changed');
               });
-              this.dismiss();
-              this.events.publish('users:changed');
-            });
+            }
           }
-        }
-      ]
+        ]
+      });
+      alert.present();
     });
-    alert.present();
   }
 
-  avatarUpdated(file:File){
+  /**
+   * Update avatar
+   *
+   * @param file
+   */
+  avatarUpdated(file: File) {
     this.user.image = file.uri;
   }
 }
