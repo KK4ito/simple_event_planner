@@ -55,9 +55,10 @@ public class MailerController {
     @Value("${microservices.mailer.basePath}")
     private String mailerBasePath;
 
-    @RequestMapping(value="/mail", method= RequestMethod.POST)
-    public ResponseEntity<String> sendInvitation(@RequestBody long eventId) {
+    @RequestMapping(value="/api/mail", method= RequestMethod.POST)
+    public ResponseEntity<Void> sendInvitation(@RequestBody Mail mail) {
 
+        long eventId = mail.eventId;
 
         List<EventAttendee> eventAttendees = eventAttendeeRepository.findAllByEventId(eventId);
         Event event = eventRepository.findOne(eventId);
@@ -65,20 +66,24 @@ public class MailerController {
         Map<String, String> params = MailHelper.getParamsForInvitation(event, eventAttendees);
 
         String url = "http://" + microservicesMailer + "/" + mailerBasePath + "/send";
-        Mail mail = new Mail();
-        mail.from = invitationFrom;
-        mail.to = invitationTo;
-        mail.cc = invitationCc;
-        mail.subject = invitationSubject;
-        mail.body = invitationText;
-        mail.parameters = params;
+        Mail generatedMail = new Mail();
+        generatedMail.from = invitationFrom;
+        generatedMail.to = invitationTo;
+        generatedMail.cc = invitationCc;
+        generatedMail.subject = invitationSubject;
+        generatedMail.body = invitationText;
+        generatedMail.parameters = params;
 
-        String result = restTemplate.postForObject(url, mail, String.class);
+        ResponseEntity result = restTemplate.postForObject(url, generatedMail, ResponseEntity.class);
 
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
+        if(result.getStatusCode() == HttpStatus.OK) {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Void>(result.getStatusCode());
+        }
     }
 
-    @RequestMapping(value="/template", method = RequestMethod.GET)
+    @RequestMapping(value="/api/template", method = RequestMethod.GET)
     public ResponseEntity<Mail> getTemplate() {
 
         List<User> external = userRepository.externalOptIn();

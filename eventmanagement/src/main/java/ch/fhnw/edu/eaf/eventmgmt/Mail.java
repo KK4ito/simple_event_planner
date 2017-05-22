@@ -11,5 +11,6 @@ public class Mail {
     public String cc;
     public String subject;
     public String body;
+    public long eventId;
     Map<String, String> parameters;
 }

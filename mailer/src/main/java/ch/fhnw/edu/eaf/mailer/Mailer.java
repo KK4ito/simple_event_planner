@@ -37,7 +37,7 @@ public class Mailer {
      * @return
      */
     @CrossOrigin
-    @RequestMapping(value = "${spring.data.rest.basePath}/send/{type:.+}", method = RequestMethod.POST)
+    @RequestMapping(value = "${spring.data.rest.basePath}/send", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Void> post(@RequestBody() Mail mail) {
         try {
