@@ -41,8 +41,6 @@ export class InvitePage {
       }
       this.subject = template.subject;
 
-      this.tinymceText.nativeElement.innerHtml = template.body;
-
       tinymce.init({
         skin_url: 'assets/skins/lightgray',
         selector: 'div.tinymce',
@@ -56,11 +54,13 @@ export class InvitePage {
         inline: false,
         paste_data_images: false,
       });
+
+      tinymce.activeEditor.setContent(template.body, {format: 'raw'});
     });
   }
 
   sendMail(){
-    var mail = new Mail();
+    let mail = new Mail();
     mail.to = this.tos.join(",");
     mail.cc = this.ccs.join(",");
     mail.subject = this.subject;
