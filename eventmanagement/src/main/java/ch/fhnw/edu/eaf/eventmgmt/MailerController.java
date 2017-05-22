@@ -23,6 +23,9 @@ import java.util.Map;
 public class MailerController {
 
     @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
     private EventAttendeeRepository eventAttendeeRepository;
 
     @Autowired
@@ -46,6 +49,12 @@ public class MailerController {
     @Value("${mail.invitation.text}")
     private String invitationText;
 
+    @Value("${microservices.mailer}")
+    private String microservicesMailer;
+
+    @Value("${microservices.mailer.basePath}")
+    private String mailerBasePath;
+
     @RequestMapping(value="/mail", method= RequestMethod.POST)
     public ResponseEntity<String> sendInvitation(@RequestBody long eventId) {
 
@@ -55,7 +64,7 @@ public class MailerController {
 
         Map<String, String> params = MailHelper.getParamsForInvitation(event, eventAttendees);
 
-        String url = "";
+        String url = "http://" + microservicesMailer + "/" + mailerBasePath + "/send";
         Mail mail = new Mail();
         mail.from = invitationFrom;
         mail.to = invitationTo;
@@ -64,7 +73,7 @@ public class MailerController {
         mail.body = invitationText;
         mail.parameters = params;
 
-        String result = new RestTemplate().postForObject(url, mail, String.class);
+        String result = restTemplate.postForObject(url, mail, String.class);
 
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }

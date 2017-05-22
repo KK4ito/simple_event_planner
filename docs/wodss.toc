@@ -4,16 +4,20 @@
 \contentsline {subsection}{\numberline {1.3}Detailansicht}{6}{subsection.1.3}
 \contentsline {subsection}{\numberline {1.4}Einschreiben}{6}{subsection.1.4}
 \contentsline {section}{\numberline {2}Architektur}{7}{section.2}
-\contentsline {subsection}{\numberline {2.1}Microservices}{7}{subsection.2.1}
-\contentsline {subsubsection}{\numberline {2.1.1}Registry}{7}{subsubsection.2.1.1}
-\contentsline {subsubsection}{\numberline {2.1.2}Eventmanagement}{7}{subsubsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.3}Frontend}{7}{subsubsection.2.1.3}
-\contentsline {subsubsection}{\numberline {2.1.4}Mailer}{7}{subsubsection.2.1.4}
-\contentsline {subsubsection}{\numberline {2.1.5}Scheduler}{7}{subsubsection.2.1.5}
-\contentsline {subsection}{\numberline {2.2}Datenbank}{8}{subsection.2.2}
-\contentsline {section}{\numberline {3}Technology}{9}{section.3}
-\contentsline {subsection}{\numberline {3.1}Frontend}{9}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Backend}{9}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Autentifizierung und Autorisierung}{9}{subsubsection.3.2.1}
-\contentsline {section}{\numberline {4}Design-Entscheide}{10}{section.4}
-\contentsline {section}{Appendices}{11}{section*.2}
+\contentsline {subsection}{\numberline {2.1}Schichtenarchitektur}{7}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Webschicht}{7}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Businesschicht}{7}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Datenbankschicht}{7}{subsubsection.2.1.3}
+\contentsline {subsection}{\numberline {2.2}Microservices}{7}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Registry}{7}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Eventmanagement}{7}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Frontend}{7}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}Mailer}{8}{subsubsection.2.2.4}
+\contentsline {subsubsection}{\numberline {2.2.5}Scheduler}{8}{subsubsection.2.2.5}
+\contentsline {subsection}{\numberline {2.3}Datenbank}{9}{subsection.2.3}
+\contentsline {section}{\numberline {3}Technology}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Frontend}{10}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Backend}{10}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Autentifizierung und Autorisierung}{10}{subsubsection.3.2.1}
+\contentsline {section}{\numberline {4}Design-Entscheide}{11}{section.4}
+\contentsline {section}{Appendices}{12}{section*.2}
