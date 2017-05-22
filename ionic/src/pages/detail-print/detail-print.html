@@ -13,5 +13,54 @@
 
 
 <ion-content padding>
+  <table width="100%">
+    <tr style="border-bottom: solid 1px grey">
+      <td>Title</td>
+      <td>{{ event?.name }}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Location</td>
+      <td>{{ event?.location }}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Start</td>
+      <td>{{ event?.startTime | date: 'dd.MM.yy H:mm' }}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Attendees</td>
+      <td>{{ externalAttendees.length + internalAttendees.length }}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Drinks</td>
+      <td>{{nofDrinks}}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Sandwich, Vegi</td>
+      <td>{{nofVegi}}</td>
+    </tr>
+    <tr style="border-bottom: solid 1px grey">
+      <td>Sandwich, Meat</td>
+      <td>{{nofMeat}}</td>
+    </tr>
+  </table>
 
+  <br />External ({{ externalAttendees.length }})<br /><br />
+  <table *ngIf="externalAttendees.length > 0" width="100%">
+    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>Sandwich</b></td></thead>
+    <tr *ngFor="let a of externalAttendees">
+      <td>{{a.firstName}} {{a.lastName}}</td>
+      <td>{{a.drink ? 'YES' : ''}}</td>
+      <td>{{a.foodType}}</td>
+    </tr>
+  </table>
+
+  <br />Internal ({{ internalAttendees.length }})<br />
+  <table *ngIf="internalAttendees.length > 0" width="100%">
+    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>Sandwich</b></td></thead>
+    <tr *ngFor="let a of internalAttendees">
+      <td>{{a.firstName}} {{a.lastName}}</td>
+      <td>{{a.drink ? 'YES' : ''}}</td>
+      <td>{{a.foodType}}</td>
+    </tr>
+  </table>
 </ion-content>

@@ -21,14 +21,13 @@ export class HomePage {
     this._apiService.getEvents().then(data => this.events = data).catch((reason) => console.log(reason));
   }
 
+  /**
+   * Open page on click
+   * @param id
+   */
   openEvent(id: number) {
     this.navCtrl.push(DetailPage, {
       id: id
     })
   }
-
-  openDialog(ev) {
-    ev.stopPropagation();
-  }
-
 }

@@ -4,6 +4,6 @@ export class EventAttendeeFlat {
 		firstName: string;
 		lastName:string;
 		internal:boolean;
-    foodType: string;
+    foodType: FoodType;
     drink:boolean;
 }
