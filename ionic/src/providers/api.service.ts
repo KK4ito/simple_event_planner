@@ -5,6 +5,7 @@ import {User} from "../models/User";
 import {File} from "../models/File";
 import {EventAttendee} from "../models/EventAttendee";
 import {RoleType} from "../models/RoleType";
+import {EventAttendeeFlat} from "../models/EventAttendeeFlat";
 
 @Injectable()
 export class ApiService {
@@ -30,6 +31,10 @@ export class ApiService {
 
   getAttendees(eventId: number): Promise<User[]> {
     return this._authService.getMultiple('users/search/attendees', 'event=' + eventId);
+  }
+
+  getPrint(eventId: number): Promise<EventAttendeeFlat[]> {
+    return this._authService.getMultiple('print/' + eventId);
   }
 
   getUsersByRole(roleType: RoleType): Promise<User[]> {

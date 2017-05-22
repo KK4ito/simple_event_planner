@@ -66,4 +66,15 @@ public class EventAttendee implements Serializable{
     @NotNull
     private FoodType foodType;
 
+    public boolean isDrink() {
+        return drink;
+    }
+
+    public void setDrink(boolean drink) {
+        this.drink = drink;
+    }
+
+    private boolean drink;
+
+
 }

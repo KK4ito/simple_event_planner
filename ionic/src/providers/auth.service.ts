@@ -71,8 +71,13 @@ export class AuthService {
       this.http.get(url, { withCredentials: true })
         .subscribe(data => {
           // wait until not uninit
-          var obj = data.json()._embedded;
-          resolve(obj[Object.keys(obj)[0]]);
+          var json = data.json();
+          if(json.hasOwnProperty('_embedded')){
+            var obj = json._embedded;
+            resolve(obj[Object.keys(obj)[0]]);
+          }else{
+            resolve(json);
+          }
         }, error => {
           reject(error);
         });

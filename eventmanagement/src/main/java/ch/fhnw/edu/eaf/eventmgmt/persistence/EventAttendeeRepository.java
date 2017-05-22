@@ -2,6 +2,7 @@ package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
 import ch.fhnw.edu.eaf.eventmgmt.domain.EventAttendee;
+import ch.fhnw.edu.eaf.eventmgmt.domain.EventAttendeeFlat;
 import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
