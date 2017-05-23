@@ -107,7 +107,7 @@ export class DetailPage {
     console.log(this.eventForm.value);
   }
 
-  public download(url: string) {
+  download(url: string) {
     window.location.href = environment.baseUrl + url;
   }
 
@@ -151,6 +151,9 @@ export class DetailPage {
     }).present();
   }
 
+  /**
+   * Show the invite modal to send out invites
+   */
   sendInvite() {
     this.modalCtrl.create(InvitePage, { event: this.event }).present();
   }
@@ -239,6 +242,7 @@ export class DetailPage {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
       if (!this.attends) {
+        console.log(this.eventAttendee);
         this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
           this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
           this.eventAttendee = undefined;
@@ -268,13 +272,15 @@ export class DetailPage {
         alert.addButton({
           text: 'Ok',
           handler: data => {
-            var eventAttendee = new EventAttendee();
+            let eventAttendee = new EventAttendee();
             eventAttendee.event = '/event/' + this.event.id;
             // TODO use logged in user id
-            eventAttendee.user = '/user/' + 1;
+            let user = this.authService.getUser();
+            eventAttendee.user = '/user/' + user.id;
             eventAttendee.foodType = data;
             this._apiService.createEventAttendee(eventAttendee).then((result) => {
               this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
+              console.log('result', result);
               this.eventAttendee = result;
               this.attends = true;
               this.attendsLocked = false;
@@ -286,6 +292,9 @@ export class DetailPage {
     }
   }
 
+  /**
+   * Open print page
+   */
   print() {
     this.navCtrl.push(DetailPrintPage, {
       id: this.navParams.get('id')
