@@ -32,7 +32,7 @@ public class SimpleCorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, Content-Type, *");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, Content-Type, x-xsrf-token");
 
 
         System.out.println("SimpleCorsFilter method " + request.getMethod());

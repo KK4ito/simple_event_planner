@@ -9,7 +9,7 @@ import java.util.*;
 
 public class MailHelper {
 
-    public static Map<String, String> getParamsForInvitation(Event event, List<EventAttendee> eventAttendees){
+    public static Map<String, String> getParamsForInvitation(Event event){
 
         //Set various date formats
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");

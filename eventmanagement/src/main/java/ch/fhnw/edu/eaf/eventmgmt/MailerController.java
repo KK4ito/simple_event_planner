@@ -63,7 +63,7 @@ public class MailerController {
         List<EventAttendee> eventAttendees = eventAttendeeRepository.findAllByEventId(eventId);
         Event event = eventRepository.findOne(eventId);
 
-        Map<String, String> params = MailHelper.getParamsForInvitation(event, eventAttendees);
+        Map<String, String> params = MailHelper.getParamsForInvitation(event);
 
         String url = "http://" + microservicesMailer + "/" + mailerBasePath + "/send";
         Mail generatedMail = new Mail();
