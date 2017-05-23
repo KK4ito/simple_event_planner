@@ -146,6 +146,29 @@ export class AuthService {
   }
 
   /**
+   * Patches an object to an endpoint with all the required headers set automatically
+   *
+   * @param endpoint
+   * @param object
+   * @returns {Promise<T>|Promise}
+   */
+  patch(endpoint, object): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.patch(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
+        .subscribe(data => {
+          try { // TODO: Is there a better way to do this?
+            resolve(data.json());
+          } catch (e) {
+            resolve();
+          }
+        }, error => {
+          reject(error);
+        });
+
+    });
+  }
+
+  /**
    * Posts an object to an endpoint with all the required headers set automatically
    *
    * @param endpoint

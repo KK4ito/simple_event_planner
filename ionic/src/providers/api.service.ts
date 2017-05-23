@@ -60,6 +60,10 @@ export class ApiService {
     return this._authService.put('users/' + user.id, user);
   }
 
+  updateUserPartial(id:number, user: any): Promise<User> {
+    return this._authService.patch('users/' + id, user);
+  }
+
   deleteUser(id: number): Promise<User> {
     return this._authService.delete('users/' + id);
   }

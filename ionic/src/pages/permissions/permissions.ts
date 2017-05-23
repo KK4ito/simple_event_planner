@@ -35,7 +35,8 @@ export class PermissionsPage {
   }
 
   updateUser(user:User, showUndo = true){
-    this.apiService.updateUser(user).then(() =>{
+    console.log('user', user);
+    this.apiService.updateUserPartial(user.id, {role: user.role}).then(() =>{
     this.refreshUsers();
     this.translate.get(['PERMISSIONS.USER_UPDATED', 'PERMISSIONS.USER_UPDATED_UNDO']).subscribe(str => {
       let toast = this.toastCtrl.create({
