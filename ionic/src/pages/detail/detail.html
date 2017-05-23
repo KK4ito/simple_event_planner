@@ -38,7 +38,7 @@
       <h2>{{'DETAIL.CLOSING_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="closingTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
+                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
@@ -46,7 +46,7 @@
       <h2>{{'DETAIL.START_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="startTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
+                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
@@ -54,7 +54,7 @@
       <h2>{{'DETAIL.END_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
+                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
@@ -62,7 +62,7 @@
       <h2>{{'DETAIL.DURATION' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
       <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" item-right></md2-datepicker>
+                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
     </form>
