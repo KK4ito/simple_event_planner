@@ -16,7 +16,7 @@ public class EventAttendee implements Serializable{
 
     public enum FoodType {
         VEGI,
-        NORMAL,
+        MEAT,
         NONE
     }
 

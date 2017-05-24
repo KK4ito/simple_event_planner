@@ -37,7 +37,7 @@ export class DetailPrintPage {
       res.forEach(e => {
         if (e.drink) this.nofDrinks++;
         if (e.foodType === FoodType.VEGI) this.nofVegi++;
-        if (e.foodType === FoodType.NORMAL) this.nofMeat++;
+        if (e.foodType === FoodType.MEAT) this.nofMeat++;
       });
     });
   }

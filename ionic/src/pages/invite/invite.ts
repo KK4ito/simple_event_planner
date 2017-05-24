@@ -1,16 +1,9 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {Mail} from "../../models/Mail";
 import {Event} from "../../models/Event";
 declare var tinymce: any;
-
-/**
- * Generated class for the InvitePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-invite',
@@ -27,7 +20,7 @@ export class InvitePage {
 
   @ViewChild('tinymceText') tinymceText: ElementRef;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService, private viewCtrl: ViewController) {
     this.event = navParams.data.event;
   }
 
@@ -68,5 +61,7 @@ export class InvitePage {
     mail.eventId = this.event.id;
   }
 
-
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
 }
