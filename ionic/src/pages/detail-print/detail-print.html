@@ -53,7 +53,7 @@
     <tr *ngFor="let a of externalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
       <td>{{a.drink ? 'YES' : ''}}</td>
-      <td>{{a.foodType}}</td>
+      <td>{{a.foodType === 'NONE' ? '' : a.foodType}}</td>
     </tr>
   </table>
 
