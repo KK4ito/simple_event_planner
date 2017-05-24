@@ -61,8 +61,6 @@
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>{{'DETAIL.DURATION' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
-      <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
     </form>
