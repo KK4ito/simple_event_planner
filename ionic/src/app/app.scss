@@ -19,6 +19,12 @@ ion-menu {
   max-width: 300px !important;
 }
 
+@media print {
+  ion-menu {
+    display: none !important;
+  }
+}
+
 /* latin */
 @font-face {
   font-family: 'Raleway';

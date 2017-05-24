@@ -25,17 +25,19 @@
         {{ 'PROFILE.LOGIN' | translate }}
       </ion-card-title>
 
-      <ion-item>
-        <h2>{{ 'PROFILE.EMAIL' | translate }}</h2>
-        <ion-input item-right placeholder="{{ 'PROFILE.EMAIL' | translate }}" [(ngModel)]="user.email"></ion-input>
-      </ion-item>
+      <form (ngSubmit)="login()">
+        <ion-item>
+          <h2>{{ 'PROFILE.EMAIL' | translate }}</h2>
+          <ion-input item-right placeholder="{{ 'PROFILE.EMAIL' | translate }}" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
-        <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="user.password"></ion-input>
-      </ion-item>
+        <ion-item>
+          <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
+          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
 
         <button ion-button (click)="login()">Login</button>
+      </form>
 
     </ion-card-content>
   </ion-card>

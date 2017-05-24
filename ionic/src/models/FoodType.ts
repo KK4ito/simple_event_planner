@@ -2,6 +2,6 @@
 export class FoodType
 {
   static VEGI = "VEGI";
-  static NORMAL = "NORMAL";
+  static MEAT = "MEAT";
   static NONE = "NONE";
 }

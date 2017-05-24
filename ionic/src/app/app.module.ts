@@ -27,6 +27,7 @@ import {UpdateUserPage} from "../pages/update-user/update-user";
 import {PictureUploadComponent} from "../components/picture-upload/picture-upload";
 import {Autoresize} from "../components/autoresize/autoresize";
 import {ProfilePage} from "../pages/profile/profile";
+import {SelectFoodPage} from "../pages/select-food/select-food";
 
 import { Md2DatepickerModule }  from '../../node_modules/md2/datepicker/index';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -61,6 +62,7 @@ export const deepLinkConfig: any = {
     ProfilePage,
     InvitePage,
     DurationPipe,
+    SelectFoodPage,
     ImageUri,
     ProgressBarComponent,
     FileuploadComponent,
@@ -96,6 +98,7 @@ export const deepLinkConfig: any = {
     UsersPage,
     ProfilePage,
     InvitePage,
+    SelectFoodPage,
     ProgressBarComponent,
     FileuploadComponent,
     SelectUserComponent,

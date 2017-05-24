@@ -16,6 +16,7 @@ import {AuthService} from "../../providers/auth.service";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {InvitePage} from "../invite/invite";
 import {DetailPrintPage} from "../detail-print/detail-print";
+import {SelectFoodPage} from "../select-food/select-food";
 
 @Component({
   selector: 'page-detail',
@@ -36,10 +37,6 @@ export class DetailPage {
   private attendsLocked = true;
   private attends = false;
   private eventAttendee:EventAttendee;
-  private menus = [{'value': 'VEGI', 'label': 'Vegi'}, {'value': 'NORMAL', 'label': 'Normal'}, {
-    'value': 'NONE',
-    'label': 'None'
-  }];
 
   private eventDuration = 0;
 
@@ -250,44 +247,26 @@ export class DetailPage {
           this.attendsLocked = false;
         }).catch(()=> this.attendsLocked = false);
       } else {
-        let alert = this.alertCtrl.create({
-          title: 'Select your menu',
-          enableBackdropDismiss: false
+        let modal = this.modalCtrl.create(SelectFoodPage);
+        modal.onDidDismiss((data) => {
+          console.log(data);
+
+          let eventAttendee = new EventAttendee();
+          eventAttendee.event = '/event/' + this.event.id;
+          let user = this.authService.getUser();
+          eventAttendee.user = '/user/' + user.id;
+          eventAttendee.foodType = data.selectedFood;
+          eventAttendee.drink = data.drink;
+          this._apiService.createEventAttendee(eventAttendee).then((result) => {
+            this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
+            console.log('result', result);
+            this.eventAttendee = result;
+            this.attends = true;
+            this.attendsLocked = false;
+          }).catch(() => this.attendsLocked = false);
+
         });
-        for (var i = 0; i < this.menus.length; i++) {
-          alert.addInput(<AlertInputOptions>{
-            type: 'radio',
-            value: this.menus[i].value,
-            label: this.menus[i].label,
-            checked: false
-          });
-        }
-        alert.addButton({
-          text: 'Cancel',
-          handler: () => {
-            this.attends = false;
-            setTimeout(() => this.attendsLocked = false, 1000);
-          }
-        });
-        alert.addButton({
-          text: 'Ok',
-          handler: data => {
-            let eventAttendee = new EventAttendee();
-            eventAttendee.event = '/event/' + this.event.id;
-            // TODO use logged in user id
-            let user = this.authService.getUser();
-            eventAttendee.user = '/user/' + user.id;
-            eventAttendee.foodType = data;
-            this._apiService.createEventAttendee(eventAttendee).then((result) => {
-              this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
-              console.log('result', result);
-              this.eventAttendee = result;
-              this.attends = true;
-              this.attendsLocked = false;
-            }).catch(() => this.attendsLocked = false);
-          }
-        });
-        alert.present();
+        modal.present();
       }
     }
   }
