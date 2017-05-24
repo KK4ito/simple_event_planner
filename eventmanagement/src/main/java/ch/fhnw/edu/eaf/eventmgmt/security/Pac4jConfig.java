@@ -3,6 +3,7 @@ package ch.fhnw.edu.eaf.eventmgmt.security;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
+import org.pac4j.core.matching.ExcludedPathMatcher;
 import org.pac4j.http.client.direct.CookieClient;
 import org.pac4j.http.client.direct.DirectBasicAuthClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class Pac4jConfig {
                 new SecurePath("/api/users/", true, true, true, true, true, true),
         }
         ));
+        config.addMatcher("excludedPath", new ExcludedPathMatcher("^/api/login/(/.*)?$"));
 
         return config;
     }
