@@ -7,6 +7,7 @@ import org.pac4j.core.matching.ExcludedPathMatcher;
 import org.pac4j.http.client.direct.CookieClient;
 import org.pac4j.http.client.direct.DirectBasicAuthClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,10 +18,16 @@ public class Pac4jConfig {
     @Autowired
     private UserRepository userRepo;
 
+    @Value("${microservices.service.user}")
+    private String serviceUser;
+
+    @Value("${microservices.service.password}")
+    private String servicePassword;
+
     @Bean
     public Config Config() {
         final CookieClient cookieClient = new CookieClient("JSESSIONID", new CookieAuthenticator());
-        final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new BasicAuthAuthenticator(this.userRepo));
+        final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new BasicAuthAuthenticator(this.userRepo, this.serviceUser, this.servicePassword));
         final Config config = new Config(new Clients(cookieClient, directBasicAuthClient));
         config.addAuthorizer("custom", new SecureAuthorizer());
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{

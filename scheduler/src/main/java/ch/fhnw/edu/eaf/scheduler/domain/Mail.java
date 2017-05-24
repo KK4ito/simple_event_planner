@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.mailer;
+package ch.fhnw.edu.eaf.scheduler.domain;
 
 import java.util.Map;
 
@@ -15,5 +15,5 @@ public class Mail {
     public long eventId;
     public String[] keys;
     public String[] values;
-    Map<String, String> parameters;
+    public Map<String, String> parameters;
 }

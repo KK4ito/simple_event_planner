@@ -1,5 +1,6 @@
 package ch.fhnw.edu.eaf.mailer;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class Mailer {
 
     static final long ONE_MINUTE_IN_MILLISECONDS=60000;
 
+    @Value("${mailer.from}")
+    private String from;
+
+    @Value("${mailer.replyTo}")
+    private String replyTo;
+
     @Value("${mailer.token}")
     private String token;
 
@@ -39,15 +46,19 @@ public class Mailer {
     @CrossOrigin
     @RequestMapping(value = "${spring.data.rest.basePath}/send", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Void> post(@RequestBody() Mail mail) {
-        try {
-            this.sendMail(mail.to, mail.cc, mail.subject, this.prepareText(mail.body, mail.parameters));
-            log.info(this.getClass().getName(), "Sending mail successfull");
-        } catch (MessagingException e) {
-            log.error(this.getClass().getName(), "Sending mail failed", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    public ResponseEntity<AnswerWrapper> post(@RequestBody() Mail mail) {
+        if(!mail.token.equals(token)) {
+            return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("Not_Acceptable"), HttpStatus.NOT_ACCEPTABLE);
+        } else {
+            try {
+                this.sendMail(mail.to, mail.cc, mail.subject, this.prepareText(mail.body, mail.keys, mail.values));
+                log.info(this.getClass().getName(), "Sending mail successfull");
+            } catch (MessagingException e) {
+                log.error(this.getClass().getName(), "Sending mail failed", e);
+                return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("Internal_Server_Error"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("OK"), HttpStatus.OK);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     /**
@@ -64,30 +75,38 @@ public class Mailer {
         MimeMessage mail = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-            helper.setTo(recipients);
-            //Todo: Add check if stuff is set or not
-//            helper.setReplyTo("");
-//            helper.setFrom("");
+            if(recipients.length() > 0) {
+                for(String singleTo: recipients.split(",")) {
+                    helper.addTo(singleTo);
+                }
+            }
+            helper.setReplyTo(replyTo);
+            helper.setFrom(from);
             helper.setSubject(subject);
-//            helper.setCc(cc);
+            if(cc.length() > 0) {
+                for(String singleCc: cc.split(",")) {
+                    helper.addCc(singleCc);
+                }
+            }
             helper.setText(message);
+            javaMailSender.send(mail);
         } catch(MessagingException e) {
+            System.out.println(recipients);
+            System.out.println(cc);
+            System.out.println(subject);
             e.printStackTrace();
         }
-        javaMailSender.send(mail);
     }
 
 
-    public String prepareText(String body, Map<String, String> parameters){
+    public String prepareText(String body, String[] keys, String[] values){
         ST template = new ST(body);
 
-        Iterator it = parameters.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
-            if(Boolean.getBoolean(entry.getValue().toString())) {
-                template.add(entry.getKey().toString(), Boolean.parseBoolean(entry.getValue().toString()));
+        for(int i = 0; i<keys.length; i++) {
+            if(Boolean.getBoolean(values[i])) {
+                template.add(keys[i], Boolean.getBoolean(values[i]));
             } else {
-                template.add(entry.getKey().toString(), entry.getValue().toString());
+                template.add(keys[i], values[i]);
             }
         }
 

@@ -1,6 +1,6 @@
 import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
 import {
-  NavController, NavParams, AlertController, ToastController, AlertInputOptions,
+  NavController, NavParams, AlertController, ToastController,
   ModalController, FabContainer
 } from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";

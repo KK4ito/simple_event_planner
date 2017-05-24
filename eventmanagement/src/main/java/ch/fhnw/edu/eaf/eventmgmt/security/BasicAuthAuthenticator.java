@@ -22,14 +22,13 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
     private final UserRepository userRepo;
     private final static Logger logger = LoggerFactory.getLogger(BasicAuthAuthenticator.class);
 
-    @Value("${microservices.service.user}")
-    private String serviceUser;
+    private final String serviceUser;
+    private final String servicePassword;
 
-    @Value("${microservices.service.user}")
-    private String servicePassword;
-
-    BasicAuthAuthenticator(UserRepository userRepo){
+    BasicAuthAuthenticator(UserRepository userRepo, String servicesUser, String servicePassword){
         this.userRepo = userRepo;
+        this.serviceUser = servicesUser;
+        this.servicePassword = servicePassword;
     }
 
     @Override
@@ -44,6 +43,8 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
                 profile.addAttribute(Pac4jConstants.USERNAME, serviceUser);
                 profile.addRole("REGISTERED");
                 profile.addRole("ADMINISTRATOR");
+                profile.addRole("SERVICE");
+                logger.debug(email + " received role REGISTERED");
             }else if (!CommonHelper.isBlank(email) &&  !CommonHelper.isBlank(password) && isValidPassword(email, password)) {
                 profile.addAttribute(Pac4jConstants.USERNAME, email);
                 List<User> users = userRepo.findByEmail(email);

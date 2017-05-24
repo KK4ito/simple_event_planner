@@ -13,5 +13,7 @@ public class Mail {
     public String subject;
     public String body;
     public long eventId;
+    public String[] keys;
+    public String[] values;
     Map<String, String> parameters;
 }
