@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT u FROM User AS u WHERE u.optOut = false AND u.internal = true")
     public List<User> externalOptIn();
 
-    //@PreAuthorize("hasAuthority('ADMINISTRATOR')")
+    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     @Override
     public User save(User u);
 

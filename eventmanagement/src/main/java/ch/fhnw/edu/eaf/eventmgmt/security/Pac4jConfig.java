@@ -33,7 +33,7 @@ public class Pac4jConfig {
                 new SecurePath("/api/users/", true, true, true, true, true, true),
         }
         ));
-        config.addMatcher("excludedPath", new ExcludedPathMatcher("^/api/login/(/.*)?$"));
+        //config.addMatcher("events", new ExcludedPathMatcher("^/api/login/(/.*)?$"));
 
         return config;
     }

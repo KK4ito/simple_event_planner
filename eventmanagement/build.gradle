@@ -1,3 +1,9 @@
+compileJava {
+    options.compilerArgs << '-parameters'
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+}
+
 jar {
     baseName = 'eventmanagement'
     manifest {

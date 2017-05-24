@@ -9,27 +9,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @RepositoryRestResource
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    // TODO set correct role
+    @PreAuthorize("hasAuthority('SERVICE')")
     @Query(value = "SELECT * FROM EVENT WHERE CLOSING_MAIL_SEND = FALSE  AND CLOSING_TIME < NOW()", nativeQuery = true)
     public Iterable<Event> closingEvents();
 
-    /*
-    // GET all
-    @Override
-    public Page<Event> findAll(Pageable pageable);
-
-    // Get single
-    @Override
-    public Person findOne(String id);
-    */
-
-    @PreAuthorize("hasAuthority('REGISTERED')")
+    @PreAuthorize("hasAuthority('ADMINISTRATOR') or hasPermission(#e, 'EVENT_OWNER')")
     @Override
     public Event save(Event e);
 
-    // DELETE
-    //@PreAuthorize("hasRole('ADMIN')")
-    //@PreAuthorize("hasPermission(#contact, 'admin')")
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     @Override
     public void delete(Event e);
