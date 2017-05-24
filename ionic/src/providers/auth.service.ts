@@ -46,7 +46,7 @@ export class AuthService {
    * @param user
    * @returns {Promise<User>}
    */
-  public login(user:User = null): Promise<User> {
+  public login(user: User = null): Promise<User> {
     let self = this;
     let headers = new Headers();
     if(user){

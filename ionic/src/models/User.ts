@@ -10,4 +10,5 @@ export class User {
 		role: RoleType;
     imageUri: string;
     image: string;
+    optOut: boolean;
 }

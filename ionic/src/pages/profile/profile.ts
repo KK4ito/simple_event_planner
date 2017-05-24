@@ -17,12 +17,17 @@ export class ProfilePage {
   public RoleType = RoleType;
 
   private user = new User();
+  private receiveEmails: boolean;
 
   constructor(public navCtrl: NavController, public authService: AuthService, public apiService: ApiService, private toastCtrl: ToastController, private translateService: TranslateService) {
     this.user = authService.getUser();
 
-    console.log(this.user);
-    if(this.user == null) this.user = new User();
+    if(this.user == null) {
+      this.user = new User();
+    } else {
+      this.receiveEmails = !this.user.optOut;
+      console.log(this.user);
+    }
   }
 
   /**
@@ -30,6 +35,8 @@ export class ProfilePage {
    */
   login() {
     this.authService.login(this.user).then((user) => {
+      this.user = user;
+      this.receiveEmails = !this.user.optOut;
       this.navCtrl.setRoot(HomePage);
     }).catch(() =>{
       this.user.password = "";
@@ -51,4 +58,19 @@ export class ProfilePage {
     this.user = new User();
   }
 
+  /**
+   * Fires every time the user toggles "Receive Notifications"
+   */
+  toggleEmails() {
+    this.apiService.updateUserPartial(this.user.id, { optOut: !this.receiveEmails }).then(user => {
+      this.user = user;
+      console.log(user);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  loginWithSibboleth() {
+    //window.location('https://google.ch');
+  }
 }

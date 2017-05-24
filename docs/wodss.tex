@@ -136,7 +136,7 @@ Um für die Datenintegrität garantieren zu können, werden alle Entitäten durc
 \includegraphics[width=1\textwidth]{dbSchema}
 
 \newpage
-\section{Technology}
+\section{Technologien}
 
 \subsection{Frontend}
 Nach dem Start mit Angular 2 merkten wir schnell, das uns einige Standardkomponenten fehlten. Außerdem war der Aufwand die Seite Mobile tauglich zu machen größer als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 2. Da Ionic 2 auf Angular 2 aufbaut, war der Wechsel schnell vonstatten gegangen. Mithilfe der neuen Sidemenu Komponente kann die Webseite ohne weitere Probleme für Desktops optimiert werden.
@@ -165,6 +165,18 @@ Es hat sich aber herausgestellt, dass das Ökosystem zwar bereits viele Funktion
 Weiter wird user Projekt durch die Wahl einer "neuen" Programmiersprache weniger wartbar.
 \item GraphQL\\
 Durch die JPA-GraphQL ist das initiale Aufsetzen eines GraphQL Endpoints nach einigen Versuchen relativ gut gegangen. Leider fehlen der Library aber noch einige zentrale Features, weshalb man nicht komplett auf die REST-API hätte verzichten können. Anstelle von zwei verschiedenen Endpunkten haben wir uns schlussendlich aus gründen der Wartbarkeit für REST entschieden.
+\end{enumerate}
+
+\newpage
+\section{Lessons learned}
+Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die insgesamt einen grossen Teil unserer Zeit in anspruch genommen haben.
+
+\begin{enumerate}
+\item Microservices\\
+\item Pac4J\\
+\item Angular\\
+Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
+\item ResourceRestController
 \end{enumerate}
 
 \newpage
