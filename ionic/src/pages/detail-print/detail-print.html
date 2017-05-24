@@ -13,11 +13,10 @@
 
 
 <ion-content padding>
+
+  <h2>{{ event?.name }}</h2>
+
   <table width="100%">
-    <tr style="border-bottom: solid 1px grey">
-      <td>Title</td>
-      <td>{{ event?.name }}</td>
-    </tr>
     <tr style="border-bottom: solid 1px grey">
       <td>Location</td>
       <td>{{ event?.location }}</td>
@@ -29,6 +28,10 @@
     <tr style="border-bottom: solid 1px grey">
       <td>Attendees</td>
       <td>{{ externalAttendees.length + internalAttendees.length }}</td>
+    </tr>
+    <tr *ngFor="let s of speakers" style="border-bottom: solid 1px grey">
+      <td>Speaker</td>
+      <td>{{ s.firstName }} {{ s.lastName }}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
       <td>Drinks</td>

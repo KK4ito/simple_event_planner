@@ -4,6 +4,7 @@ import { ApiService } from "../../providers/api.service";
 import { EventAttendeeFlat } from "../../models/EventAttendeeFlat";
 import { FoodType } from "../../models/FoodType";
 import { Event } from '../../models/Event';
+import {User} from "../../models/User";
 
 @Component({
   selector: 'page-detail-print',
@@ -18,12 +19,18 @@ export class DetailPrintPage {
   nofMeat: number = 0;
 
   event: Event;
+  speakers: User[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _apiService: ApiService) {
     this._apiService.getEvent(this.navParams.get('id')).then(event => {
       this.event = event;
       console.log(event);
     });
+
+    this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {
+      this.speakers = speakers;
+    });
+
     this._apiService.getPrint(this.navParams.get('id')).then(res => {
       this.internalAttendees = res.filter(e => e.internal);
       this.externalAttendees = res.filter(e => !e.internal);
