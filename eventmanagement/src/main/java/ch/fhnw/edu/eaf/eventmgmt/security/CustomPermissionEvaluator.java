@@ -15,12 +15,15 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 
+        String email = ((CommonProfile) authentication.getPrincipal()).getUsername().trim();
         if ("EVENT_OWNER".equals(permission.toString())) {
-            String email = ((CommonProfile) authentication.getPrincipal()).getUsername().trim();
             Event event = (Event) targetDomainObject;
-            for(User user : event.getSpeakers()){
-                if(email.equalsIgnoreCase(user.getEmail().trim())) return true;
+            for (User user : event.getSpeakers()) {
+                if (email.equalsIgnoreCase(user.getEmail().trim())) return true;
             }
+        }else if ("USER_OWNER".equals(permission.toString())) {
+            User user = (User) targetDomainObject;
+            if(user.getEmail().equalsIgnoreCase(email)) return true;
         }
         return false;
     }
