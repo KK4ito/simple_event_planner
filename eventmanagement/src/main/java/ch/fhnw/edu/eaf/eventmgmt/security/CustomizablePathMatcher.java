@@ -42,6 +42,8 @@ public class CustomizablePathMatcher implements Matcher {
                         break;
                     case "OPTIONS":
                         result = securePath.OPTIONS;
+                    case "PATCH":
+                        result = securePath.PATCH;
                 }
                 logger.debug("Match found for '" + context.getPath() + "' -> '" + securePath.path + "' with method " + context.getRequestMethod());
                 return result;
