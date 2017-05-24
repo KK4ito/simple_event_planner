@@ -13,6 +13,7 @@ import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.util.CommonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
     private final UserRepository userRepo;
     private final static Logger logger = LoggerFactory.getLogger(BasicAuthAuthenticator.class);
 
+    @Value("${microservices.service.user}")
+    private String serviceUser;
+
+    @Value("${microservices.service.user}")
+    private String servicePassword;
 
     BasicAuthAuthenticator(UserRepository userRepo){
         this.userRepo = userRepo;
@@ -34,7 +40,11 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
         if (credentials != null) {
             String email = credentials.getUsername();
             String password = credentials.getPassword();
-            if (!CommonHelper.isBlank(email) &&  !CommonHelper.isBlank(password) && isValidPassword(email, password)) {
+            if(email.equalsIgnoreCase(serviceUser) && password.equals(servicePassword)){
+                profile.addAttribute(Pac4jConstants.USERNAME, serviceUser);
+                profile.addRole("REGISTERED");
+                profile.addRole("ADMINISTRATOR");
+            }else if (!CommonHelper.isBlank(email) &&  !CommonHelper.isBlank(password) && isValidPassword(email, password)) {
                 profile.addAttribute(Pac4jConstants.USERNAME, email);
                 List<User> users = userRepo.findByEmail(email);
                 profile.addRole("REGISTERED");
@@ -42,8 +52,8 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
                 if(users.get(0).getRole() == 2) {
                     profile.addRole("ADMINISTRATOR");
                     logger.debug(email + " received role ADMINISTRATOR");
-
                 }
+                profile.addAttribute("user", users.get(0));
             }
         }
 
