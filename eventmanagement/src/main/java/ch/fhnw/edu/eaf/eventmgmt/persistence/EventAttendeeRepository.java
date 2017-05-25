@@ -24,23 +24,12 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee, Lo
     public List<EventAttendee> findAllByEventId(@Param("eventId") long eventId);
 
     // Prevents POST, PUT, PATCH /eventAttendees/id
+    @PreAuthorize("hasAuthority('REGISTERED') and hasPermission(#e, 'EVENTATTENDEE_OWNER')")
     @Override
-    @RestResource(exported = false)
-    @PreAuthorize("hasPermission(#e, 'EVENTATTENDEE_OWNER')")
     public EventAttendee save(EventAttendee e);
 
     // Prevents DELETE /eventAttendees/:id
+    @PreAuthorize("hasAuthority('REGISTERED') and hasPermission(#e, 'EVENTATTENDEE_OWNER')")
     @Override
-    @RestResource(exported = false)
-    public void delete(EventAttendee f);
-
-    // Prevents GET /eventAttendees
-    @Override
-    @RestResource(exported = false)
-    public List<EventAttendee> findAll();
-
-    // Prevents GET /eventAttendees/:id
-    @Override
-    @RestResource(exported = false)
-    public EventAttendee findOne(Long id);
+    public void delete(EventAttendee e);
 }
