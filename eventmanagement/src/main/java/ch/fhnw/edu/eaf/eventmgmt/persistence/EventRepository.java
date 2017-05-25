@@ -21,5 +21,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Override
     public void delete(Event e);
 
-
 }

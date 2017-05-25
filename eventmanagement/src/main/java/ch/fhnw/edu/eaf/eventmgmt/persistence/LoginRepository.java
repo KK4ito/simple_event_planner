@@ -1,7 +1,6 @@
 package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
 import ch.fhnw.edu.eaf.eventmgmt.domain.User;
-import org.pac4j.core.context.Cookie;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.profile.CommonProfile;
@@ -10,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,6 @@ public class LoginRepository {
     @Autowired
     private UserRepository userRepository;
 
-    //@CrossOrigin
     @RequestMapping(value = "/api/login/login", method = RequestMethod.GET)
     public ResponseEntity<User> login(HttpServletRequest request, HttpServletResponse response) {
         final WebContext context = new J2EContext(request, response);
@@ -34,7 +34,6 @@ public class LoginRepository {
         return ResponseEntity.status(HttpStatus.OK).body(users.get(0));
     }
 
-    //@CrossOrigin
     @RequestMapping(value = "/api/login/logout", method = RequestMethod.GET)
     public void logout() {
     }
