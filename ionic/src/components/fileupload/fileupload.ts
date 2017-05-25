@@ -2,6 +2,7 @@ import {Component, NgZone, Inject, Output, EventEmitter, Input, ViewChild} from 
 import { environment } from '../../../environments/environment';
 import {NgUploaderOptions, NgFileDropDirective} from 'ngx-uploader';
 import { File } from "../../models/File";
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'fileupload',
@@ -21,16 +22,18 @@ export class FileuploadComponent {
   hasBaseDropZoneOver: boolean;
   progress: number;
 
-  constructor(@Inject(NgZone) private zone: NgZone) {
+  constructor(@Inject(NgZone) private zone: NgZone, private _cookieService: CookieService) {
     this.options = new NgUploaderOptions({
       url: environment.baseUrl + '/api/files',
       maxSize: 2097152,
       customHeaders: {
-        'Accept':'application/json'
+        'Accept':'application/json',
+        'X-XSRF-TOKEN': this._cookieService.get('XSRF-TOKEN')
       },
       maxUploads: 2,
       autoUpload: true,
       filterExtensions: true,
+      withCredentials: true,
       allowedExtensions: ['txt', 'pdf', 'jpg', 'png']
     });
   }

@@ -34,6 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {BrowserModule} from "@angular/platform-browser";
 import {InvitePage} from "../pages/invite/invite";
 import { RecipientComponent } from '../components/recipient/recipient';
+import { CookieModule } from 'ngx-cookie';
+
 declare var tinymce: any;
 
 
@@ -75,6 +77,7 @@ export const deepLinkConfig: any = {
   ],
   imports: [
     BrowserModule,
+    CookieModule.forRoot(),
     IonicModule.forRoot(MyApp, {}, deepLinkConfig),
     HttpModule,
     BrowserAnimationsModule,
