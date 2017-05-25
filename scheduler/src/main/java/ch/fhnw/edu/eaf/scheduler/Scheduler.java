@@ -165,12 +165,11 @@ public class Scheduler {
 
                 HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
 
-                event.closingMailSend = true;
                 restTemplate.exchange(
                         eventmanagementUrl + "events/" + event.id,
                         HttpMethod.PATCH,
                         eventHttpEntity,
-                        Event.class);
+                        EventWrapper.class);
                 log.info("Event successful updated: " + event.id);
             } catch (RestClientException e) {
                 log.info("Event update failed: " + event.id + " / " + e.getLocalizedMessage());
