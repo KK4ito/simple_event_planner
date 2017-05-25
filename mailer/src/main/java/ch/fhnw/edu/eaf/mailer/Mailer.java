@@ -83,7 +83,7 @@ public class Mailer {
                     helper.addCc(singleCc);
                 }
             }
-            helper.setText(message);
+            helper.setText(message, true);
             javaMailSender.send(mail);
         } catch(MessagingException e) {
             System.out.println(recipients);
@@ -95,7 +95,7 @@ public class Mailer {
 
 
     public String prepareText(String body, String[] keys, String[] values){
-        ST template = new ST(body);
+        ST template = new ST(body, '$', '$');
 
         for(int i = 0; i<keys.length; i++) {
             if("true".equalsIgnoreCase(values[i])) {

@@ -6,6 +6,7 @@ import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
+import org.pac4j.core.profile.CommonProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +36,12 @@ public class MailerController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${mailer.eventsBaseUrl}")
+    private String eventsBaseUrl;
+
+    @Value("${mailer.token}")
+    private String token;
 
     @Value("${mail.invitation.to}")
     private String invitationTo;
@@ -55,31 +64,66 @@ public class MailerController {
     @Value("${microservices.mailer.basePath}")
     private String mailerBasePath;
 
+    @Autowired
+    private HttpServletRequest context;
+
     @RequestMapping(value="/api/mail", method= RequestMethod.POST)
-    public ResponseEntity<Void> sendInvitation(@RequestBody Mail mail) {
+    public ResponseEntity<AnswerWrapper> sendInvitation(@RequestBody Mail mail) {
 
         long eventId = mail.eventId;
 
-        List<EventAttendee> eventAttendees = eventAttendeeRepository.findAllByEventId(eventId);
         Event event = eventRepository.findOne(eventId);
-
-        Map<String, String> params = MailHelper.getParamsForInvitation(event);
 
         String url = "http://" + microservicesMailer + "/" + mailerBasePath + "/send";
         Mail generatedMail = new Mail();
         generatedMail.from = invitationFrom;
-        generatedMail.to = invitationTo;
-        generatedMail.cc = invitationCc;
-        generatedMail.subject = invitationSubject;
-        generatedMail.body = invitationText;
-        generatedMail.parameters = params;
 
-        ResponseEntity result = restTemplate.postForObject(url, generatedMail, ResponseEntity.class);
+        generatedMail.to = mail.to;
+        generatedMail.cc = mail.cc;
+        generatedMail.subject = mail.subject;
+        generatedMail.body = mail.body;
+        generatedMail.token = token;
 
+        String linkUrl = eventsBaseUrl + event.getId();
+
+        String[] keys = new String[8];
+        String[] values = new String[8];
+
+        keys[0] = "eventDateDay";
+        values[0] = MailHelper.getEventDay(event.getStartTime());
+
+        keys[1] = "eventTime";
+        values[1] = MailHelper.getEventTime(event.getStartTime());
+
+        keys[2] = "name";
+        values[2] = event.getName();
+
+        keys[3] = "eventRoom";
+        values[3] = event.getLocation();
+
+        keys[4] = "eventDeadline";
+        values[4] = MailHelper.getEventDateTime(event.getClosingTime());
+
+        keys[5] = "eventLink";
+        values[5] = linkUrl;
+
+        keys[6] = "koordinator";
+        HttpSession session = context.getSession();
+        CommonProfile profile = (CommonProfile) session.getAttribute("profile");
+        User user = (User) profile.getAttribute("user");
+        values[6] = user.getFirstName() + " " + user.getLastName();
+
+        keys[7] = "eventDate";
+        values[7] = MailHelper.getEventDate(event.getStartTime());
+
+        generatedMail.keys = keys;
+        generatedMail.values = values;
+
+        ResponseEntity<AnswerWrapper> result = restTemplate.postForEntity(url, generatedMail, AnswerWrapper.class);
         if(result.getStatusCode() == HttpStatus.OK) {
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("OK"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<Void>(result.getStatusCode());
+            return new ResponseEntity<AnswerWrapper>(new AnswerWrapper(result.getStatusCode().toString()), result.getStatusCode());
         }
     }
 
