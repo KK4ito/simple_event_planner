@@ -25,9 +25,9 @@ import {SelectFoodPage} from "../select-food/select-food";
 export class DetailPage {
 
   private event: Event = new Event();
-  private speakers: User[];
-  private attendees: User[];
-  private files: File[];
+  private speakers: User[] = [];
+  private attendees: User[] = [];
+  private files: File[] = [];
   private safeStyle: SafeStyle;
 
   private editMode = false;
@@ -188,6 +188,7 @@ export class DetailPage {
 
   saveEvent(event: Event, isRestore = false) {
     // Set speaker list
+    console.log(this.speakers);
     event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
