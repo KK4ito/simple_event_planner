@@ -11,4 +11,55 @@ fileupload {
 
   .upload-button {
   }
+
+
+  .file--upload {
+    padding-top:85px;
+
+    input {
+      max-width:200px;
+    }
+    button {
+      ion-icon {
+        font-size: 1.2em;
+      }
+    }
+    ion-icon {
+      font-size: 3em;
+    }
+
+    .file--upload--select {
+      width: 20%;
+      padding: 4px;
+    }
+
+    .file--upload--select__img {
+      height:64px;
+      width: auto;
+      background-position: center center;
+      background-size: cover;
+      ion-icon {
+        font-size: 2em;
+      }
+    }
+    .file--upload--select__img, .drop-container {
+      background-color: color($colors, light);
+      border: 1px solid color($colors, dark);
+      border-radius: 8px;
+    }
+    .drop-container {
+      height: 200px;
+      width: 100%;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .file--upload--add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
 }
