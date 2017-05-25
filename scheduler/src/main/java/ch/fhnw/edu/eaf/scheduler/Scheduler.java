@@ -116,11 +116,12 @@ public class Scheduler {
 
         String eventmanagementUrl = "http://" + eventmanagement + "/api/";
 
+        HttpEntity<?> closingEventEntity = new HttpEntity(getAuthHeaders());
 
         ResponseEntity<PagedResources<Event>> eventResponseEntity = restTemplate.exchange(
                 eventmanagementUrl + "events/search/closingEvents",
                 HttpMethod.GET,
-                HttpEntity.EMPTY,
+                closingEventEntity,
                 new ParameterizedTypeReference<PagedResources<Event>>() {
                 }
         );
@@ -157,21 +158,12 @@ public class Scheduler {
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
                 restTemplate.setRequestFactory(requestFactory);
 
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                String auth = serviceEmail + ":" + servicePassword;
-                byte[] encodedAuth = Base64.getEncoder().encode(
-                        auth.getBytes(Charset.forName("US-ASCII"))
-                );
-                String authHeader = "Basic " + new String(encodedAuth);
-                headers.set("Authorization", authHeader);
-
                 //Patch updates all the attributes it is given. Since we only want to update the closingMailSend-flag
                 //we create a wrapper (that is in this class as a private class) and pass this in the patch-request
                 EventWrapper ew = new EventWrapper();
                 ew.setClosingMailSend(true);
 
-                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, headers);
+                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
 
                 event.closingMailSend = true;
                 restTemplate.exchange(
@@ -184,6 +176,18 @@ public class Scheduler {
                 log.info("Event update failed: " + event.id + " / " + e.getLocalizedMessage());
             }
         }
+    }
+
+    public HttpHeaders getAuthHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        String auth = serviceEmail + ":" + servicePassword;
+        byte[] encodedAuth = Base64.getEncoder().encode(
+                auth.getBytes(Charset.forName("US-ASCII"))
+        );
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
+        return headers;
     }
 
     private class EventWrapper {
@@ -261,8 +265,8 @@ public class Scheduler {
 
         String url = eventsBaseUrl + event.id;
 
-        String[] keys = new String[7];
-        String[] values = new String[7];
+        String[] keys = new String[9];
+        String[] values = new String[9];
 
         keys[0] = "eventDate";
         values[0] = this.getEventDate(event.startTime);
@@ -284,6 +288,20 @@ public class Scheduler {
 
         keys[6] = "koordinator";
         values[6] = koordinator;
+
+        keys[7] = "name";
+        values[7] = event.name;
+
+        boolean internal = true;
+
+        for(User s: speakers) {
+            if(!s.internal) {
+                internal = false;
+            }
+        }
+
+        keys[8] = "internal";
+        values[8] = Boolean.toString(internal);
 
         mail.keys = keys;
         mail.values = values;

@@ -1,6 +1,5 @@
 package ch.fhnw.edu.eaf.mailer;
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +11,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import org.stringtemplate.v4.ST;
 
-import javax.mail.*;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Iterator;
-import java.util.Map;
 
 
 @RestController
 public class Mailer {
-
-    static final long ONE_MINUTE_IN_MILLISECONDS=60000;
 
     @Value("${mailer.from}")
     private String from;
@@ -103,8 +98,10 @@ public class Mailer {
         ST template = new ST(body);
 
         for(int i = 0; i<keys.length; i++) {
-            if(Boolean.getBoolean(values[i])) {
-                template.add(keys[i], Boolean.getBoolean(values[i]));
+            if("true".equalsIgnoreCase(values[i])) {
+                template.add(keys[i], true);
+            } else if("false".equalsIgnoreCase(values[i])) {
+                template.add(keys[i], false);
             } else {
                 template.add(keys[i], values[i]);
             }
