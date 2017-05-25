@@ -36,6 +36,7 @@ public class Pac4jConfig {
                 new SecurePath("/api/users/search/role", true),
                 new SecurePath("/api/events/search/closingEvents", true),
                 new SecurePath("/api/users/search/attendees", false),
+                new SecurePath("/api/eventAttendees/", false, true, true, true, true, true),
                 new SecurePath("/api/files/", false, true, true, true, true, true),
                 new SecurePath("/api/events/", false, true, true, true, true, true),
                 new SecurePath("/api/users/", true, true, true, true, true, true),

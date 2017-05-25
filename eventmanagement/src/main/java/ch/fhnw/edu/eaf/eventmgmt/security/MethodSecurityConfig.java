@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 import java.util.Collection;
 import java.util.Map;
@@ -61,11 +63,11 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
             http
                     //Disable csrf of SpringSecurity because it is handled by pac4j (see Pac4jConfig.java)
-                    .csrf().disable()
+                    //.csrf().disable()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                     .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and()
 
                     .antMatcher("/**")
-                    //.addFilterBefore(new CorsFilter(), Filter.class)
                     .addFilterAfter(filter, BasicAuthenticationFilter.class)
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);

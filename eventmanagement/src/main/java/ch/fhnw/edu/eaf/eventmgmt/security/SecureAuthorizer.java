@@ -4,6 +4,7 @@ import org.pac4j.core.authorization.authorizer.*;
 import org.pac4j.core.authorization.authorizer.csrf.CsrfAuthorizer;
 import org.pac4j.core.authorization.authorizer.csrf.CsrfTokenGeneratorAuthorizer;
 import org.pac4j.core.authorization.authorizer.csrf.DefaultCsrfTokenGenerator;
+import org.pac4j.core.context.Pac4jConstants;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.exception.HttpAction;
 import org.pac4j.core.profile.CommonProfile;
@@ -31,16 +32,13 @@ public class SecureAuthorizer extends ProfileAuthorizer<CommonProfile> {
     public boolean isAuthorized(final WebContext context, final List<CommonProfile> profiles) throws HttpAction {
         final List<Authorizer> authorizers = new ArrayList<>();
 
-        log.info("isAuthorized");
-        System.err.println("isAuthorized");
-
         authorizers.add(CACHE_CONTROL_HEADER);
         authorizers.add(X_CONTENT_TYPE_OPTIONS_HEADER);
         authorizers.add(STRICT_TRANSPORT_SECURITY_HEADER);
         authorizers.add(X_FRAME_OPTIONS_HEADER);
         authorizers.add(XSS_PROTECTION_HEADER);
-        authorizers.add(CSRF_TOKEN_GENERATOR_AUTHORIZER);
-        authorizers.add(CSRF_AUTHORIZER);
+        //authorizers.add(CSRF_TOKEN_GENERATOR_AUTHORIZER);
+        //authorizers.add(CSRF_AUTHORIZER);
 
         return isAuthorized(context, profiles, authorizers);
     }
@@ -52,6 +50,11 @@ public class SecureAuthorizer extends ProfileAuthorizer<CommonProfile> {
             final boolean isAuthorized = authorizer.isAuthorized(context, profiles);
             log.debug("Checking authorizer: {} -> {}", authorizer, isAuthorized);
             if (!isAuthorized) {
+                final String parameterToken = context.getRequestParameter(Pac4jConstants.CSRF_TOKEN);
+                final String headerToken = context.getRequestHeader(Pac4jConstants.CSRF_TOKEN);
+                final String sessionToken = (String) context.getSessionAttribute(Pac4jConstants.CSRF_TOKEN);
+
+                log.warn(authorizer.toString() + " denied request: pt: " + parameterToken + " / ht: " + headerToken + " / st: " +  sessionToken);
                 return false;
             }
         }

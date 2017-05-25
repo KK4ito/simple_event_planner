@@ -252,11 +252,12 @@ export class DetailPage {
           console.log(data);
 
           let eventAttendee = new EventAttendee();
-          eventAttendee.event = '/event/' + this.event.id;
+          eventAttendee.event = '/events/' + this.event.id;
           let user = this.authService.getUser();
-          eventAttendee.user = '/user/' + user.id;
+          eventAttendee.user = '/users/' + user.id;
           eventAttendee.foodType = data.selectedFood;
           eventAttendee.drink = data.drink;
+          console.log('eventAttendee', eventAttendee);
           this._apiService.createEventAttendee(eventAttendee).then((result) => {
             this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
             console.log('result', result);
