@@ -69,7 +69,7 @@ export class ApiService {
   }
 
   updateEvent(event): Promise<Event> {
-    return this._authService.put('events/' + event.id, event);
+    return this._authService.patch('events/' + event.id, event);
   }
 
   getUsersByName(name: string): Promise<User[]> {
