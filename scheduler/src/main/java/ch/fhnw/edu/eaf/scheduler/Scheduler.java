@@ -133,7 +133,7 @@ public class Scheduler {
             try {
 
                 ResponseEntity<PagedResources<EventAttendee>> eventAttendeeResponseEntity = restTemplate.exchange(
-                        eventmanagementUrl + "users/search/attendees?event=" + event.id,
+                        eventmanagementUrl + "events/" + event.id + "/attendees",
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<PagedResources<EventAttendee>>() {
@@ -152,7 +152,7 @@ public class Scheduler {
 
                 sendReferentMail(event, eventAttendees, speakers);
                 sendRaumkoordinationMail(event, eventAttendees, speakers);
-                sendSvGroupMail(event, eventAttendees);
+                sendSvGroupMail(event, eventAttendees, speakers);
 
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
                 restTemplate.setRequestFactory(requestFactory);
@@ -165,7 +165,13 @@ public class Scheduler {
                 );
                 String authHeader = "Basic " + new String(encodedAuth);
                 headers.set("Authorization", authHeader);
-                HttpEntity<Event> eventHttpEntity = new HttpEntity<Event>(event, headers);
+
+                //Patch updates all the attributes it is given. Since we only want to update the closingMailSend-flag
+                //we create a wrapper (that is in this class as a private class) and pass this in the patch-request
+                EventWrapper ew = new EventWrapper();
+                ew.setClosingMailSend(true);
+
+                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, headers);
 
                 event.closingMailSend = true;
                 restTemplate.exchange(
@@ -177,6 +183,17 @@ public class Scheduler {
             } catch (RestClientException e) {
                 log.info("Event update failed: " + event.id + " / " + e.getLocalizedMessage());
             }
+        }
+    }
+
+    private class EventWrapper {
+        public EventWrapper() {}
+        private boolean closingMailSend;
+        public void setClosingMailSend(boolean b) {
+            this.closingMailSend = b;
+        }
+        public boolean getClosingMailSend() {
+            return this.closingMailSend;
         }
     }
 
@@ -325,7 +342,7 @@ public class Scheduler {
     }
 
 
-    public void sendSvGroupMail(Event event, Collection<EventAttendee> eventAttendees) {
+    public void sendSvGroupMail(Event event, Collection<EventAttendee> eventAttendees, Collection<User> speakers) {
         Mail mail = new Mail();
         mail.to = svgroupTo;
         mail.cc = svgroupCc;
@@ -354,17 +371,23 @@ public class Scheduler {
         int numOfMeatSandwich = 0;
         int numOfDrinksPlus1 = 0;
         for(EventAttendee ea: eventAttendees) {
-            if(ea.foodType == EventAttendee.FoodType.VEGI) numOfVegiSandwichPlus1++;
-            if(ea.foodType == EventAttendee.FoodType.NORMAL) numOfMeatSandwich++;
-            if(ea.drink) numOfDrinksPlus1++;
+            System.out.println(ea.foodType);
+            if(ea.foodType == EventAttendee.FoodType.VEGI) {
+                numOfVegiSandwichPlus1++;
+            } else if(ea.foodType == EventAttendee.FoodType.NORMAL) {
+                numOfMeatSandwich++;
+            }
+            if(ea.drink) {
+                numOfDrinksPlus1++;
+            }
         }
 
         keys[4] = "numOfDrinksPlus1";
-        numOfDrinksPlus1++;
+        numOfDrinksPlus1 += speakers.size();
         values[4] = Integer.toString(numOfDrinksPlus1);
 
         keys[5] = "numOfVegiSandwichPlus1";
-        numOfVegiSandwichPlus1++;
+        numOfVegiSandwichPlus1 += speakers.size();
         values[5] = Integer.toString(numOfVegiSandwichPlus1);
 
         keys[6] = "numOfMeatSandwich";
