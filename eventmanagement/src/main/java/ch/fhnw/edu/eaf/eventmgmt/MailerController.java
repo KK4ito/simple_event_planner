@@ -1,7 +1,6 @@
 package ch.fhnw.edu.eaf.eventmgmt;
 
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
-import ch.fhnw.edu.eaf.eventmgmt.domain.EventAttendee;
 import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class MailerController {

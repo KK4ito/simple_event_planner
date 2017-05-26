@@ -35,7 +35,6 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
-        System.out.println("BLAAA Fuck");
         DefaultMethodSecurityExpressionHandler expressionHandler =
                 new DefaultMethodSecurityExpressionHandler();
         expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
@@ -62,8 +61,6 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
             filter.setAuthorizers(mapToCommaSeparatedString(config.getAuthorizers()));
 
             http
-                    //Disable csrf of SpringSecurity because it is handled by pac4j (see Pac4jConfig.java)
-                    //.csrf().disable()
                     .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                     .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and()
 
