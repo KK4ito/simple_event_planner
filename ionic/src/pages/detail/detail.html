@@ -69,7 +69,7 @@
       <ion-icon item-left name="people"></ion-icon>
       <ion-label *ngIf="!eventAttendee">{{'DETAIL.ATTEND' | translate}}</ion-label>
       <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
-      <ion-toggle (ionChange)="attendEvent()" [(ngModel)]="attends"></ion-toggle>
+      <ion-toggle (ngModelChange)="attendEvent()" [ngModel]="attends"></ion-toggle>
     </ion-item>
 
     <ion-item *ngIf="!editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">

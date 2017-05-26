@@ -1,4 +1,4 @@
-import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {
   NavController, NavParams, AlertController, ToastController,
   ModalController, FabContainer
@@ -46,7 +46,7 @@ export class DetailPage {
 
   public eventForm: FormGroup;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(private _apiService: ApiService, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       description: ['', Validators.compose([Validators.required])],
@@ -164,13 +164,7 @@ export class DetailPage {
   }
 
   save() {
-    console.log(this.event); // TODO: This has the right value before object.assign happens... Why?
-    console.log('assign');
     Object.assign(this.event, this.eventForm.value);
-    console.log(this.event);
-
-    // TODO: When updating an event where you are "angemeldet", the "anmeldung" modal pops up again.
-
     this.editMode = false;
     if (this.event.id >= 0) {
       this.saveEvent(this.event);
@@ -181,7 +175,6 @@ export class DetailPage {
 
   createEvent() {
     this._apiService.createEvent(this.event).then((newEvent) => {
-      console.log('event', newEvent);
       this.navCtrl.push(DetailPage, {
         id: newEvent.id
       });
@@ -190,7 +183,6 @@ export class DetailPage {
 
   saveEvent(event: Event, isRestore = false) {
     // Set speaker list
-    console.log(this.speakers);
     event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
@@ -237,11 +229,10 @@ export class DetailPage {
     this.navCtrl.setRoot(ProfilePage);
   }
 
-
   attendEvent() {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
-      if (!this.attends) {
+      if (this.attends) {
         this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
           this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
           this.eventAttendee = undefined;
