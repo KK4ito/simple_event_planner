@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -20,6 +21,9 @@ public class AAIRepository {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Autowired
     private HttpServletRequest context;
@@ -66,7 +70,7 @@ public class AAIRepository {
                 user.setEmail(mail);
                 user.setInternal(true);
                 user.setRole(User.RoleType.REGISTERED);
-                userRepository.save(user);
+                em.persist(user);
 
             }
         //}
