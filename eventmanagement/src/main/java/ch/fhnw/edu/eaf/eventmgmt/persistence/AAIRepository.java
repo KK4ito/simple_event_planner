@@ -55,6 +55,11 @@ public class AAIRepository {
                 context.getSession().setAttribute("profile", profile);
             }else{
                 // User does not exist, create him
+                final CommonProfile profile = new CommonProfile();
+                profile.addAttribute(Pac4jConstants.USERNAME, mail.trim().toUpperCase());
+                profile.addRole("REGISTERED");
+                context.getSession().setAttribute("profile", profile);
+
                 User user = new User();
                 user.setFirstName(givenname);
                 user.setLastName(surname);
@@ -62,6 +67,7 @@ public class AAIRepository {
                 user.setInternal(true);
                 user.setRole(User.RoleType.REGISTERED);
                 userRepository.save(user);
+
             }
         //}
         response.sendRedirect("https://www.cs.technik.fhnw.ch/wodss17-5/#/profile");

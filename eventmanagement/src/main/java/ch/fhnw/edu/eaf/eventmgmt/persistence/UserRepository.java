@@ -55,7 +55,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE User AS u SET u.password = :password, u.passwordResetToken = null, u.passwordResetTokenExpirationDate = null WHERE u.email = :email")
     public void setTokenAndExpirationDateAndPasswordByEmail(@Param("password") String password, @Param("email") String email);
 
-    @PreAuthorize("hasAuthority('ADMINISTRATOR') or hasPermission(#u, 'USER_OWNER') or hasPermission('PASSWORD_RESET')")
+    @PreAuthorize("hasAuthority('ADMINISTRATOR') or hasPermission(#u, 'USER_OWNER')")
     @Override
     public User save(User u);
 
