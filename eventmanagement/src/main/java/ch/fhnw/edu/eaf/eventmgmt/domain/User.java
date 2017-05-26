@@ -33,8 +33,7 @@ public class User {
 
     private boolean optOut;
 
-    @NotNull
-    @Size(min = 32, max = 1024)
+    @Size(max = 1024)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
