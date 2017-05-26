@@ -1,6 +1,6 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {
-  NavController, NavParams, AlertController, ToastController,
+  NavController, NavParams, AlertController,
   ModalController, FabContainer
 } from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
@@ -18,6 +18,7 @@ import {InvitePage} from "../invite/invite";
 import {DetailPrintPage} from "../detail-print/detail-print";
 import {SelectFoodPage} from "../select-food/select-food";
 import {FoodType} from "../../models/FoodType";
+import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 
 @Component({
   selector: 'page-detail',
@@ -46,7 +47,7 @@ export class DetailPage {
 
   public eventForm: FormGroup;
 
-  constructor(private _apiService: ApiService, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService,  private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       description: ['', Validators.compose([Validators.required])],
@@ -187,25 +188,11 @@ export class DetailPage {
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
       if (isRestore) {
-        this.toastCtrl.create({
-          message: 'Event successfully restored.',
-          duration: 3000,
-          position: 'bottom right'
-        }).present();
+        this.translatedSnackbarService.showSnackbar('EVENT_RESTORED');
       } else {
-        let toast = this.toastCtrl.create({
-          message: 'Event successfully updated.',
-          duration: 3000,
-          showCloseButton: true,
-          closeButtonText: "undo",
-          position: 'bottom right'
+        this.translatedSnackbarService.showSnackbar('EVENT_UPDATED', 'UNDO').then(() =>{
+          this.saveEvent(this.oldEvent, true);
         });
-        toast.onDidDismiss((data, role) => {
-          if (role == "close") {
-            this.saveEvent(this.oldEvent, true);
-          }
-        });
-        toast.present();
       }
     });
   }

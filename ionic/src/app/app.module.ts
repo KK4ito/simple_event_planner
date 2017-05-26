@@ -35,6 +35,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {InvitePage} from "../pages/invite/invite";
 import { RecipientComponent } from '../components/recipient/recipient';
 import { CookieModule } from 'ngx-cookie';
+import {TranslatedSnackbarService} from "../providers/translated-snackbar.service";
 
 declare var tinymce: any;
 
@@ -112,6 +113,7 @@ export const deepLinkConfig: any = {
   providers: [
     AuthService,
     ApiService,
+    TranslatedSnackbarService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
