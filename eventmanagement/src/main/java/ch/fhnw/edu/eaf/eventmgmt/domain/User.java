@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 public class User {
@@ -62,6 +63,25 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Collection<EventAttendee> attends;
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public Date getPasswordResetTokenExpirationDate() {
+        return passwordResetTokenExpirationDate;
+    }
+
+    public void setPasswordResetTokenExpirationDate(Date passwordResetTokenExpirationDate) {
+        this.passwordResetTokenExpirationDate = passwordResetTokenExpirationDate;
+    }
+
+    private String passwordResetToken;
+    private Date passwordResetTokenExpirationDate;
 
     public Long getId() {
         return Id;
