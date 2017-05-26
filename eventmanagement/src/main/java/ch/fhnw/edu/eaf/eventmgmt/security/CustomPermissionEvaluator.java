@@ -16,7 +16,11 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 
-        String email = ((CommonProfile) authentication.getPrincipal()).getUsername().trim();
+        CommonProfile profile = ((CommonProfile) authentication.getPrincipal());
+        String email = "";
+        if(profile != null && profile.getUsername() != null) {
+            email = profile.getUsername().trim();
+        }
 
         if ("EVENT_OWNER".equals(permission.toString())) {
             Event event = (Event) targetDomainObject;
