@@ -38,9 +38,9 @@ public class AAIRepository {
                         @RequestHeader(value = "shib-authncontext-class", required = true) String authncontext,
                         @RequestHeader(value = "x-forwarded-for", required = true) String originRemoteAddr,
                         HttpServletResponse response) throws Exception {
-        if (!originRemoteAddr.contains("https://www.cs.technik.fhnw.ch/wodss17-5-aai/")) {
+        //if (!originRemoteAddr.contains("https://www.cs.technik.fhnw.ch/wodss17-5-aai/")) {
             throw new Exception(String.format("Unknown aai authentication provider: %s", originRemoteAddr));
-        } else {
+        //} else {
             List<User> users = userRepository.findByEmail(mail);
             if(users.size() > 0){
                 // User already exists, load profile into session
@@ -63,7 +63,7 @@ public class AAIRepository {
                 user.setRole(User.RoleType.REGISTERED);
                 userRepository.save(user);
             }
-        }
+        //}
         response.sendRedirect("https://www.cs.technik.fhnw.ch/wodss17-5/#/profile");
     }
 }
