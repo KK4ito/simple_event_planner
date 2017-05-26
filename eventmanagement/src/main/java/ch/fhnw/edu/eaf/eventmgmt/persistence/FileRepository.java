@@ -4,7 +4,6 @@ import ch.fhnw.edu.eaf.eventmgmt.domain.File;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.ServletContext;
 import java.io.IOException;
 
 @RestController
 public class FileRepository {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    ServletContext context;
 
     @PersistenceContext
     private EntityManager em;
