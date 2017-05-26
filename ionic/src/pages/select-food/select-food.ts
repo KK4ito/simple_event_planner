@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 import { FoodType } from "../../models/FoodType";
 
 @Component({
@@ -16,7 +16,7 @@ export class SelectFoodPage {
   food: FoodType;
   drink: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(private viewCtrl: ViewController) {
   }
 
   dismiss() {
@@ -24,8 +24,6 @@ export class SelectFoodPage {
   }
 
   save() {
-    console.log(this.drink);
-    console.log(this.food);
     this.viewCtrl.dismiss({ drink: this.drink, selectedFood: this.food });
   }
 }
