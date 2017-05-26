@@ -47,7 +47,7 @@ public class Mailer {
         } else {
             try {
                 this.sendMail(mail.to, mail.cc, mail.subject, this.prepareText(mail.body, mail.keys, mail.values));
-                log.info(this.getClass().getName(), "Sending mail successfull");
+                log.info(this.getClass().getName(), "Sending mail successful");
             } catch (MessagingException e) {
                 log.error(this.getClass().getName(), "Sending mail failed", e);
                 return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("Internal_Server_Error"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -78,17 +78,16 @@ public class Mailer {
             helper.setReplyTo(replyTo);
             helper.setFrom(from);
             helper.setSubject(subject);
-            if(cc.length() > 0) {
+            if(cc != null && cc.length() > 0) {
                 for(String singleCc: cc.split(",")) {
                     helper.addCc(singleCc);
                 }
             }
             helper.setText(message, true);
             javaMailSender.send(mail);
+            log.info("Sent mail to: " + recipients + " | Cc: " + cc + " | Subject: " + subject + " | Message: " + message);
         } catch(MessagingException e) {
-            System.out.println(recipients);
-            System.out.println(cc);
-            System.out.println(subject);
+            log.error("FAILED sending mail to: " + recipients + " | Cc: " + cc + " | Subject: " + subject + " | Message: " + message);
             e.printStackTrace();
         }
     }
@@ -96,6 +95,8 @@ public class Mailer {
 
     public String prepareText(String body, String[] keys, String[] values){
         ST template = new ST(body, '$', '$');
+
+        log.info("Replacing text: " + body + " | Keys: " + keys.toString() + " | Values: " + values.toString());
 
         for(int i = 0; i<keys.length; i++) {
             if("true".equalsIgnoreCase(values[i])) {
