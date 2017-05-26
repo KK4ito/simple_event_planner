@@ -39,7 +39,7 @@ public class AAIRepository {
                         @RequestHeader(value = "x-forwarded-for", required = true) String originRemoteAddr,
                         HttpServletResponse response) throws Exception {
         //if (!originRemoteAddr.contains("https://www.cs.technik.fhnw.ch/wodss17-5-aai/")) {
-            throw new Exception(String.format("Unknown aai authentication provider: %s", originRemoteAddr));
+        //    throw new Exception(String.format("Unknown aai authentication provider: %s", originRemoteAddr));
         //} else {
             List<User> users = userRepository.findByEmail(mail);
             if(users.size() > 0){
