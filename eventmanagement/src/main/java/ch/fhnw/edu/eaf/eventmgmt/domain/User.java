@@ -11,32 +11,62 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * A user-entity.
+ */
 @Entity
 public class User {
+    /**
+     * The id of the user.
+     */
     @Id
     @GeneratedValue
     private Long Id;
 
+    /**
+     * The lastname of the user.
+     */
     @NotNull
     @Size(min = 1, max = 1024)
     private String lastName;
 
+    /**
+     * The firstname of the user.
+     */
     @NotNull
     @Size(min = 1, max = 1024)
     private String firstName;
 
+    /**
+     * The email-address of the user.
+     */
     @NotNull
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
+    /**
+     * Indicates whether or not the user is internal (e.g. has an aai-logon)
+     */
     private boolean internal;
 
+    /**
+     * Indicates whether or not the user opted out of receiving any information (e.g. mails) from the platform.
+     */
     private boolean optOut;
 
+    /**
+     * The password for the user.
+     *
+     * Is only set if the user has the internal-flag = false. The password is stored heavily encrypted
+     * with the help of argon2 (see setter-method for this attribute).
+     */
     @Size(max = 1024)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    /**
+     * The role of the user.
+     */
     @Enumerated(EnumType.ORDINAL)
     private RoleType role;
 

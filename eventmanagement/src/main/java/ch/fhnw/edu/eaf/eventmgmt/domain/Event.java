@@ -11,45 +11,88 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * The event-entity
+ */
 @Entity
 public class Event {
+
+    /**
+     * The id of an event.
+     */
     @Id
     @GeneratedValue
     private Long Id;
 
+    /**
+     * The date the event was created on the platform.
+     */
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
+    /**
+     * The date the event was last updated.
+     */
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    /**
+     * The name of the event.
+     */
     @NotNull
     @Size(min = 3, max = 1024)
     private String name;
 
+    /**
+     * The description of an event.
+     */
     @NotNull
     private String description;
 
+    /**
+     * The location the event takes place.
+     */
     @NotNull
     @Size(min = 3, max = 1024)
     private String location;
 
+    /**
+     * The time the event starts.
+     */
     private Date startTime;
 
+    /**
+     * The time the registration for the event closes.
+     */
     private Date closingTime;
 
+    /**
+     * The time the event finishes.
+     */
     private Date endTime;
 
+    /**
+     * Indicates whether or not the mails were sent after the registration-deadline
+     */
     private boolean closingMailSend = false;
 
+    /**
+     * The image for the event.
+     */
     @OneToOne
     private File image;
 
+    /**
+     * The files accompanying the event (e.g. power-point-presentation)
+     */
     @OneToMany
     private Collection<File> files;
 
+    /**
+     * The speakers of the event.
+     */
     @ManyToMany
     @JoinTable(name = "speakers", joinColumns = @JoinColumn(name = "idevent"), inverseJoinColumns = @JoinColumn(name = "iduser"))
     @JsonProperty
@@ -61,6 +104,9 @@ public class Event {
     private Collection<User> attendees;
     */
 
+    /**
+     * The users who attend the event.
+     */
     @OneToMany(mappedBy = "event")
     //@JoinTable(name = "EVENT_ATTENDEE", joinColumns = @JoinColumn(name = "event"), inverseJoinColumns = @JoinColumn(name = "user"))
     private Collection<EventAttendee> attendees;

@@ -11,8 +11,14 @@ import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
 
+/**
+ * The file-entity.
+ */
 @Entity
 public class File {
+    /**
+     * The id of the file.
+     */
     @Id
     @GeneratedValue
     private Long Id;
@@ -25,13 +31,22 @@ public class File {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    /**
+     * The name of the file.
+     */
     @NotNull
     @Size(min = 3, max = 1024)
     private String name;
 
+    /**
+     * The content-type of the file.
+     */
     @Size(max = 255)
     private String contentType;
 
+    /**
+     * The actual data.
+     */
     @JsonIgnore
     @Basic(fetch = LAZY)
     @Lob
