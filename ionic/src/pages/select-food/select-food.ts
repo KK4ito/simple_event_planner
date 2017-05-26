@@ -8,9 +8,9 @@ import { FoodType } from "../../models/FoodType";
 })
 export class SelectFoodPage {
   menus = [
-    {'value': 'VEGI', 'label': 'Vegi', 'icon': 'nutrition'},
-    {'value': 'MEAT', 'label': 'Meat', 'icon': 'restaurant'},
-    {'value': 'NONE', 'label': 'None', 'icon': 'remove-circle'}
+    {'value': 'VEGI', 'icon': 'nutrition'},
+    {'value': 'MEAT', 'icon': 'restaurant'},
+    {'value': 'NONE', 'icon': 'remove-circle'}
   ];
 
   food: FoodType;
