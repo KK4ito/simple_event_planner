@@ -19,7 +19,48 @@
 
   <h1>{{ 'PROFILE.PROFILE' | translate }}</h1>
 
-  <ion-card *ngIf="authService.getRole() == RoleType.ANONYMOUS">
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title>
+        Password Reset Token
+      </ion-card-title>
+
+      <form (ngSubmit)="requestPasswordReset()">
+        <ion-item>
+          <h2>Email</h2>
+          <ion-input item-right placeholder="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+
+        <button ion-button>Reset Password</button>
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="passwordResetToken">
+    <ion-card-content>
+      <ion-card-title>
+        Password Reset Token
+      </ion-card-title>
+
+      <form (ngSubmit)="resetPassword()">
+        <ion-item>
+          <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
+          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
+          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="passwordConfirm" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+
+        <button ion-button>Reset Password</button>
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="authService.getRole() == RoleType.ANONYMOUS && !passwordResetToken">
     <ion-card-content>
       <ion-card-title>
         {{ 'PROFILE.LOGIN' | translate }}
@@ -36,15 +77,15 @@
           <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
-        <button ion-button (click)="login()">Login</button>
+        <button ion-button>Login</button>
       </form>
 
-      <button ion-button (click)="loginWithSibboleth()">Login with Sibboleth</button>
+      <button ion-button>Login with Sibboleth</button>
 
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS">
+  <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS && !passwordResetToken">
     <ion-card-content>
       <ion-item *ngIf="!user.internal">
         <ion-label>Receive emails</ion-label>

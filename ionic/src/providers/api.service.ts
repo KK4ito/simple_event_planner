@@ -102,4 +102,15 @@ export class ApiService {
   getInvitationTemplate(): Promise<Mail> {
     return this._authService.getSingle('template');
   }
+
+  requestPasswordReset(email) {
+    return this._authService.post('requestPasswordReset', { email: email })
+  }
+
+  resetPassword(token, password) {
+    return this._authService.post('resetPassword', {
+      token: token,
+      password: password
+    })
+  }
 }
