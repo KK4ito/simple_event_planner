@@ -6,6 +6,7 @@ import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {HomePage} from "../home/home";
 import {TranslateService} from "@ngx-translate/core";
+declare var window:any;
 
 @Component({
   selector: 'page-profile',
@@ -100,6 +101,6 @@ export class ProfilePage {
   }
 
   loginWithSibboleth() {
-    //window.location('https://google.ch');
+    window.location.href = 'https://www.cs.technik.fhnw.ch/wodss17-5/#/profile';
   }
 }
