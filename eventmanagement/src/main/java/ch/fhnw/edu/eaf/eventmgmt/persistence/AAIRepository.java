@@ -25,7 +25,6 @@ public class AAIRepository {
     private HttpServletRequest context;
 
     @RequestMapping(value = "${spring.data.rest.basePath}/aai/", method = RequestMethod.GET)
-    @ResponseBody
     @Transactional
     public void aaiAuth(@RequestHeader(value = "surname", required = true) String surname,
                         @RequestHeader(value = "givenname", required = true) String givenname,
