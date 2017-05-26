@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, ToastController} from 'ionic-angular';
+import {NavController, NavParams, ToastController} from 'ionic-angular';
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
@@ -19,8 +19,16 @@ export class ProfilePage {
   private user = new User();
   private receiveEmails: boolean;
 
-  constructor(public navCtrl: NavController, public authService: AuthService, public apiService: ApiService, private toastCtrl: ToastController, private translateService: TranslateService) {
+  private passwordResetToken: number;
+  private password: string;
+  private passwordConfirm: string;
+
+  private email: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private toastCtrl: ToastController, private translateService: TranslateService) {
     this.user = authService.getUser();
+
+    this.passwordResetToken = this.navParams.get('resetToken');
 
     if(this.user == null) {
       this.user = new User();
@@ -68,6 +76,27 @@ export class ProfilePage {
     }).catch(err => {
       console.log(err);
     });
+  }
+
+  resetPassword() {
+    if (this.passwordConfirm === this.password) {
+      this.apiService.resetPassword(this.passwordResetToken, this.password).then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
+    } else {
+      this.toastCtrl.create({
+        message: 'Passwords do not match!',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
+
+    }
+  }
+
+  requestPasswordReset() {
+    this.apiService.requestPasswordReset(this.email).then(res => {
+      console.log(res);
+    }).catch(err => console.log(err));
   }
 
   loginWithSibboleth() {
