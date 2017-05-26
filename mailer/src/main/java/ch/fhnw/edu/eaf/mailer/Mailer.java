@@ -15,18 +15,33 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 
+/**
+ * Sends mails.
+ */
 @RestController
 public class Mailer {
 
+    /**
+     * The from-address of the mail.
+     */
     @Value("${mailer.from}")
     private String from;
 
+    /**
+     * The reply-to-address of the mail.
+     */
     @Value("${mailer.replyTo}")
     private String replyTo;
 
+    /**
+     * The token that all services that want to send mails has to send as well.
+     */
     @Value("${mailer.token}")
     private String token;
 
+    /**
+     * The autowired javamailsender - sends the mails.
+     */
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -42,7 +57,8 @@ public class Mailer {
     @RequestMapping(value = "${spring.data.rest.basePath}/send", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<AnswerWrapper> post(@RequestBody() Mail mail) {
-        if(!mail.token.equals(token)) {
+        //Test if the sent token is equal to the defined token.
+        if(!token.equals(mail.token)) {
             return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("Not_Acceptable"), HttpStatus.NOT_ACCEPTABLE);
         } else {
             try {
@@ -92,13 +108,26 @@ public class Mailer {
         }
     }
 
-
+    /**
+     * Parses the body and replaces all placeholders in it with the passed values.
+     *
+     * The placeholders have the format of $placeholder$. The keys-Array contains all the placeholders as String-names,
+     * the values contain the values with which the placeholders are to be replaced.
+     *
+     * IMPORTANT: keys- and values-Array have to be in the same order! keys[i] will be replaced by values[i]
+     *
+     * @param body       The mail-body containing placeholders in the format $placeholder$
+     * @param keys       The names of the placeholders.
+     * @param values     The values to replace the placeholders with.
+     * @return
+     */
     public String prepareText(String body, String[] keys, String[] values){
         ST template = new ST(body, '$', '$');
 
         log.info("Replacing text: " + body + " | Keys: " + keys.toString() + " | Values: " + values.toString());
 
         for(int i = 0; i<keys.length; i++) {
+            //Booleans need to be boolean, so we need to parse the string as a boolean
             if("true".equalsIgnoreCase(values[i])) {
                 template.add(keys[i], true);
             } else if("false".equalsIgnoreCase(values[i])) {
