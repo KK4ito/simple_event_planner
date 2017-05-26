@@ -35,7 +35,7 @@
   "DETAIL.ATTENDING": "Angemeldet",
   "DETAIL.END_DATE": "Schluss",
   "DETAIL.DURATION": "Dauer",
-  "DETAIL.LOGIN": "Du musst eingelogt sein um Teilnehmen zu können.",
+  "DETAIL.LOGIN": "Du musst eingeloggt sein um Teilnehmen zu können.",
   "UPDATE_USER.EDIT": "Bearbeite",
   "UPDATE_USER.CREATE_USER": "Erstelle Benutzer",
   "UPDATE_USER.FIRST_NAME": "Vorname",

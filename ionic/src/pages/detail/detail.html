@@ -74,7 +74,7 @@
 
     <ion-item *ngIf="!editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
       <ion-icon item-left name="people"></ion-icon>
-      <ion-label *ngIf="eventAttendee">{{'DETAIL.LOGIN' | translate}}</ion-label>
+      <ion-label>{{'DETAIL.LOGIN' | translate}}</ion-label>
     </ion-item>
 
 

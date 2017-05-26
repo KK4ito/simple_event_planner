@@ -68,20 +68,21 @@ export class DetailPage {
         this.eventForm.controls['closingTime'].setValue(event.closingTime);
         this.eventForm.controls['endTime'].setValue(event.endTime);
         this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
-        // TODO Provide logged in user id instead of hardcoded one
-        this._apiService.getAttends(1, this.event.id)
-          .then((eventAttendee) => {
-            self.eventAttendee = eventAttendee;
-            self.attends = true;
-            // Needed because of initialization delay
-            setTimeout(() => self.attendsLocked = false, 1000);
-          })
-          .catch(() => {
-            self.attends = false;
-            // Needed because of initialization delay
-            setTimeout(() => self.attendsLocked = false, 1000);
-          });
-
+        var user = authService.getUser();
+        if(user) {
+          this._apiService.getAttends(user.id, this.event.id)
+            .then((eventAttendee) => {
+              self.eventAttendee = eventAttendee;
+              self.attends = true;
+              // Needed because of initialization delay
+              setTimeout(() => self.attendsLocked = false, 1000);
+            })
+            .catch(() => {
+              self.attends = false;
+              // Needed because of initialization delay
+              setTimeout(() => self.attendsLocked = false, 1000);
+            });
+        }
       });
       this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {
         this.speakers = speakers;
