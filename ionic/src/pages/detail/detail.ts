@@ -17,6 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {InvitePage} from "../invite/invite";
 import {DetailPrintPage} from "../detail-print/detail-print";
 import {SelectFoodPage} from "../select-food/select-food";
+import {FoodType} from "../../models/FoodType";
 
 @Component({
   selector: 'page-detail',
@@ -241,7 +242,6 @@ export class DetailPage {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
       if (!this.attends) {
-        console.log(this.eventAttendee);
         this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
           this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
           this.eventAttendee = undefined;
@@ -251,18 +251,19 @@ export class DetailPage {
       } else {
         let modal = this.modalCtrl.create(SelectFoodPage);
         modal.onDidDismiss((data) => {
-          console.log(data);
-
           let eventAttendee = new EventAttendee();
           eventAttendee.event = '/events/' + this.event.id;
           let user = this.authService.getUser();
           eventAttendee.user = '/users/' + user.id;
-          eventAttendee.foodType = data.selectedFood;
-          eventAttendee.drink = data.drink;
-          console.log('eventAttendee', eventAttendee);
+          if(data) {
+            eventAttendee.foodType = data.selectedFood;
+            eventAttendee.drink = data.drink;
+          }else{
+            eventAttendee.foodType = FoodType.NONE;
+            eventAttendee.drink = false;
+          }
           this._apiService.createEventAttendee(eventAttendee).then((result) => {
             this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
-            console.log('result', result);
             this.eventAttendee = result;
             this.attends = true;
             this.attendsLocked = false;
