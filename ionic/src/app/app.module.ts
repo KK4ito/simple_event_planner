@@ -112,8 +112,7 @@ export const deepLinkConfig: any = {
   providers: [
     AuthService,
     ApiService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: XSRFStrategy,  useValue: new CookieXSRFStrategy('XSRF-TOKEN')}
-  ]
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ]
 })
 export class AppModule {}
