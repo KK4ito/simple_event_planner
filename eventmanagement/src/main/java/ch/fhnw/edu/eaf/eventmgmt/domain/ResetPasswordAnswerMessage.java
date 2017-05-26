@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.eventmgmt;
+package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 /**
  * Created by apple on 25.05.17.

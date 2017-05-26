@@ -36,6 +36,7 @@ dependencies {
     compile("org.pac4j:pac4j-jwt:1.9.4")
     compile("org.pac4j:pac4j-http:1.9.4")
 
+    compile("org.antlr:stringtemplate:4.0")
 
 
     runtime("com.h2database:h2")

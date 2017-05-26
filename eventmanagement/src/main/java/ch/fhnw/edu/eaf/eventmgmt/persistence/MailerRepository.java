@@ -1,10 +1,9 @@
-package ch.fhnw.edu.eaf.eventmgmt;
+package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
+import ch.fhnw.edu.eaf.eventmgmt.domain.AnswerWrapper;
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
+import ch.fhnw.edu.eaf.eventmgmt.domain.Mail;
 import ch.fhnw.edu.eaf.eventmgmt.domain.User;
-import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
-import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
-import ch.fhnw.edu.eaf.eventmgmt.persistence.UserRepository;
 import org.pac4j.core.profile.CommonProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +17,13 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
-public class MailerController {
+public class MailerRepository {
 
     @Autowired
     RestTemplate restTemplate;
@@ -88,10 +90,10 @@ public class MailerController {
         String[] values = new String[8];
 
         keys[0] = "eventDateDay";
-        values[0] = MailHelper.getEventDay(event.getStartTime());
+        values[0] = this.getEventDay(event.getStartTime());
 
         keys[1] = "eventTime";
-        values[1] = MailHelper.getEventTime(event.getStartTime());
+        values[1] = this.getEventTime(event.getStartTime());
 
         keys[2] = "name";
         values[2] = event.getName();
@@ -100,7 +102,7 @@ public class MailerController {
         values[3] = event.getLocation();
 
         keys[4] = "eventDeadline";
-        values[4] = MailHelper.getEventDateTime(event.getClosingTime());
+        values[4] = this.getEventDateTime(event.getClosingTime());
 
         keys[5] = "eventLink";
         values[5] = linkUrl;
@@ -112,7 +114,7 @@ public class MailerController {
         values[6] = user.getFirstName() + " " + user.getLastName();
 
         keys[7] = "eventDate";
-        values[7] = MailHelper.getEventDate(event.getStartTime());
+        values[7] = this.getEventDate(event.getStartTime());
 
         generatedMail.keys = keys;
         generatedMail.values = values;
@@ -143,6 +145,31 @@ public class MailerController {
         mail.body = invitationText;
 
         return new ResponseEntity<Mail>(mail, HttpStatus.OK);
+    }
+
+
+    public String getEventDate(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String eventDate = dateFormat.format(date);
+        return eventDate;
+    }
+
+    public String getEventTime(Date date) {
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        String eventTime = timeFormat.format(date);
+        return eventTime;
+    }
+
+    public String getEventDay(Date date) {
+        DateFormat dateDayFormat = new SimpleDateFormat("EEEE");
+        String eventDateDay = dateDayFormat.format(date);
+        return eventDateDay;
+    }
+
+    public String getEventDateTime(Date date) {
+        DateFormat dateTimeFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
+        String eventDateTime = dateTimeFormat.format(date);
+        return eventDateTime;
     }
 
 

@@ -1,7 +1,6 @@
 /*
 package ch.fhnw.edu.eaf.eventmanagement;
 
-import ch.fhnw.edu.eaf.eventmgmt.MailHelper;
 import ch.fhnw.edu.eaf.eventmgmt.domain.Event;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventAttendeeRepository;
 import ch.fhnw.edu.eaf.eventmgmt.persistence.EventRepository;
@@ -24,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(MailHelper.class)
 @TestPropertySource(locations="classpath:application.properties")
 public class MailHelperTest {
 

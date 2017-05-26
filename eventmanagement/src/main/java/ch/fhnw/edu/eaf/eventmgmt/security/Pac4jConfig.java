@@ -31,8 +31,6 @@ public class Pac4jConfig {
         config.addAuthorizer("custom", new SecureAuthorizer());
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{
                 new SecurePath("/api/login/", true, true, true, true, false, true),
-                new SecurePath("/api/requestPasswordReset", true),
-                //new SecurePath("/api/users/search/me", true),
                 new SecurePath("/api/users/search/role", true),
                 new SecurePath("/api/events/search/closingEvents", true),
                 new SecurePath("/api/users/search/attendees", false),
@@ -42,7 +40,6 @@ public class Pac4jConfig {
                 new SecurePath("/api/users/", true, true, true, true, true, true),
         }
         ));
-        //config.addMatcher("events", new ExcludedPathMatcher("^/api/login/(/.*)?$"));
 
         return config;
     }

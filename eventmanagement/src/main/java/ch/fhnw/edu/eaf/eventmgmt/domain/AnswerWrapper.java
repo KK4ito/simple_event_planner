@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.eventmgmt;
+package ch.fhnw.edu.eaf.eventmgmt.domain;
 
 public class AnswerWrapper {
     private String result;

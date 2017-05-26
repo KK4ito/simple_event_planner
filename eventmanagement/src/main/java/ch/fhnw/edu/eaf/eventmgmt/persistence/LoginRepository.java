@@ -1,9 +1,9 @@
 package ch.fhnw.edu.eaf.eventmgmt.persistence;
 
-import ch.fhnw.edu.eaf.eventmgmt.AnswerWrapper;
-import ch.fhnw.edu.eaf.eventmgmt.Mail;
-import ch.fhnw.edu.eaf.eventmgmt.ResetPasswordAnswerMessage;
-import ch.fhnw.edu.eaf.eventmgmt.ResetPasswordWrapper;
+import ch.fhnw.edu.eaf.eventmgmt.domain.AnswerWrapper;
+import ch.fhnw.edu.eaf.eventmgmt.domain.Mail;
+import ch.fhnw.edu.eaf.eventmgmt.domain.ResetPasswordAnswerMessage;
+import ch.fhnw.edu.eaf.eventmgmt.domain.ResetPasswordWrapper;
 import ch.fhnw.edu.eaf.eventmgmt.domain.User;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.WebContext;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.stringtemplate.v4.ST;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +48,9 @@ public class LoginRepository {
     @Value("${passwordReset.url}")
     private String passwordResetBaseUrl;
 
+    @Value("${mail.resetPassword.text}")
+    private String passwordResetText;
+
     @Value("${mailer.token}")
     private String mailerToken;
 
@@ -67,7 +71,7 @@ public class LoginRepository {
     public void logout() {
     }
 
-    @RequestMapping(value = "/api/requestPasswordReset", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/login/requestPasswordReset", method = RequestMethod.POST)
     public ResponseEntity<ResetPasswordAnswerMessage> sendPasswordResetMail(@RequestBody ResetPasswordWrapper wrapper) {
 
         String email = wrapper.getEmail();
@@ -94,12 +98,11 @@ public class LoginRepository {
         mail.token = mailerToken;
         mail.to = user.getEmail();
         mail.subject = "Passwort zurücksetzen";
-        String body = "Guten Tag " + user.getFirstName() + " " + user.getLastName() + "<br /><br />";
-        body += "Unter folgendem Link können Sie Ihr Passwort zurücksetzen: " + url + "<br /><br />";
-        body += "Freundliche Grüsse<br /><br />";
-        body += "FHNW CS-Seminar-Team";
 
-        mail.body = body;
+
+        ST template = new ST(passwordResetText, '$', '$');
+        template.add("url", url);
+        mail.body = template.render();
         mail.keys = new String[0];
         mail.values = new String[0];
 
@@ -126,7 +129,7 @@ public class LoginRepository {
         return new ResponseEntity<ResetPasswordAnswerMessage>(new ResetPasswordAnswerMessage("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @RequestMapping(value = "/api/resetPassword/", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/login/resetPassword", method = RequestMethod.POST)
     public ResponseEntity<ResetPasswordAnswerMessage> resetPassword(@RequestBody ResetPasswordWrapper wrapper) {
 
         //Getting token
