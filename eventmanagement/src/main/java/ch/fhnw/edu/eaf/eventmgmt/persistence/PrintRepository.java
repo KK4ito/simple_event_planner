@@ -16,6 +16,9 @@ import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import java.util.List;
 
+/**
+ * Provides necessary methods to provide information suitable for printing.
+ */
 @RestController
 public class PrintRepository {
 
@@ -25,6 +28,15 @@ public class PrintRepository {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Gets all eventAttendees for an event with an id equal to the passed id.
+     *
+     * The eventAttendee are of type "eventAttendeeFlat" that do not contain additional information compared
+     * to eventAttendees.
+     *
+     * @param id        The id of an event.
+     * @return
+     */
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     @RequestMapping(value = "${spring.data.rest.basePath}/print/{id:.+}", method = RequestMethod.GET)
     public ResponseEntity<EventAttendeeFlat[]> display(@PathVariable("id") Long id) {

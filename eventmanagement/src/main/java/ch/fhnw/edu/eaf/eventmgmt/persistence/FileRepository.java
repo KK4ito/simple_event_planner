@@ -16,6 +16,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
 
+/**
+ * The file-repository.
+ *
+ * Provides various methods (additionally to the ones provided by JpaRepository) to get and set
+ * file-data.
+ */
 @RestController
 public class FileRepository {
 
@@ -24,6 +30,13 @@ public class FileRepository {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Saves an uploaded file to the db.
+     *
+     * @param file      The file to save to the db.
+     * @return          A response-entity with status 200 and the file in the body (if the file could be saved)
+     * or status 400 and empty body otherwise.
+     */
     @RequestMapping(value = "${spring.data.rest.basePath}/files", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
@@ -39,6 +52,12 @@ public class FileRepository {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    /**
+     * Gets a file with the passed id.
+     *
+     * @param id            The id of the file to get.
+     * @return              ResponseEntity with status 200 and the file in the body, status 404 and empty body otherwise.
+     */
     @RequestMapping(value = "${spring.data.rest.basePath}/download/{id:.+}", method = RequestMethod.GET)
     public ResponseEntity<byte[]> display(@PathVariable("id") Long id) {
         File file = em.find(File.class, id);

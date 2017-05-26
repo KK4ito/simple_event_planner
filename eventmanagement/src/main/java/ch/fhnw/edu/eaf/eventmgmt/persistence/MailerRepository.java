@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The endpoint for sending mails.
+ */
 @RestController
 public class MailerRepository {
 
@@ -37,12 +40,23 @@ public class MailerRepository {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * The baseurl to build urls connecting to events
+     */
     @Value("${mailer.eventsBaseUrl}")
     private String eventsBaseUrl;
 
+    /**
+     * The token for the mail-microservice. Without this token
+     * we cannot send any mails.
+     */
     @Value("${mailer.token}")
     private String token;
 
+    /**
+     * INVITATION
+     * Different attributes to send invitation-emails
+     */
     @Value("${mail.invitation.to}")
     private String invitationTo;
 
@@ -58,15 +72,27 @@ public class MailerRepository {
     @Value("${mail.invitation.text}")
     private String invitationText;
 
+    /**
+     * The logical name of the mailer
+     */
     @Value("${microservices.mailer}")
     private String microservicesMailer;
 
+    /**
+     * The base path to reach the api of the mailer.
+     */
     @Value("${microservices.mailer.basePath}")
     private String mailerBasePath;
 
     @Autowired
     private HttpServletRequest context;
 
+    /**
+     * Sends the passed mail.
+     *
+     * @param mail      The mail-object containing the recipients, cc, subject, body, keys and values.
+     * @return
+     */
     @RequestMapping(value="/api/mail", method= RequestMethod.POST)
     public ResponseEntity<AnswerWrapper> sendInvitation(@RequestBody Mail mail) {
 
@@ -75,6 +101,8 @@ public class MailerRepository {
         Event event = eventRepository.findOne(eventId);
 
         String url = "http://" + microservicesMailer + "/" + mailerBasePath + "/send";
+
+        //Set up basic mailproperties
         Mail generatedMail = new Mail();
         generatedMail.from = invitationFrom;
 
@@ -86,6 +114,7 @@ public class MailerRepository {
 
         String linkUrl = eventsBaseUrl + event.getId();
 
+        //Save necessary keys and values.
         String[] keys = new String[8];
         String[] values = new String[8];
 
@@ -108,6 +137,8 @@ public class MailerRepository {
         values[5] = linkUrl;
 
         keys[6] = "koordinator";
+
+        //Get the name of the currently logged in user. This user is used to sign the mail.
         HttpSession session = context.getSession();
         CommonProfile profile = (CommonProfile) session.getAttribute("profile");
         User user = (User) profile.getAttribute("user");
@@ -127,11 +158,19 @@ public class MailerRepository {
         }
     }
 
+    /**
+     * Endpoint to get the template for the invitation-email.
+     *
+     * @return  String      Mail-template for the invitation
+     */
     @RequestMapping(value="/api/template", method = RequestMethod.GET)
     public ResponseEntity<Mail> getTemplate() {
 
+        //Get all external users who did not choose to opt out of event information
         List<User> external = userRepository.externalOptIn();
         StringBuilder s = new StringBuilder();
+
+        //Build the list of recipients (comma-separated String of email-addresses)
         for(User u: external) {
             s.append(u.getEmail());
         }
@@ -147,25 +186,48 @@ public class MailerRepository {
         return new ResponseEntity<Mail>(mail, HttpStatus.OK);
     }
 
-
+    /**
+     * Helper-method to extract the date in the format of dd.MM.yyyy out of a passed Date.
+     *
+     * @param date      Date to process
+     * @return String   The processed date in the format of 12.03.2017
+     */
     public String getEventDate(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String eventDate = dateFormat.format(date);
         return eventDate;
     }
 
+    /**
+     * Helper-method to extract the time in the format of HH:mm out of a passed Date.
+     *
+     * @param date      Date to process
+     * @return String   The processed time in the format of 12:45
+     */
     public String getEventTime(Date date) {
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         String eventTime = timeFormat.format(date);
         return eventTime;
     }
 
+    /**
+     * Helper-method to extract the weekday out of a passed Date.
+     *
+     * @param date      Date to process
+     * @return String   The extraced weekday e.g. "Dienstag"
+     */
     public String getEventDay(Date date) {
         DateFormat dateDayFormat = new SimpleDateFormat("EEEE");
         String eventDateDay = dateDayFormat.format(date);
         return eventDateDay;
     }
 
+    /**
+     * Helper-method to extract the date and time in the format of HH:mm dd.MM.yyyy out of a passed Date.
+     *
+     * @param date      Date to process
+     * @return String   The processed date in the format of 12:45 12.03.2017
+     */
     public String getEventDateTime(Date date) {
         DateFormat dateTimeFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
         String eventDateTime = dateTimeFormat.format(date);

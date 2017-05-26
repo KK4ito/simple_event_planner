@@ -29,6 +29,11 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The login-repository.
+ *
+ * Provides various methods for login, logout, and reset the password.
+ */
 @RestController
 public class LoginRepository {
 
@@ -45,18 +50,44 @@ public class LoginRepository {
     @Autowired
     RestTemplate restTemplate;
 
+    /**
+     * The base-url, used to send the resetPassword-URL that is sent to the user wishing
+     * to reset his password.
+     */
     @Value("${passwordReset.url}")
     private String passwordResetBaseUrl;
 
+    /**
+     * The text of the resetPassword-mail.
+     */
     @Value("${mail.resetPassword.text}")
     private String passwordResetText;
 
+    /**
+     * The subject of the resetPassword-mail.
+     */
+    @Value("${mail.resetPassword.subject}")
+    private String resetPasswordSubject;
+
+    /**
+     * The token of the mail-microservice, so we are actually able to send mails.
+     */
     @Value("${mailer.token}")
     private String mailerToken;
 
+    /**
+     * The logical name of the mailer-microservice.
+     */
     @Value("${microservices.mailer}")
     private String mailer;
 
+    /**
+     * Executes a login.
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/api/login/login", method = RequestMethod.GET)
     public ResponseEntity<User> login(HttpServletRequest request, HttpServletResponse response) {
         final WebContext context = new J2EContext(request, response);
@@ -71,40 +102,49 @@ public class LoginRepository {
     public void logout() {
     }
 
+    /**
+     * Handles a resetPassword-Request.
+     *
+     *
+     * @param wrapper   ResetPasswordWrapper containing the email of the user requesting a to reset his password.
+     * @return
+     */
     @RequestMapping(value = "/api/login/requestPasswordReset", method = RequestMethod.POST)
     public ResponseEntity<ResetPasswordAnswerMessage> sendPasswordResetMail(@RequestBody ResetPasswordWrapper wrapper) {
 
         String email = wrapper.getEmail();
-        //Check in db, is user present
+        //Check in db if is user present
         List<User> u = userRepository.findByEmail(email);
 
+        //If we found more than one user with the mail we cannot reset the password.
         if(u.size() == 0 || u.size() > 1) {
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("No matching user found"), HttpStatus.NOT_ACCEPTABLE);
         }
         User user = u.get(0);
 
+        //If the user is internal we cannot reset his password
         if(user.isInternal()) {
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("User authenticated via aai cannot reset password"), HttpStatus.NOT_ACCEPTABLE);
         }
 
-        //generate token
+        //Generate a reset token
         String token = "";
         SecureRandom random = new SecureRandom();
         token = new BigInteger(130, random).toString(32);
 
-        //generate expirationtime
+        //Generate/calculate the expirationtime of the reset-token.
         Date timePlus60Minutes = new Date(new Date().getTime() + (60 * ONE_MINUTE_IN_MILLISECONDS));
 
-        //send mail to user
+        //Send resetPassword-mail to user
         String url = passwordResetBaseUrl + token;
 
         String mailerUrl = "http://" + mailer + "/api/send";
         Mail mail = new Mail();
         mail.token = mailerToken;
         mail.to = user.getEmail();
-        mail.subject = "Passwort zurücksetzen";
+        mail.subject = resetPasswordSubject;
 
-
+        //Insert the correct values into the resetPassword-Mailtemplate
         ST template = new ST(passwordResetText, '$', '$');
         template.add("url", url);
         mail.body = template.render();
@@ -112,6 +152,7 @@ public class LoginRepository {
         mail.values = new String[0];
 
         try {
+            //Send the resetPassword-Mail to the user.
             ResponseEntity<AnswerWrapper> result = restTemplate.postForEntity(mailerUrl, mail, AnswerWrapper.class);
             if(result.getStatusCode() == HttpStatus.NOT_ACCEPTABLE) {
                 log.error("Mail to " + mail.to + " was not send: Token was invalid");
@@ -134,13 +175,22 @@ public class LoginRepository {
         return new ResponseEntity<ResetPasswordAnswerMessage>(new ResetPasswordAnswerMessage("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Resets an old password.
+     *
+     * @param wrapper       Wrapper containing a resetPassword-token
+     * @return
+     */
     @RequestMapping(value = "/api/login/resetPassword", method = RequestMethod.POST)
     public ResponseEntity<ResetPasswordAnswerMessage> resetPassword(@RequestBody ResetPasswordWrapper wrapper) {
 
-        //Getting token
+        //Getting the token from the wrapper
         String token = wrapper.getToken();
 
+        //Find all users with the passed token.
         List<User> users = userRepository.findByToken(token);
+
+        //We should only find one user with the token otherwise return an error-code.
         if(users.size() == 0) {
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("Invalid token"), HttpStatus.NOT_ACCEPTABLE);
         }
@@ -149,7 +199,7 @@ public class LoginRepository {
         }
         if(users.size() == 1) {
             User user = users.get(0);
-            //Check if token exists in user-db and did not expire
+
             Date currentDate = new Date();
 
             //Check if the passed token is equal to the token in the db

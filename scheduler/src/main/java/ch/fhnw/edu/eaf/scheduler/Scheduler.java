@@ -553,7 +553,7 @@ public class Scheduler {
      * @return String   The extraced weekday e.g. "Dienstag"
      */
     public String getdateDay(Date date) {
-        DateFormat dateDayFormat = new SimpleDateFormat("E");
+        DateFormat dateDayFormat = new SimpleDateFormat("EEEE");
         String eventDateDay = dateDayFormat.format(date);
         return eventDateDay;
     }
