@@ -77,10 +77,15 @@ public class LoginRepository {
         String email = wrapper.getEmail();
         //Check in db, is user present
         List<User> u = userRepository.findByEmail(email);
+
         if(u.size() == 0 || u.size() > 1) {
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("No matching user found"), HttpStatus.NOT_ACCEPTABLE);
         }
         User user = u.get(0);
+
+        if(user.isInternal()) {
+            return new ResponseEntity<>(new ResetPasswordAnswerMessage("User authenticated via aai cannot reset password"), HttpStatus.NOT_ACCEPTABLE);
+        }
 
         //generate token
         String token = "";
