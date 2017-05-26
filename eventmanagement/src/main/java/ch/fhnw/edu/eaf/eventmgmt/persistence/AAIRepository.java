@@ -53,22 +53,15 @@ public class AAIRepository {
             profile.addAttribute(Pac4jConstants.USERNAME, mail.trim().toUpperCase());
             profile.addRole("REGISTERED");
             context.getSession().setAttribute("profile", profile);
-
             User user = new User();
-            user.setFirstName(givenname);
-
-            String utf8String = new String(org.apache.commons.io.Charsets.ISO_8859_1.encode(surname).array());
-
-            //byte[] utf8 = new String(latin1, "ISO-8859-1").getBytes("UTF-8");
-
-            user.setLastName(utf8String);
+            user.setFirstName(new String(org.apache.commons.io.Charsets.ISO_8859_1.encode(givenname).array()));
+            user.setLastName(new String(org.apache.commons.io.Charsets.ISO_8859_1.encode(surname).array()));
             user.setEmail(mail);
             user.setInternal(true);
             user.setRole(User.RoleType.REGISTERED);
             em.persist(user);
 
         }
-
         response.sendRedirect("https://www.cs.technik.fhnw.ch/wodss17-5/#/profile");
     }
 }
