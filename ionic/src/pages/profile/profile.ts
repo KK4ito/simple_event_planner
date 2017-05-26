@@ -19,7 +19,7 @@ export class ProfilePage {
   private user = new User();
   private receiveEmails: boolean;
 
-  private passwordResetToken: number;
+  private passwordResetToken: string;
   private password: string;
   private passwordConfirm: string;
 
@@ -80,7 +80,7 @@ export class ProfilePage {
 
   resetPassword() {
     if (this.passwordConfirm === this.password) {
-      this.apiService.resetPassword(this.passwordResetToken, this.password).then(res => {
+      this.authService.resetPassword(this.passwordResetToken, this.password).then(res => {
         console.log(res);
       }).catch(err => console.log(err));
     } else {
@@ -94,7 +94,7 @@ export class ProfilePage {
   }
 
   requestPasswordReset() {
-    this.apiService.requestPasswordReset(this.email).then(res => {
+    this.authService.requestPasswordReset(this.email).then(res => {
       console.log(res);
     }).catch(err => console.log(err));
   }

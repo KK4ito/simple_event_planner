@@ -49,19 +49,57 @@ export class AuthService {
   public login(user: User = null): Promise<User> {
     let self = this;
     let headers = new Headers();
-    if(user){
+    if (user) {
       headers.append("Authorization", "Basic " + btoa(user.email + ':' + user.password));
     }
     return new Promise((resolve, reject) => {
-      let url = this.config.baseUrl +'/login/login';
-      this.http.get(url, { withCredentials: true, headers: headers }).toPromise().then(data => {
-          // wait until not uninit
-          self.user = data.json();
-          this.events.publish('user:changed', self.user);
-          resolve(self.user);
-        }).catch(error => {
-          this.events.publish('user:changed', self.user);
-          reject();
+      let url = this.config.baseUrl + '/login/login';
+      this.http.get(url, {withCredentials: true, headers: headers}).toPromise().then(data => {
+        // wait until not uninit
+        self.user = data.json();
+        this.events.publish('user:changed', self.user);
+        resolve(self.user);
+      }).catch(error => {
+        this.events.publish('user:changed', self.user);
+        reject();
+      });
+    });
+  }
+
+  /**
+   * Requests a password token to the passed email
+   *
+   * @param email
+   * @returns {Promise<User>}
+   */
+  requestPasswordReset(email: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.config.baseUrl + '/login/requestPasswordReset', {email: email}, {withCredentials: true})
+        .subscribe(() => {
+          resolve();
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  /**
+   * Resets a password with the passed tokan
+   *
+   * @param token
+   * @param password
+   * @returns {Promise<User>}
+   */
+  resetPassword(token: string, password: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post(this.config.baseUrl + '/login/resetPassword', {
+        token: token,
+        password: password
+      }, {withCredentials: true})
+        .subscribe(() => {
+          resolve();
+        }, error => {
+          reject(error);
         });
     });
   }
@@ -71,7 +109,7 @@ export class AuthService {
    */
   logout() {
     console.log('cookie', document.cookie);
-    this.http.get(this.config.baseUrl + '/login/logout', { withCredentials: true }).toPromise().then(() =>{
+    this.http.get(this.config.baseUrl + '/login/logout', {withCredentials: true}).toPromise().then(() => {
       this.user = null;
       this.events.publish('user:changed', this.user);
     });
@@ -87,14 +125,14 @@ export class AuthService {
   getMultiple<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
       var url = this.config.baseUrl + '/' + endpoint + ((parameters === '') ? '' : '?' + parameters);
-      this.http.get(url, { withCredentials: true })
+      this.http.get(url, {withCredentials: true})
         .subscribe(data => {
           // wait until not uninit
           var json = data.json();
-          if(json.hasOwnProperty('_embedded')){
+          if (json.hasOwnProperty('_embedded')) {
             var obj = json._embedded;
             resolve(obj[Object.keys(obj)[0]]);
-          }else{
+          } else {
             resolve(json);
           }
         }, error => {
@@ -112,7 +150,7 @@ export class AuthService {
    */
   getSingle<T>(endpoint, parameters = ''): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters, { withCredentials: true })
+      this.http.get(this.config.baseUrl + '/' + endpoint + '/' + parameters, {withCredentials: true})
         .subscribe(data => {
           // wait until not uninit
           resolve(data.json());
@@ -131,7 +169,7 @@ export class AuthService {
    */
   put(endpoint, object): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.put(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
+      this.http.put(this.config.baseUrl + '/' + endpoint + '/', object, {withCredentials: true})
         .subscribe(data => {
           try { // TODO: Is there a better way to do this?
             resolve(data.json());
@@ -154,7 +192,7 @@ export class AuthService {
    */
   patch(endpoint, object): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.patch(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
+      this.http.patch(this.config.baseUrl + '/' + endpoint + '/', object, {withCredentials: true})
         .subscribe(data => {
           try { // TODO: Is there a better way to do this?
             resolve(data.json());
@@ -177,7 +215,7 @@ export class AuthService {
    */
   post(endpoint, object): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.config.baseUrl + '/' + endpoint + '/', object, { withCredentials: true })
+      this.http.post(this.config.baseUrl + '/' + endpoint + '/', object, {withCredentials: true})
         .subscribe(data => {
           resolve(data.json());
         }, error => {
@@ -194,7 +232,7 @@ export class AuthService {
    */
   delete(endpoint): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.delete(this.config.baseUrl + '/' + endpoint + '/', { withCredentials: true })
+      this.http.delete(this.config.baseUrl + '/' + endpoint + '/', {withCredentials: true})
         .subscribe(data => {
           //this.log('delete response', data.json());
           //resolve(data.json());
