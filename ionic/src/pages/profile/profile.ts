@@ -101,7 +101,6 @@ export class ProfilePage {
   }
 
   loginWithSibboleth() {
-    console.log('redirect to aai');
-    window.location = 'https://www.cs.technik.fhnw.ch/wodss17-5/#/profile';
+    window.location.href = 'https://www.cs.technik.fhnw.ch/wodss17-5-aai/#/profile';
   }
 }
