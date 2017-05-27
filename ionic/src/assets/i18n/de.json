@@ -12,6 +12,7 @@
   "LOGIN_FAILED": "Login fehlgeschlagen",
   "EMAIL_FAILED": "EMail konnte nicht versendet werden",
   "EMAIL_SENT": "EMail wurde versendet",
+  "ALREADY_CLOSED": "Anmeldeschluss vorbei",
 
 
   "NAV.EVENTS": "Veranstaltungen",

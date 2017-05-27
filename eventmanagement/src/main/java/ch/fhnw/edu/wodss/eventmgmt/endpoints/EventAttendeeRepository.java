@@ -58,7 +58,7 @@ public interface EventAttendeeRepository extends JpaRepository<EventAttendee, Lo
      * @param e     The eventAttendee to delete.
      */
     // Prevents DELETE /eventAttendees/:id
-    @PreAuthorize("hasAuthority('REGISTERED') and hasPermission(#e, 'EVENTATTENDEE_OWNER')")
+    @PreAuthorize("hasAuthority('REGISTERED') and hasPermission(#e, 'EVENTATTENDEE_OWNER') and hasPermission(#e, 'EVENTATTENDEE_BUSINESS_LOGIC')")
     @Override
     public void delete(EventAttendee e);
 }

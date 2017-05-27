@@ -7,6 +7,7 @@ import org.pac4j.core.profile.CommonProfile;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Determines whether or not a user has the required permissions or not for a given
@@ -32,13 +33,20 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             for (User user : event.getSpeakers()) {
                 if (email.equalsIgnoreCase(user.getEmail().trim())) return true;
             }
+            return false;
         }else if ("USER_OWNER".equals(permission.toString())) {
             User user = (User) targetDomainObject;
-            if(user.getEmail().equalsIgnoreCase(email)) return true;
+            return user.getEmail().equalsIgnoreCase(email);
         }else if ("EVENTATTENDEE_OWNER".equals(permission.toString())) {
             EventAttendee eventAttendee = (EventAttendee) targetDomainObject;
-            if(eventAttendee.getUser().getEmail().equalsIgnoreCase(email)) return true;
+            return (eventAttendee.getUser().getEmail().equalsIgnoreCase(email));
+
+        }else if ("EVENTATTENDEE_BUSINESS_LOGIC".equals(permission.toString())) {
+            // Check if event closing time is in the future, otherwise deny
+            EventAttendee eventAttendee = (EventAttendee) targetDomainObject;
+            return eventAttendee.getEvent().getClosingTime().getTime() > new Date().getTime();
         }
+
         return false;
     }
 

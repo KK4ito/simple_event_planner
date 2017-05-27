@@ -253,6 +253,10 @@ export class DetailPage {
     }
   }
 
+  isClosed(){
+    return Date.parse(this.event.closingTime) < new Date().getTime();
+  }
+
   /**
    * Open print page
    */
