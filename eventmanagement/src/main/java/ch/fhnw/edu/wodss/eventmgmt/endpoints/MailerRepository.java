@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -171,15 +172,32 @@ public class MailerRepository {
         StringBuilder s = new StringBuilder();
 
         //Build the list of recipients (comma-separated String of email-addresses)
-        for(User u: external) {
-            s.append(u.getEmail());
+        for(int i = 0; i < external.size(); i++) {
+            User user = external.get(i);
+            s.append(user.getEmail());
+            if((i+1) < external.size()) {
+                s.append(",");
+            }
         }
 
         Mail mail = new Mail();
-        s.append(mail.to);
-        mail.from = invitationFrom;
+        if(invitationTo != null) {
+            if(external.size() > 0) {
+                s.append(",");
+            }
+            s.append(invitationTo);
+        }
 
-        mail.cc = invitationCc;
+        mail.from = "";
+        if(invitationFrom != null) {
+            mail.from = invitationFrom;
+        }
+
+        mail.to = s.toString();
+        mail.cc = "";
+        if(invitationCc != null) {
+            mail.cc = invitationCc;
+        }
         mail.subject = invitationSubject;
         mail.body = invitationText;
 
