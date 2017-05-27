@@ -7,3 +7,4 @@ frontend/build
 scheduler/build
 mailer/build
 wodss.log
+*.log
