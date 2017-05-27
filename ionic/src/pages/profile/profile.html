@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'NAV.PROFILE' | translate }}</ion-title>
+    <ion-title>{{ 'PROFILE' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,75 +11,35 @@
 
 <ion-content padding>
 
-  <h1>{{ 'PROFILE.PROFILE' | translate }}</h1>
+  <h1>{{ 'PROFILE' | translate }}</h1>
 
-  <ion-card>
+  <ion-card *ngIf="authService.getRole() == RoleType.ANONYMOUS">
     <ion-card-content>
       <ion-card-title>
-        Password Reset Token
-      </ion-card-title>
-
-      <form (ngSubmit)="requestPasswordReset()">
-        <ion-item>
-          <h2>Email</h2>
-          <ion-input item-right placeholder="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}"></ion-input>
-        </ion-item>
-
-        <button ion-button>Reset Password</button>
-      </form>
-
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card *ngIf="passwordResetToken">
-    <ion-card-content>
-      <ion-card-title>
-        Password Reset Token
-      </ion-card-title>
-
-      <form (ngSubmit)="resetPassword()">
-        <ion-item>
-          <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
-          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
-          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="passwordConfirm" [ngModelOptions]="{standalone: true}"></ion-input>
-        </ion-item>
-
-        <button ion-button>Reset Password</button>
-      </form>
-
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card *ngIf="authService.getRole() == RoleType.ANONYMOUS && !passwordResetToken">
-    <ion-card-content>
-      <ion-card-title>
-        {{ 'PROFILE.LOGIN' | translate }}
+        {{ 'LOGIN' | translate }}
       </ion-card-title>
 
       <form (ngSubmit)="login()">
         <ion-item>
-          <h2>{{ 'PROFILE.EMAIL' | translate }}</h2>
-          <ion-input item-right placeholder="{{ 'PROFILE.EMAIL' | translate }}" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
+          <h2>{{ 'EMAIL' | translate }}</h2>
+          <ion-input item-right placeholder="{{ 'EMAIL' | translate }}" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
         <ion-item>
           <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
-          <ion-input item-right placeholder="{{ 'PROFILE.PASSWORD' | translate }}" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-input item-right placeholder="{{ 'PASSWORD' | translate }}" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
-        <button ion-button>Login</button>
+        <button ion-button>{{'LOGIN' | translate}}</button>
       </form>
 
-      <button (click)="loginWithSibboleth()" ion-button>Login with Sibboleth</button>
+      <button (click)="loginWithSibboleth()" ion-button>{{'LOGIN_AAI' | translate}}</button><br />
+      <button (click)="requestPasswordReset()" ion-button>{{'PASSWORD_RESET' | translate}}</button>
 
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS && !passwordResetToken">
+  <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS">
     <picture-upload [height]="400" [image]="user.imageUri" (onFinished)="avatarUpdated($event[0])"></picture-upload>
 
     <ion-card-content>

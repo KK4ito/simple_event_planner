@@ -1,10 +1,9 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Print View</ion-title>
     <ion-buttons end>
       <button ion-button (click)="print()">
-        Print
+        {{'PRINT' | translate}}
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -18,51 +17,51 @@
 
   <table width="100%">
     <tr style="border-bottom: solid 1px grey">
-      <td>Location</td>
+      <td>{{'LOCATION' | translate}}</td>
       <td>{{ event?.location }}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
-      <td>Start</td>
+      <td>{{'START_DATE' | translate}}</td>
       <td>{{ event?.startTime | date: 'dd.MM.yy H:mm' }}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
-      <td>Attendees</td>
+      <td>{{'PARTICIPANTS' | translate}}</td>
       <td>{{ externalAttendees.length + internalAttendees.length }}</td>
     </tr>
     <tr *ngFor="let s of speakers" style="border-bottom: solid 1px grey">
-      <td>Speaker</td>
+      <td>{{'SPEAKERS' | translate}}</td>
       <td>{{ s.firstName }} {{ s.lastName }}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
-      <td>Drinks</td>
+      <td>{{'DRINKS' | translate}}</td>
       <td>{{nofDrinks}}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
-      <td>Sandwich, Vegi</td>
+      <td>{{'VEGI' | translate}}</td>
       <td>{{nofVegi}}</td>
     </tr>
     <tr style="border-bottom: solid 1px grey">
-      <td>Sandwich, Meat</td>
+      <td>{{'MEAT' | translate}}</td>
       <td>{{nofMeat}}</td>
     </tr>
   </table>
 
-  <br />External ({{ externalAttendees.length }})<br /><br />
+  <br />{{'EXTERNAL' | translate}} ({{ externalAttendees.length }})<br /><br />
   <table *ngIf="externalAttendees.length > 0" width="100%">
-    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>Sandwich</b></td></thead>
+    <thead style="border-bottom: solid 1px black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
     <tr *ngFor="let a of externalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
-      <td>{{a.drink ? 'YES' : ''}}</td>
-      <td>{{a.foodType === 'NONE' ? '' : a.foodType}}</td>
+      <td>{{a.drink ? ('YES' | translate) : ''}}</td>
+      <td>{{a.foodType === 'NONE' ? '' : a.foodType | translate}}</td>
     </tr>
   </table>
 
-  <br />Internal ({{ internalAttendees.length }})<br />
+  <br />{{'INTERNAL' | translate}} ({{ internalAttendees.length }})<br />
   <table *ngIf="internalAttendees.length > 0" width="100%">
-    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>Sandwich</b></td></thead>
+    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
     <tr *ngFor="let a of internalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
-      <td>{{a.drink ? 'YES' : ''}}</td>
+      <td>{{a.drink ? ('YES' | translate) : ''}}</td>
       <td>{{a.foodType}}</td>
     </tr>
   </table>

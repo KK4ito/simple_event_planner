@@ -9,12 +9,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{ 'NAV.USERS' | translate }}</ion-title>
+    <ion-title>{{ 'USERS' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1>{{ 'USERS.USERS' | translate }}</h1>
+  <h1>{{ 'USERS' | translate }}</h1>
 
   <ion-item *ngFor="let user of users" (click)="updateUser(user)">
     <ion-avatar item-left>

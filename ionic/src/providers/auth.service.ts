@@ -108,7 +108,6 @@ export class AuthService {
    * Log the user out
    */
   logout() {
-    console.log('cookie', document.cookie);
     this.http.get(this.config.baseUrl + '/login/logout', {withCredentials: true}).toPromise().then(() => {
       this.user = null;
       this.events.publish('user:changed', this.user);

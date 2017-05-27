@@ -88,16 +88,16 @@ export class UpdateUserPage {
    * Delete the current user from the database
    */
   delete() {
-    this.translateService.get(['UPDATE_USER.CONFIRM_DELETE', 'UPDATE_USER.CANCEL', 'UPDATE_USER.DELETE']).subscribe(translated => {
+    this.translateService.get(['CONFIRM_USER_DELETE', 'CANCEL', 'DELETE']).subscribe(translated => {
       let alert = this.alertCtrl.create({
-        message: translated['UPDATE_USER.CONFIRM_DELETE'],
+        message: translated['CONFIRM_USER_DELETE'],
         buttons: [
           {
-            text: translated['UPDATE_USER.CANCEL'],
+            text: translated['CANCEL'],
             role: 'cancel'
           },
           {
-            text: translated['UPDATE_USER.DELETE'],
+            text: translated['DELETE'],
             handler: () => {
               this.apiService.deleteUser(this.user.id).then(() => {
                 this.translatedSnackbarService.showSnackbar('USER_DELETED', 'UNDO', {

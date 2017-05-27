@@ -12,13 +12,13 @@
   <ion-list>
     <ion-item>
       <ion-icon item-left name="beer"></ion-icon>
-      <ion-label>{{'DETAIL.DRINK' | translate}}</ion-label>
+      <ion-label>{{'DRINK' | translate}}</ion-label>
       <ion-toggle [(ngModel)]="drink"></ion-toggle>
     </ion-item>
     <div radio-group [(ngModel)]="food">
     <ion-item *ngFor="let m of menus">
       <ion-icon item-left name="{{m.icon}}"></ion-icon>
-      <ion-label>{{'DETAIL.' + m.value | translate}}</ion-label>
+      <ion-label>{{ m.value | translate}}</ion-label>
       <ion-radio value="{{m.value}}"></ion-radio>
     </ion-item>
     </div>

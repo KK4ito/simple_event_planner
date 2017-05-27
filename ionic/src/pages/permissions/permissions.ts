@@ -3,6 +3,7 @@ import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
+import {AuthService} from "../../providers/auth.service";
 
 @Component({
   selector: 'page-permissions',
@@ -18,10 +19,16 @@ export class PermissionsPage {
   /**
    * Copy of the user, so we can revert changes with "undo"
    */
-  oldUser: User;
+  private oldUser: User;
 
-  constructor(private apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService) {
+  /**
+   * Current user email
+   */
+  private email:string;
+
+  constructor(private apiService: ApiService, private authService: AuthService, private translatedSnackbarService: TranslatedSnackbarService) {
     this.refreshUsers();
+    this.email = authService.getUser().email;
   }
 
   /**

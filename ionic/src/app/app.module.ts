@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { HttpModule, Http, CookieXSRFStrategy, XSRFStrategy } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { DetailPage } from '../pages/detail/detail';
@@ -36,6 +36,7 @@ import {InvitePage} from "../pages/invite/invite";
 import { RecipientComponent } from '../components/recipient/recipient';
 import { CookieModule } from 'ngx-cookie';
 import {TranslatedSnackbarService} from "../providers/translated-snackbar.service";
+import {PasswordResetPage} from "../pages/password-reset/password-reset";
 
 declare var tinymce: any;
 
@@ -50,7 +51,7 @@ export const deepLinkConfig: any = {
   links: [
     { component: HomePage, name: "home", segment: ""},
     { component: ProfilePage, name: "profile", segment: "profile", defaultHistory: [HomePage] },
-    { component: ProfilePage, name: "password-reset", segment: "password-reset/:resetToken", defaultHistory: [HomePage] },
+    { component: PasswordResetPage, name: "password-reset", segment: "password-reset/:resetToken", defaultHistory: [HomePage] },
     { component: DetailPage, name: "detail", segment: "event/:id", defaultHistory: [HomePage] }
   ]
 };
@@ -64,6 +65,7 @@ export const deepLinkConfig: any = {
     UsersPage,
     PermissionsPage,
     UpdateUserPage,
+    PasswordResetPage,
     ProfilePage,
     InvitePage,
     DurationPipe,
@@ -101,6 +103,7 @@ export const deepLinkConfig: any = {
     DetailPrintPage,
     PermissionsPage,
     UpdateUserPage,
+    PasswordResetPage,
     UsersPage,
     ProfilePage,
     InvitePage,

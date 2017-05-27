@@ -15,26 +15,26 @@
 
     <h1 *ngIf="!editMode">{{ event.name }}</h1>
     <ion-item *ngIf="editMode">
-      <ion-label floating>{{'DETAIL.TITLE' | translate}}</ion-label>
+      <ion-label floating>{{'TITLE' | translate}}</ion-label>
       <ion-input formControlName="name" class="input__title"></ion-input>
     </ion-item>
 
     <span *ngIf="!editMode">{{event.description}}</span>
     <ion-item *ngIf="editMode">
-      <ion-label floating>{{'DETAIL.DESCRIPTION' | translate}}</ion-label>
+      <ion-label floating>{{'DESCRIPTION' | translate}}</ion-label>
       <ion-textarea formControlName="description" autoresize></ion-textarea>
     </ion-item>
 
     <ion-item>
       <ion-icon item-left name="pin"></ion-icon>
-      <h2>{{'DETAIL.LOCATION' | translate}}</h2>
+      <h2>{{'LOCATION' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.location}}</p>
       <ion-input formControlName="location" item-right *ngIf="editMode"></ion-input>
     </ion-item>
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.CLOSING_DATE' | translate}}</h2>
+      <h2>{{'CLOSING_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="closingTime" type="'datetime'" openOnFocus="true"
                       format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
@@ -42,7 +42,7 @@
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.START_DATE' | translate}}</h2>
+      <h2>{{'START_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="startTime" type="'datetime'" openOnFocus="true"
                       format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
@@ -50,7 +50,7 @@
 
     <ion-item class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.END_DATE' | translate}}</h2>
+      <h2>{{'END_DATE' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
       <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
                       format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
@@ -58,7 +58,7 @@
 
     <ion-item *ngIf="!editMode" class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.DURATION' | translate}}</h2>
+      <h2>{{'DURATION' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
     </ion-item>
 
@@ -66,25 +66,25 @@
 
     <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() > RoleType.ANONYMOUS">
       <ion-icon item-left name="people"></ion-icon>
-      <ion-label *ngIf="!eventAttendee">{{'DETAIL.ATTEND' | translate}}</ion-label>
-      <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
+      <ion-label *ngIf="!eventAttendee">{{'ATTEND' | translate}}</ion-label>
+      <ion-label *ngIf="eventAttendee">{{'ATTENDING' | translate}} ({{eventAttendee.foodType | translate}}, {{'DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
       <ion-toggle (ngModelChange)="attendEvent()" [ngModel]="attends"></ion-toggle>
     </ion-item>
 
     <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
       <ion-icon item-left name="people"></ion-icon>
-      <ion-label>{{'DETAIL.LOGIN' | translate}}</ion-label>
+      <ion-label>{{'LOGIN' | translate}}</ion-label>
     </ion-item>
 
     <ion-item *ngIf="isClosed() && !editMode">
       <ion-icon item-left name="people"></ion-icon>
-      <ion-label>{{'ALREADY_CLOSED' | translate}}<span *ngIf="eventAttendee">: {{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</span></ion-label>
+      <ion-label>{{'ALREADY_CLOSED' | translate}}<span *ngIf="eventAttendee">: {{'ATTENDING' | translate}} ({{eventAttendee.foodType | translate}}, {{'DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</span></ion-label>
     </ion-item>
 
 
     <ion-list no-lines>
       <ion-list-header>
-        {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
+        {{ 'SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
       </ion-list-header>
 
       <ion-item class="item--containNone" *ngIf="editMode">
@@ -104,7 +104,7 @@
 
       <div *ngIf="!editMode">
         <ion-list-header>
-          {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
+          {{ 'PARTICIPANTS' | translate }} ({{(attendees) ? attendees.length : '0'}})
         </ion-list-header>
         <ion-chip *ngFor="let attendee of attendees">
           <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
@@ -112,7 +112,7 @@
       </div>
 
       <ion-list-header>
-        {{ 'DETAIL.FILES' | translate }} ({{(files) ? files.length : '0'}})
+        {{ 'FILES' | translate }} ({{(files) ? files.length : '0'}})
       </ion-list-header>
 
       <ion-item *ngFor="let file of files" (click)="download(file.uri)">

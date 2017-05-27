@@ -1,8 +1,8 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title *ngIf="oldUser">{{ 'UPDATE_USER.EDIT' | translate }} {{user.firstName}} {{user.lastName}}</ion-title>
-    <ion-title *ngIf="!oldUser">{{ 'UPDATE_USER.CREATE_USER' | translate }}</ion-title>
+    <ion-title *ngIf="oldUser">{{ 'EDIT' | translate }} {{user.firstName}} {{user.lastName}}</ion-title>
+    <ion-title *ngIf="!oldUser">{{ 'CREATE_USER' | translate }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -19,25 +19,25 @@
   <form [formGroup]="userForm" (submit)="saveForm()" novalidate>
 
     <ion-item>
-      <ion-label stacked>{{'UPDATE_USER.FIRST_NAME' | translate}}</ion-label>
+      <ion-label stacked>{{'FIRST_NAME' | translate}}</ion-label>
       <ion-input formControlName="firstName"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>{{'UPDATE_USER.LAST_NAME' | translate}}</ion-label>
+      <ion-label stacked>{{'LAST_NAME' | translate}}</ion-label>
       <ion-input formControlName="lastName"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>{{'UPDATE_USER.EMAIL' | translate}}</ion-label> <!-- https://stackoverflow.com/questions/20573488/why-does-html5-form-validation-allow-emails-without-a-dot https://tools.ietf.org/html/rfc821 -->
+      <ion-label stacked>{{'EMAIL' | translate}}</ion-label> <!-- https://stackoverflow.com/questions/20573488/why-does-html5-form-validation-allow-emails-without-a-dot https://tools.ietf.org/html/rfc821 -->
       <ion-input formControlName="email" type="email"></ion-input>
     </ion-item>
 
   </form>
 
   <br />
-  <button ion-button color="secondary" [disabled]="!userForm.valid" full (click)="save(user)">{{'UPDATE_USER.SAVE' | translate}}</button>
+  <button ion-button color="secondary" [disabled]="!userForm.valid" full (click)="save(user)">{{'SAVE' | translate}}</button>
   <br />
-  <button *ngIf="oldUser" ion-button color="danger" full (click)="delete()">{{'UPDATE_USER.DELETE' | translate}}</button>
+  <button *ngIf="oldUser" ion-button color="danger" full (click)="delete()">{{'DELETE' | translate}}</button>
 
 </ion-content>

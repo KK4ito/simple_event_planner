@@ -46,20 +46,20 @@ export class MyApp {
   private propagateNavigation() {
     if (this.authService.getRole() == RoleType.ADMINISTRATOR) {
       this.pages = [
-        {title: 'NAV.EVENTS', component: HomePage},
-        {title: 'NAV.PERMISSIONS', component: PermissionsPage},
-        {title: 'NAV.USERS', component: UsersPage},
-        {title: 'NAV.LOGOUT', component: ProfilePage}
+        {title: 'EVENTS', component: HomePage},
+        {title: 'PERMISSIONS', component: PermissionsPage},
+        {title: 'USERS', component: UsersPage},
+        {title: 'LOGOUT', component: ProfilePage}
       ];
     } else if (this.authService.getRole() == RoleType.REGISTERED) {
       this.pages = [
-        {title: 'NAV.EVENTS', component: HomePage},
-        {title: 'NAV.LOGOUT', component: ProfilePage}
+        {title: 'EVENTS', component: HomePage},
+        {title: 'LOGOUT', component: ProfilePage}
       ];
     } else {
       this.pages = [
-        {title: 'NAV.LOGIN', component: ProfilePage},
-        {title: 'NAV.EVENTS', component: HomePage}
+        {title: 'LOGIN', component: ProfilePage},
+        {title: 'EVENTS', component: HomePage}
       ];
     }
   }
