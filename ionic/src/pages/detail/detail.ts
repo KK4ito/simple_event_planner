@@ -26,28 +26,28 @@ import { TranslatedSnackbarService } from "../../providers/translated-snackbar.s
 })
 export class DetailPage {
 
-  private event: Event = new Event();
-  private speakers: User[] = [];
-  private attendees: User[] = [];
-  private files: File[] = [];
-  private safeStyle: SafeStyle;
+  public event: Event = new Event();
+  public speakers: User[] = [];
+  public attendees: User[] = [];
+  public files: File[] = [];
+  public safeStyle: SafeStyle;
 
-  private editMode = false;
-  private isSpeaker = false;
+  public editMode = false;
+  public isSpeaker = false;
   private oldEvent;
 
   private attendsLocked = true;
-  private attends = false;
-  private eventAttendee: EventAttendee;
+  public attends = false;
+  public eventAttendee: EventAttendee;
 
-  private eventDuration = 0;
+  public eventDuration: number = 0;
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;
 
   public eventForm: FormGroup;
 
-  private allowedUploadExtensions: string[] = ['txt', 'pdf', 'jpg', 'png'];
+  public allowedUploadExtensions: string[] = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'txt', 'pdf', 'jpg', 'jpeg', 'png'];
 
   constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
@@ -255,6 +255,20 @@ export class DetailPage {
         modal.present();
       }
     }
+  }
+
+  isImageFile(file) {
+    if (file && file.file) {
+      let splits = file.file.split('.');
+      let extension = splits[splits.length - 1];
+      if (extension === 'png'
+        || extension === 'jpg'
+        || extension === 'jpeg'
+        || extension === 'gif') {
+        return true;
+      }
+    }
+    return false;
   }
 
   isClosed() {

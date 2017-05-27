@@ -119,7 +119,9 @@
 
       <ion-item *ngFor="let file of files" (click)="download(file.uri)">
         <ion-avatar item-left>
-          <img src="{{ file.uri | imageUri }}">
+          <img *ngIf="isImageFile(file)" src="{{ file.uri | imageUri }}">
+          <ion-icon *ngIf="!isImageFile(file)" name="md-document" color="dark"
+            padding></ion-icon>
         </ion-avatar>
         <h2>{{ file.name }} </h2>
       </ion-item>

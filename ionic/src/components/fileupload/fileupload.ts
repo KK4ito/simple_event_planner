@@ -11,7 +11,7 @@ import { CookieService } from 'ngx-cookie';
 export class FileuploadComponent {
 
   @Input() height: number;
-  @Input() allowedExtensions: string[] = ['jpg', 'png'];
+  @Input() allowedExtensions: string[] = ['jpg', 'jpeg', 'png'];
   @Input() maxUploads: number = 1;
   @Output() onFinished: EventEmitter<[boolean, File]> = new EventEmitter();
 
