@@ -105,7 +105,10 @@ public class LoginRepository {
         final WebContext context = new J2EContext(request, response);
         String email = ((CommonProfile) context.getSessionAttribute("profile")).getUsername();
         List<User> users = userRepository.findByEmail(email);
-        if (users.size() == 0) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        if (users.size() == 0) {
+            log.error("No user with email " + email + " found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         log.info("Login of user: " + users.get(0).getEmail());
         return ResponseEntity.status(HttpStatus.OK).body(users.get(0));
     }
@@ -130,12 +133,14 @@ public class LoginRepository {
 
         //If we found more than one user with the mail we cannot reset the password.
         if(u.size() == 0 || u.size() > 1) {
+            log.error("requestPasswordReset: No matching user for email " + email + " found");
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("No matching user found"), HttpStatus.NOT_ACCEPTABLE);
         }
         User user = u.get(0);
 
         //If the user is internal we cannot reset his password
         if(user.isInternal()) {
+            log.error("requestPasswordReset: aai-user tried to reset password: " + email);
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("User authenticated via aai cannot reset password"), HttpStatus.NOT_ACCEPTABLE);
         }
 
@@ -192,8 +197,10 @@ public class LoginRepository {
             };
         } catch(RestClientException e) {
             e.printStackTrace();
+            log.error("Mail-server experienced a problem");
             return new ResponseEntity<ResetPasswordAnswerMessage>(new ResetPasswordAnswerMessage("Mail Server Error"), HttpStatus.FAILED_DEPENDENCY);
         }
+        log.error("requestPasswordReset: Internal server error");
         return new ResponseEntity<ResetPasswordAnswerMessage>(new ResetPasswordAnswerMessage("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -214,9 +221,11 @@ public class LoginRepository {
 
         //We should only find one user with the token otherwise return an error-code.
         if(users.size() == 0) {
+            log.error("No user found for the resetPasswordToken " + token);
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("Invalid token"), HttpStatus.NOT_ACCEPTABLE);
         }
         if(users.size() > 1) {
+            log.error("More than 1 user found for the resetPasswordToken " + token);
             return new ResponseEntity<>(new ResetPasswordAnswerMessage("Invalid token: multiple instances"), HttpStatus.NOT_ACCEPTABLE);
         }
         if(users.size() == 1) {
@@ -240,6 +249,7 @@ public class LoginRepository {
                 return new ResponseEntity<>(new ResetPasswordAnswerMessage("OK"), HttpStatus.OK);
             }
         }
+        log.error("resetPassword: Internal server error");
         return new ResponseEntity<>(new ResetPasswordAnswerMessage("Internal Server Error"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

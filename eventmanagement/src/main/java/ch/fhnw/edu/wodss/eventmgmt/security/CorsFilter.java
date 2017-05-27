@@ -1,5 +1,7 @@
 package ch.fhnw.edu.wodss.eventmgmt.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -12,14 +14,19 @@ import java.io.IOException;
 /**
  * Handles cors correctly.
  *
+ * Optional for microservices.
+ *
  * Created by lukasschonbachler on 22.05.17.
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        log.info("Setting correct Cors-Headers");
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8100");

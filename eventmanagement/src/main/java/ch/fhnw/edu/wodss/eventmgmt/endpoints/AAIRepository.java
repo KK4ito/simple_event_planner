@@ -58,8 +58,10 @@ public class AAIRepository {
             final CommonProfile profile = new CommonProfile();
             profile.addAttribute(Pac4jConstants.USERNAME, user.getEmail());
             profile.addRole("REGISTERED");
+            log.info("Existing User with role REGISTERED logged in: " + user.getFirstName() + " " + user.getLastName());
             if (user.getRole() == 2) {
                 profile.addRole("ADMINISTRATOR");
+                log.info("User: " + user.getFirstName() + " " + user.getLastName() + " received Role ADMINISTRATOR");
             }
             profile.addAttribute("user", user);
             context.getSession().setAttribute("profile", profile);
@@ -76,6 +78,7 @@ public class AAIRepository {
             user.setInternal(true);
             user.setRole(User.RoleType.REGISTERED);
             em.persist(user);
+            log.info("New user with role REGISTERED logged in: " + user.getFirstName() + " " + user.getLastName());
 
         }
         response.sendRedirect("https://www.cs.technik.fhnw.ch/wodss17-5/#/profile");

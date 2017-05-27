@@ -34,7 +34,7 @@ public class BasicAuthAuthenticator implements Authenticator<UsernamePasswordCre
      * @param servicesUser      The email-address of the service-user
      * @param servicePassword   The password of the service-user
      */
-    BasicAuthAuthenticator(UserRepository userRepo, String servicesUser, String servicePassword){
+    public BasicAuthAuthenticator(UserRepository userRepo, String servicesUser, String servicePassword){
         this.userRepo = userRepo;
         this.serviceUser = servicesUser;
         this.servicePassword = servicePassword;

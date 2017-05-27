@@ -1,6 +1,8 @@
 package ch.fhnw.edu.wodss.eventmgmt.endpoints;
 
 import ch.fhnw.edu.wodss.eventmgmt.models.EventAttendeeFlat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import java.util.List;
  */
 @RestController
 public class PrintRepository {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     ServletContext context;
@@ -52,6 +56,7 @@ public class PrintRepository {
             eventAttendeeFlat.drink = (boolean) result.get(i)[4];
             eventAttendeeFlats[i] = eventAttendeeFlat;
         }
+        log.info("Sending eventAttendeesFlat-Date for printing");
         return ResponseEntity.status(HttpStatus.OK).body(eventAttendeeFlats);
     }
 }
