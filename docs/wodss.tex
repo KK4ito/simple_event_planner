@@ -77,8 +77,8 @@
 \end{titlepage}
 
 \begin{abstract}
-Das vorliegende Projekt wurde im Rahmen des Moduls "wodss" der FHNW realisiert. Es wurde eine Plattform entwickelt, mit deren Hilfe auf einfache Art und Weise einerseits CS-Seminare und Anmeldungen zu den entsprechenden Anlässen verwaltet werden können.
-Die Lösung wurde mit Hilfe von Angular2 im Frontend und SpringBoot im Backend realisiert. Architektonisch basiert das Projekt auf der Serverseite auf so genannten Microservices.
+Das vorliegende Projekt wurde im Rahmen des Moduls "wodss" der FHNW realisiert. Es wurde eine Plattform entwickelt, mit deren Hilfe auf einfache Art und Weise CS-Seminare und Anmeldungen zu den entsprechenden Anlässen verwaltet werden können.
+Die Lösung wurde mit Hilfe von Angular2 und Ionic im Frontend und SpringBoot im Backend realisiert. Architektonisch basiert das Projekt auf der Serverseite auf so genannten Microservices.
 \end{abstract}
 
 \newpage
@@ -100,18 +100,19 @@ Die Lösung wurde mit Hilfe von Angular2 im Frontend und SpringBoot im Backend r
 \includegraphics[width=1\textwidth]{prototyp/Vortrag}
 
 \newpage
-\section{Architektur}
-Unsere Implementation des "Event-Planners" wird als Microservices realisiert. Wir verwenden dazu "Eureka", eine Library entwickelt von Netflix https://github.com/netflix/eureka.  Die Applikation lässt sich in fünf Microservices unterteilen, welche im nachfolgenden Abschnitt genauer beschrieben werden. Die Microservices kommunizieren per REST untereinander.
+\section{Architektur - Backend}
+Wie bereits in der Einleitung erwähnt, implementierten wir dieses Projekt als Microservices. Wir verwenden dazu "Eureka", eine von Netflix entwickelte Library (siehe auch: https://github.com/netflix/eureka). Die Applikation lässt sich in fünf Microservices unterteilen, welche im nachfolgenden Abschnitt genauer beschrieben werden. Die Microservices kommunizieren per REST untereinander.
 
 \subsection{Schichtenarchitektur}
 \subsubsection{Webschicht}
-Wahrgenommen durch RepositoryRestController
+Die Webschicht wird automatisch durch den RepositoryRestResource bereitgestellt. Das heisst, die betreffenden RepositoryRestResourcen stellen automatisch die so annotierten JPA-Entitäten via REST-Schnittstelle bereit.
 
 \subsubsection{Businesschicht}
-Wahrgenommen durch RepositoryRestController
+Da das vorliegende Projekt eine relativ einfache Business-Schicht aufweist (vielfach handelt es sich um einfache GET/POST/PUT/DELETE auf bestehenden Entitäten), wird diese ebenfalls von den RepositoryRestResourcen wahrgenommen.
+Wo eine etwas ausgefeilterte Logik notwendig war (z.B. beim Login oder bei der Passwort-Zurücksetzen-Funktionalität) wurden eigene RestController erstellt (wie beispielsweise das LoginRepository).
 
 \subsubsection{Datenbankschicht}
-Siehe unterkapitel Datenbank
+Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine genauere Diskussion zum Aufbau der Persistenzschicht siehe unterkapitel Datenbank.
 
 \subsection{Microservices}
 \subsubsection{Registry}
@@ -130,10 +131,32 @@ Siehe unterkapitel Datenbank
 	Scheduler Service, welcher zu bestimmten Zeiten Tasks ausführt. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
 
 \newpage
+\subsection{Sicherheit}
+
+\newpage
 \subsection{Datenbank}
 Um für die Datenintegrität garantieren zu können, werden alle Entitäten durch einen einzigen Microservice verwaltet (https://www.nginx.com/blog/microservices-at-netflix-architectural-best-practices/).
 
 \includegraphics[width=1\textwidth]{dbSchema}
+\newpage
+\section{Architektur - Frontend}
+\subsection{Ionic}
+Pages usw.
+
+\newpage
+\section{Projektaufbau - Backend}
+\subsection{Registry}
+\subsection{Eventmanagement}
+\subsubsection{Endpoints}
+\subsubsection{Entities}
+\subsubsection{Models}
+\subsubsection{Security}
+\subsection{Frontend}
+\subsection{Mailer}
+\subsection{Scheduler}
+
+\newpage
+\section{Projektaufbau - Frontend}
 
 \newpage
 \section{Technologien}
@@ -144,7 +167,7 @@ Nach dem Start mit Angular 2 merkten wir schnell, das uns einige Standardkompone
 \subsection{Backend}
 Wie von der Projektbeschreibung vorgeschrieben, verwenden wir Java mit Spring Boot im Backend. Zusätzlich verwenden wir die spring-boot-data Erweiterung, welche uns das einfache erstellen von Rest Repositories ermöglicht. 
 
-\subsubsection{Autentifizierung und Autorisierung}
+\subsubsection{Authentifizierung und Autorisierung}
 Für die Authentifizierung verwenden wir PAC4J und verwenden das JWT (Json Web Token). Zusätzlich können mithilfe von PAC4J Permissions und Rollen definiert werden. Abhängig von der Rolle, erhält der Benutzer zusätzliche Privilegien. Ein normaler Besucher kann lediglich Events ansehen und nichts editieren. Wir haben folgende Rollen identifiziert:
 
 \begin{enumerate}
@@ -169,7 +192,7 @@ Durch die JPA-GraphQL ist das initiale Aufsetzen eines GraphQL Endpoints nach ei
 
 \newpage
 \section{Lessons learned}
-Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die insgesamt einen grossen Teil unserer Zeit in anspruch genommen haben.
+Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die insgesamt einen grossen Teil unserer Zeit in Anspruch genommen haben.
 
 \begin{enumerate}
 \item Microservices\\
