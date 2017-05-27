@@ -18,7 +18,7 @@
 \BOOKMARK [2][-]{subsection.2.4}{Datenbank}{section.2}% 18
 \BOOKMARK [1][-]{section.3}{Architektur - Frontend}{}% 19
 \BOOKMARK [2][-]{subsection.3.1}{Ionic}{section.3}% 20
-\BOOKMARK [1][-]{section.4}{Projektaufbau}{}% 21
+\BOOKMARK [1][-]{section.4}{Projektaufbau - Backend}{}% 21
 \BOOKMARK [2][-]{subsection.4.1}{Registry}{section.4}% 22
 \BOOKMARK [2][-]{subsection.4.2}{Eventmanagement}{section.4}% 23
 \BOOKMARK [3][-]{subsubsection.4.2.1}{Endpoints}{subsection.4.2}% 24
@@ -28,10 +28,11 @@
 \BOOKMARK [2][-]{subsection.4.3}{Frontend}{section.4}% 28
 \BOOKMARK [2][-]{subsection.4.4}{Mailer}{section.4}% 29
 \BOOKMARK [2][-]{subsection.4.5}{Scheduler}{section.4}% 30
-\BOOKMARK [1][-]{section.5}{Technologien}{}% 31
-\BOOKMARK [2][-]{subsection.5.1}{Frontend}{section.5}% 32
-\BOOKMARK [2][-]{subsection.5.2}{Backend}{section.5}% 33
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Authentifizierung und Autorisierung}{subsection.5.2}% 34
-\BOOKMARK [1][-]{section.6}{Design-Entscheide}{}% 35
-\BOOKMARK [1][-]{section.7}{Lessons learned}{}% 36
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 37
+\BOOKMARK [1][-]{section.5}{Projektaufbau - Frontend}{}% 31
+\BOOKMARK [1][-]{section.6}{Technologien}{}% 32
+\BOOKMARK [2][-]{subsection.6.1}{Frontend}{section.6}% 33
+\BOOKMARK [2][-]{subsection.6.2}{Backend}{section.6}% 34
+\BOOKMARK [3][-]{subsubsection.6.2.1}{Authentifizierung und Autorisierung}{subsection.6.2}% 35
+\BOOKMARK [1][-]{section.7}{Design-Entscheide}{}% 36
+\BOOKMARK [1][-]{section.8}{Lessons learned}{}% 37
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 38

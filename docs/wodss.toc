@@ -10,28 +10,29 @@
 \contentsline {subsubsection}{\numberline {2.1.3}Datenbankschicht}{8}{subsubsection.2.1.3}
 \contentsline {subsection}{\numberline {2.2}Microservices}{8}{subsection.2.2}
 \contentsline {subsubsection}{\numberline {2.2.1}Registry}{8}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Eventmanagement}{8}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}Frontend}{8}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.2}Eventmanagement}{9}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Frontend}{9}{subsubsection.2.2.3}
 \contentsline {subsubsection}{\numberline {2.2.4}Mailer}{9}{subsubsection.2.2.4}
 \contentsline {subsubsection}{\numberline {2.2.5}Scheduler}{9}{subsubsection.2.2.5}
 \contentsline {subsection}{\numberline {2.3}Sicherheit}{10}{subsection.2.3}
 \contentsline {subsection}{\numberline {2.4}Datenbank}{11}{subsection.2.4}
 \contentsline {section}{\numberline {3}Architektur - Frontend}{12}{section.3}
 \contentsline {subsection}{\numberline {3.1}Ionic}{12}{subsection.3.1}
-\contentsline {section}{\numberline {4}Projektaufbau}{13}{section.4}
+\contentsline {section}{\numberline {4}Projektaufbau - Backend}{13}{section.4}
 \contentsline {subsection}{\numberline {4.1}Registry}{13}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Eventmanagement}{13}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Endpoints}{13}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Entities}{13}{subsubsection.4.2.2}
-\contentsline {subsubsection}{\numberline {4.2.3}Models}{13}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}Security}{13}{subsubsection.4.2.4}
-\contentsline {subsection}{\numberline {4.3}Frontend}{13}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Mailer}{13}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Scheduler}{13}{subsection.4.5}
-\contentsline {section}{\numberline {5}Technologien}{14}{section.5}
-\contentsline {subsection}{\numberline {5.1}Frontend}{14}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Backend}{14}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Authentifizierung und Autorisierung}{14}{subsubsection.5.2.1}
-\contentsline {section}{\numberline {6}Design-Entscheide}{15}{section.6}
-\contentsline {section}{\numberline {7}Lessons learned}{16}{section.7}
-\contentsline {section}{Appendices}{17}{section*.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Endpoints}{14}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Entities}{15}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Models}{15}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Security}{15}{subsubsection.4.2.4}
+\contentsline {subsection}{\numberline {4.3}Frontend}{15}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Mailer}{16}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Scheduler}{16}{subsection.4.5}
+\contentsline {section}{\numberline {5}Projektaufbau - Frontend}{18}{section.5}
+\contentsline {section}{\numberline {6}Technologien}{19}{section.6}
+\contentsline {subsection}{\numberline {6.1}Frontend}{19}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Backend}{19}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Authentifizierung und Autorisierung}{19}{subsubsection.6.2.1}
+\contentsline {section}{\numberline {7}Design-Entscheide}{20}{section.7}
+\contentsline {section}{\numberline {8}Lessons learned}{21}{section.8}
+\contentsline {section}{Appendices}{22}{section*.2}

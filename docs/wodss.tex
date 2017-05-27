@@ -116,26 +116,28 @@ Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine 
 
 \subsection{Microservices}
 \subsubsection{Registry}
-	Das "Bindeglied" zwischen den verschiedenen Microservices. Die Microservices verbinden sich auf die Registry um dort die URLs der anderen Microservices zu bekommen. Dadurch wird es möglich, die Applikation auf mehreren Servern verteilt laufen zu lassen. Im Falle einer bestehenden Eurika Installation/Architektur muss dieser Microservice nicht nochmals zusätzlich gestartet werden (bestehende Registry kann verwendet werden).
+Die Registry stellt das "Bindeglied" zwischen den verschiedenen Microservices dar. Die Microservices verbinden sich auf die Registry um dort die URLs der anderen Microservices zu bekommen. Dadurch wird es möglich die Applikation auf mehreren Servern verteilt laufen zu lassen. Im Falle einer bestehenden Eureka Installation/Architektur muss dieser Microservice nicht nochmals zusätzlich gestartet werden (bestehende Registry kann verwendet werden).
+Durch die Verwendung des "Loadbalanced" RestTemplates lösen Microservices die logischen Namen anderer Microservices selbstständig mit Rückgriff auf die Registry zu korrekten IP-Adressen auf.
 
 \subsubsection{Eventmanagement}
-	Beinhaltet alle Entitäten (Persistance Layer) sowie die Businesslogik unserer Applikation und ermöglicht den Zugriff von aussen. Hierfür werden die CRUD Operationen über eine REST-API zur Verfügung gestellt. Bestimmte Endpunkte stehen dabei nur nach erfolgreicher Authentifizierung und Autorisierung zur Verfügung. Die komplette Schnittstellendokumentation ist im Anhang (Swagger Schnittstellendokumentation) aufgeführt.
+Der Microservice Eventmanagement ist der zentrale Service unserer Applikation. Er beinhaltet die Persistenzschicht mit allen Entitäten, sowie die Businesslogik der Anwendung. Zudem werden alle Zugriffe auf die Daten und die Logik via diesem Service getätigt. Hierfür werden die CRUD Operationen über eine REST-API zur Verfügung gestellt (mittels den oben erwähnten RepositoryRestResource-Controllern). Bestimmte Endpunkte stehen dabei nur nach erfolgreicher Authentifizierung und Autorisierung zur Verfügung. Die komplette Schnittstellendokumentation ist im Anhang (Swagger Schnittstellendokumentation) aufgeführt.
 
 \subsubsection{Frontend}
-	Container welcher nur dazu dient, statische Inhalte zur Verfügung zu stellen. Enthält keinerlei Business Logik. Konkret wird der Build Order unserer Ionic App in den assets/static Order kopiert. Sollte bereits eine bestehende Webserver Infrastruktur zur Verfügung stehen (z.B. Apache oder Nginx), können diese Assets auch ohne zusätzlichen Microservice gehosted werden.
+Dieser Microservice stellt nur einen Container bereit, der dazu dient, statische Inhalte wie HTML-/CSS-Files, Bilder und so weiter zur Verfügung zu stellen. Er enthält keinerlei Business-Logik und speichert keine Benutzerdaten. Konkret wird der Build Folder unserer Ionic-App in den assets/static Order kopiert. Sollte bereits eine bestehende Webserver Infrastruktur zur Verfügung stehen (z.B. Apache oder Nginx), können diese Assets auch ohne zusätzlichen Microservice gehostet werden.
 
 \subsubsection{Mailer}
-	Simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API wird durch ein statische Token geschützt, es werden ausschließlich interne (von anderen Microservices) Anfragen entgegengenommen.
+Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um Mails versenden zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen.
 
 \subsubsection{Scheduler}
-	Scheduler Service, welcher zu bestimmten Zeiten Tasks ausführt. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
+Der Scheduler Service führt zu bestimmten Zeiten verschiedene Tasks aus. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
 
 \newpage
 \subsection{Sicherheit}
 
+
 \newpage
 \subsection{Datenbank}
-Um für die Datenintegrität garantieren zu können, werden alle Entitäten durch einen einzigen Microservice verwaltet (https://www.nginx.com/blog/microservices-at-netflix-architectural-best-practices/).
+Um für die Datenintegrität garantieren zu können, werden alle Entitäten wie oben durch einen einzigen Microservice verwaltet (https://www.nginx.com/blog/microservices-at-netflix-architectural-best-practices/).
 
 \includegraphics[width=1\textwidth]{dbSchema}
 \newpage
@@ -145,15 +147,91 @@ Pages usw.
 
 \newpage
 \section{Projektaufbau - Backend}
+Für alle Microservices wurde jeweils ein eigenes Sub-Projekt erstellt, die jeweils aus einem build-, gradle- und src-Ordner bestehen. Für jeden Microservice existiert ein eigenes build.gradle, das die Projektspezifischen Abhängigkeiten enthält.
+Der Root-Folder enthält alle Microservices, sowie ein Ordner "ionic", der allen Frontend-Code enthält.
+\\
+Zudem haben wir vier verschiedene .sh-Files erstellt, mit denen die vier Microservices Eventmanagement, Registry, Mailer und Scheduler je einzeln gestartet werden können. Dazu ein .sh-File mit dem alle erwähnten Services zusammen gestartet (run.sh) werden können, gestoppt werden können (kill.sh) oder gestoppt und gleich neu gestartet werden können (restart.sh).
+\\
+Nachfolgend gehen wir kurz auf den internen Aufbau der einzelnen Microservices ein. Dabei werden wir nur den Aufbau des src-Ordners präsentieren, da sich der Build- und Gradle-Ornder jeweils sehr ähnlich zeigen. Zusätzlich werden auch die relevanten Klassen-Diagramme (in UML) pro Microservice präsentiert.
+
 \subsection{Registry}
+Die Registry hat folgende sehr simple Projektstruktur:
+\\
+\\
+\includegraphics[scale=0.7]{structure_registry}
+\\
+Der Grund für die schlanke Struktur liegt auf der Hand: da sich die Verwendung der Eureka-Library in diesem Projekt grösstenteils auf Annotationen beschränkt besteht die Registry nur aus einer einzigen Klasse, die mittels "EnableEurekaServer" und "SpringBootApplication" annotiert wurde. Die restlichen Microservices verwenden als Klienten die Annotation "EnableDiscoveryClient".
+
 \subsection{Eventmanagement}
+Dieser Microservice ist der komplexeste der fünf. Die grobe Struktur präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[scale=0.7]{structure_eventmanagement}
+\\
+Die Swagger-Configuration-Klasse übernimmt, wie der Name erahnen lässt, die Konfiguration der Swagger-Dokumentation der REST-Schnittstelle. Die Klasse Eventmanagement-Application dient der Initialisierung des Microservices. Nachfolgend werden alle Ordner kurz präsentiert und deren Inhalt etwas genauer beschrieben.
+\\
 \subsubsection{Endpoints}
+Im Folder "endpoints" sind alle Interfaces und Klassen enthalten, die entweder mittels RepositoryRestResource (sofern die Klasse auf einer konkreten JPA-Entität basiert) oder RestController (sofern die Klasse zusätzliche Geschäftslogik bereitstellt) annotiert sind. Die Struktur sieht folgendermassen aus:
+\\
+\\
+\includegraphics[scale=0.7]{structure_eventmanagement_endpoints}
+\\
+Relativ schnell erkennt man die zusätzliche Geschäftslogik, die zusätzlich zu den RepositoryRestResource-Controllern programmiert wurde und die nicht durch reine Datenzugriffe verarbeitet werden konnten:
+\begin{enumerate}
+\item AAI-Repository - verarbeitet Login via Switch-AAI
+\item FileRepository - bietet Methoden zum Fileupload und -display
+\item LoginRepository - bietet Methoden zum Login und zurücksetzen von Passwörtern
+\item MailerRepository - bietet Methoden zum Versenden von Einladungmails
+\item PrintRepository - bietet Methoden zum Zugriff auf Druckgerecht-aufbereitete Daten
+\end{enumerate}
+\\
+Die restlichen Interfaces beinhalten zum einen die vom JPA-Repository zur Verfügung gestellten Methoden für den Datenzugriff. Zusätzlich dazu wurden, je nach Bedarf, weitere Methoden für die Datenmanipulation erstellt.
 \subsubsection{Entities}
+Der Ordner "entities" präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[scale=0.7]{structure_eventmanagement_entities}
+\\
+Dieser Ordner enthält die tatsächlichen JPA-Entitäten, die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das Kapitel über die Datenkbank). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
 \subsubsection{Models}
+Der Folder "model" enhält alle weiteren Objekte, die für das Funktionieren der Applikation notwendig sind, aber nicht persistiert werden sollen:
+\\
+\\
+\includegraphics[scale=0.7]{structure_eventmanagement_models}
+\\
+Eine kurze nähere Beschreibung der verschiedenen Models:
+\begin{enumerate}
+\item AnwerWrapper
+\item EventAttendeeFlat
+\item Mail
+\item ResetPasswordAnswerMessage
+\item ResetPasswordWrapper
+\item SecurePath
+\end{enumerate}
 \subsubsection{Security}
+Der Ordner "security" schlussendlich hat folgenden Inhalt:
+\\
+\\
+\includegraphics[scale=0.7]{structure_eventmanagement_security}
+\\
 \subsection{Frontend}
+Frontent:
+\\
+\\
+\includegraphics[scale=0.7]{structure_frontend}
+\\
 \subsection{Mailer}
+Mailer:
+\\
+\\
+\includegraphics[scale=0.7]{structure_mailer}
+\\
 \subsection{Scheduler}
+Scheduler:
+\\
+\\
+\includegraphics[scale=0.7]{structure_scheduler}
+\\
 
 \newpage
 \section{Projektaufbau - Frontend}
