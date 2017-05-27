@@ -60,20 +60,34 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
             filter.setMatchers(mapToCommaSeparatedString(config.getMatchers()));
             filter.setAuthorizers(mapToCommaSeparatedString(config.getAuthorizers()));
 
+            //Enable csrf and set a tokenrepository
             http
                     .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+                    //Enable option-requests without permissions or authorizations
                     .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and()
-
                     .antMatcher("/**")
+                    //Add the basicAuthenticationFilter
                     .addFilterAfter(filter, BasicAuthenticationFilter.class)
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         }
 
+        /**
+         * Helper-method to turn a Map<String, ?> to a comma-separated string.
+         *
+         * @param map       The map to transform
+         * @return          The comma-separated String processed from the passed map
+         */
         private String mapToCommaSeparatedString(Map<String, ?> map) {
             return listToCommaSeparatedString(map.keySet());
         }
 
+        /**
+         * Helper-method to turn a List into a comma-separated string.
+         *
+         * @param list      The list to transform
+         * @return          The comma-separated String processed from the passed list
+         */
         private String listToCommaSeparatedString(Collection<?> list) {
             String s = "";
             for (Object key : list) {

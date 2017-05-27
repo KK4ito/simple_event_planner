@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Handles cors correctly.
+ *
  * Created by lukasschonbachler on 22.05.17.
  */
 @Component

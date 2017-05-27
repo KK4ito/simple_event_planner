@@ -26,19 +26,18 @@ public class SecureAuthorizer extends ProfileAuthorizer<CommonProfile> {
     final static StrictTransportSecurityHeader STRICT_TRANSPORT_SECURITY_HEADER = new StrictTransportSecurityHeader();
     final static XContentTypeOptionsHeader X_CONTENT_TYPE_OPTIONS_HEADER = new XContentTypeOptionsHeader();
     final static CacheControlHeader CACHE_CONTROL_HEADER = new CacheControlHeader();
-    final static CsrfAuthorizer CSRF_AUTHORIZER = new CsrfAuthorizer();
-    final static CsrfTokenGeneratorAuthorizer CSRF_TOKEN_GENERATOR_AUTHORIZER = new CsrfTokenGeneratorAuthorizer(new DefaultCsrfTokenGenerator());
+
     @Override
     public boolean isAuthorized(final WebContext context, final List<CommonProfile> profiles) throws HttpAction {
         final List<Authorizer> authorizers = new ArrayList<>();
 
+        //Set various authorizers.
+        //These are basically correct headers to protect against xss etc.
         authorizers.add(CACHE_CONTROL_HEADER);
         authorizers.add(X_CONTENT_TYPE_OPTIONS_HEADER);
         authorizers.add(STRICT_TRANSPORT_SECURITY_HEADER);
         authorizers.add(X_FRAME_OPTIONS_HEADER);
         authorizers.add(XSS_PROTECTION_HEADER);
-        //authorizers.add(CSRF_TOKEN_GENERATOR_AUTHORIZER);
-        //authorizers.add(CSRF_AUTHORIZER);
 
         return isAuthorized(context, profiles, authorizers);
     }

@@ -9,9 +9,13 @@ import org.springframework.security.core.Authentication;
 import java.io.Serializable;
 
 /**
+ * Determines whether or not a user has the required permissions or not for a given
+ * object.
+ *
  * Created by lukasschonbachler on 24.05.17.
  */
 public class CustomPermissionEvaluator implements PermissionEvaluator {
+
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
@@ -22,6 +26,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             email = profile.getUsername().trim();
         }
 
+        //Various permission checks
         if ("EVENT_OWNER".equals(permission.toString())) {
             Event event = (Event) targetDomainObject;
             for (User user : event.getSpeakers()) {

@@ -25,10 +25,14 @@ public class Pac4jConfig {
 
     @Bean
     public Config Config() {
+        //Set our cookieAuthenticator
         final CookieClient cookieClient = new CookieClient("JSESSIONID", new CookieAuthenticator());
+        //Set our directBasicAuthClient
         final DirectBasicAuthClient directBasicAuthClient = new DirectBasicAuthClient(new BasicAuthAuthenticator(this.userRepo, this.serviceUser, this.servicePassword));
         final Config config = new Config(new Clients(cookieClient, directBasicAuthClient));
+        //Set our authorizer
         config.addAuthorizer("custom", new SecureAuthorizer());
+        //Add matchers for various routes
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{
                 new SecurePath("/api/login/", true, true, true, true, false, true),
                 new SecurePath("/api/users/search/role", true),

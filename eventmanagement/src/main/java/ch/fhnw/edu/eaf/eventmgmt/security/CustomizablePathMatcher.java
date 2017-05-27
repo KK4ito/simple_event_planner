@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Helper method to process an array of paths to match.
+ *
  * Created by lukasschonbachler on 24.03.17.
  */
 public class CustomizablePathMatcher implements Matcher {

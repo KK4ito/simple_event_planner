@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Handles login via aai.
+ */
 @RestController
 public class AAIRepository {
 
@@ -28,6 +31,19 @@ public class AAIRepository {
     @Autowired
     private HttpServletRequest context;
 
+    /**
+     * Handles a request that reaches us via the "aai-redirect" of the fhnw.
+     * The method selects the name and email from the headers. If the user never logged in
+     * to this website, a new user-object is created and saved to the db (without a password obviously -
+     * since this is handled externally by switch). If the user logged in before, we get the profile
+     * from the db.
+     *
+     * @param surname       The firstname of the authenticated user
+     * @param givenname     The lastname of the authenticated user
+     * @param mail          The mail-address of the authenticated user
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping(value = "${spring.data.rest.basePath}/aai/", method = RequestMethod.GET)
     @Transactional
     public void aaiAuth(@RequestHeader(value = "surname", required = true) String surname,

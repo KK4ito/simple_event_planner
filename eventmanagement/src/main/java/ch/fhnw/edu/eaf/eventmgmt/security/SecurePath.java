@@ -1,6 +1,8 @@
 package ch.fhnw.edu.eaf.eventmgmt.security;
 
 /**
+ * Helper class for setting correct permissions for http-methods.
+ *
  * Created by lukasschonbachler on 21.05.17.
  */
 public class SecurePath {
