@@ -1,23 +1,8 @@
 fileupload {
-  .drag-n-drop-container {
-    border: 2px dashed #bbb;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 50px;
-    text-align: center;
-    font: 21pt bold arial;
-    color: #bbb;
-  }
-
-  .upload-button {
-  }
-
-
   .file--upload {
-    padding-top:85px;
-
+    padding-top: 85px;
     input {
-      max-width:200px;
+      max-width: 200px;
     }
     button {
       ion-icon {
@@ -27,14 +12,12 @@ fileupload {
     ion-icon {
       font-size: 3em;
     }
-
     .file--upload--select {
       width: 20%;
       padding: 4px;
     }
-
     .file--upload--select__img {
-      height:64px;
+      height: 64px;
       width: auto;
       background-position: center center;
       background-size: cover;
@@ -42,7 +25,8 @@ fileupload {
         font-size: 2em;
       }
     }
-    .file--upload--select__img, .drop-container {
+    .file--upload--select__img,
+    .drop-container {
       background-color: color($colors, light);
       border: 1px solid color($colors, dark);
       border-radius: 8px;
@@ -55,11 +39,5 @@ fileupload {
       flex-direction: column;
       align-items: center;
     }
-    .file--upload--add {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   }
-
 }

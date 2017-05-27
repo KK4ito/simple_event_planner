@@ -8,70 +8,76 @@
 
   <div *ngIf="!editMode" class="spacer" [style.background-image]="safeStyle"></div>
   <picture-upload *ngIf="editMode" [image]="event.imageUri" [height]="450"
-                  (onFinished)="pictureChanged($event[0])"></picture-upload>
+    (onFinished)="pictureChanged($event[0])"></picture-upload>
 
   <div padding>
     <form [formGroup]="eventForm" (submit)="saveForm()" novalidate>
 
-    <h1 *ngIf="!editMode">{{ event.name }}</h1>
-    <ion-item *ngIf="editMode">
-      <ion-label floating>{{'DETAIL.TITLE' | translate}}</ion-label>
-      <ion-input formControlName="name" class="input__title"></ion-input>
-    </ion-item>
+      <h1 *ngIf="!editMode">{{ event.name }}</h1>
+      <ion-item *ngIf="editMode">
+        <ion-label floating>{{'DETAIL.TITLE' | translate}}</ion-label>
+        <ion-input formControlName="name" class="input__title"></ion-input>
+      </ion-item>
 
-    <span *ngIf="!editMode">{{event.description}}</span>
-    <ion-item *ngIf="editMode">
-      <ion-label floating>{{'DETAIL.DESCRIPTION' | translate}}</ion-label>
-      <ion-textarea formControlName="description" autoresize></ion-textarea>
-    </ion-item>
+      <span *ngIf="!editMode">{{event.description}}</span>
+      <ion-item *ngIf="editMode">
+        <ion-label floating>{{'DETAIL.DESCRIPTION' | translate}}</ion-label>
+        <ion-textarea formControlName="description" autoresize></ion-textarea>
+      </ion-item>
 
-    <ion-item>
-      <ion-icon item-left name="pin"></ion-icon>
-      <h2>{{'DETAIL.LOCATION' | translate}}</h2>
-      <p item-right *ngIf="!editMode">{{event.location}}</p>
-      <ion-input formControlName="location" item-right *ngIf="editMode"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-icon item-left name="pin"></ion-icon>
+        <h2>{{'DETAIL.LOCATION' | translate}}</h2>
+        <p item-right *ngIf="!editMode">{{event.location}}</p>
+        <ion-input formControlName="location" item-right *ngIf="editMode"></ion-input>
+      </ion-item>
 
-    <ion-item class="item__datepicker item--containNone">
-      <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.CLOSING_DATE' | translate}}</h2>
-      <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" formControlName="closingTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
-    </ion-item>
+      <ion-item class="item__datepicker item--containNone">
+        <ion-icon item-left name="calendar"></ion-icon>
+        <h2>{{'DETAIL.CLOSING_DATE' | translate}}</h2>
+        <p item-right *ngIf="!editMode">{{event.closingTime | date: 'dd.MM.yy H:mm'}}</p>
+        <md2-datepicker *ngIf="editMode" formControlName="closingTime"
+          type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm"
+          container="dialog" item-right></md2-datepicker>
+      </ion-item>
 
-    <ion-item class="item__datepicker item--containNone">
-      <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.START_DATE' | translate}}</h2>
-      <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" formControlName="startTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
-    </ion-item>
+      <ion-item class="item__datepicker item--containNone">
+        <ion-icon item-left name="calendar"></ion-icon>
+        <h2>{{'DETAIL.START_DATE' | translate}}</h2>
+        <p item-right *ngIf="!editMode">{{event.startTime | date: 'dd.MM.yy H:mm'}}</p>
+        <md2-datepicker *ngIf="editMode" formControlName="startTime"
+          type="'datetime'" openOnFocus="true" format="dd.MM.y HH:mm"
+          container="dialog" item-right></md2-datepicker>
+      </ion-item>
 
-    <ion-item class="item__datepicker item--containNone">
-      <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.END_DATE' | translate}}</h2>
-      <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
-      <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'" openOnFocus="true"
-                      format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
-    </ion-item>
+      <ion-item class="item__datepicker item--containNone">
+        <ion-icon item-left name="calendar"></ion-icon>
+        <h2>{{'DETAIL.END_DATE' | translate}}</h2>
+        <p item-right *ngIf="!editMode">{{event.endTime | date: 'dd.MM.yy H:mm'}}</p>
+        <md2-datepicker *ngIf="editMode" formControlName="endTime" type="'datetime'"
+          openOnFocus="true" format="dd.MM.y HH:mm" container="dialog"
+          item-right></md2-datepicker>
+      </ion-item>
 
-    <ion-item *ngIf="!editMode" class="item__datepicker item--containNone">
-      <ion-icon item-left name="calendar"></ion-icon>
-      <h2>{{'DETAIL.DURATION' | translate}}</h2>
-      <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
-    </ion-item>
+      <ion-item *ngIf="!editMode" class="item__datepicker item--containNone">
+        <ion-icon item-left name="calendar"></ion-icon>
+        <h2>{{'DETAIL.DURATION' | translate}}</h2>
+        <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
+      </ion-item>
 
     </form>
 
     <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() > RoleType.ANONYMOUS">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label *ngIf="!eventAttendee">{{'DETAIL.ATTEND' | translate}}</ion-label>
-      <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
+      <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType
+        | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink
+        ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
       <ion-toggle (ngModelChange)="attendEvent()" [ngModel]="attends"></ion-toggle>
     </ion-item>
 
-    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
+    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS"
+      (click)="openProfilePage()">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label>{{'DETAIL.LOGIN' | translate}}</ion-label>
     </ion-item>
@@ -84,12 +90,12 @@
 
     <ion-list no-lines>
       <ion-list-header>
-        {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length : '0'}})
+        {{ 'DETAIL.SPEAKERS' | translate }} ({{(speakers) ? speakers.length
+        : '0'}})
       </ion-list-header>
 
       <ion-item class="item--containNone" *ngIf="editMode">
-        <select-user  item-left [placeholder]="'Add speaker'"
-                     (onSelected)="onSpeakerSelected($event[0])"></select-user>
+        <select-user item-left [placeholder]="'Add speaker'" (onSelected)="onSpeakerSelected($event[0])"></select-user>
       </ion-item>
 
       <ion-item *ngFor="let speaker of speakers">
@@ -98,13 +104,15 @@
         </ion-avatar>
         <h2>{{ speaker.firstName }} {{ speaker.lastName }}</h2>
         <h3>{{ speaker.email }}</h3>
-        <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)" name="close-circle" item-right></ion-icon>
+        <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)"
+          name="close-circle" item-right></ion-icon>
       </ion-item>
 
 
       <div *ngIf="!editMode">
         <ion-list-header>
-          {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length : '0'}})
+          {{ 'DETAIL.ATTENDEES' | translate }} ({{(attendees) ? attendees.length
+          : '0'}})
         </ion-list-header>
         <ion-chip *ngFor="let attendee of attendees">
           <ion-label>{{ attendee.firstName }} {{ attendee.lastName }}</ion-label>
@@ -112,7 +120,8 @@
       </div>
 
       <ion-list-header>
-        {{ 'DETAIL.FILES' | translate }} ({{(files) ? files.length : '0'}})
+        {{ 'DETAIL.FILES' | translate }} ({{(files) ? files.length :
+        '0'}})
       </ion-list-header>
 
       <ion-item *ngFor="let file of files" (click)="download(file.uri)">
@@ -123,19 +132,22 @@
       </ion-item>
     </ion-list>
 
-    <fileupload *ngIf="editMode" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
+    <fileupload *ngIf="editMode" [allowedExtensions]="allowedUploadExtensions"
+      [maxUploads]="5" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 
   </div>
 
 
 
-  <ion-fab *ngIf="!editMode && (isSpeaker || authService.getRole() === RoleType.ADMINISTRATOR)" bottom right>
+  <ion-fab *ngIf="!editMode && (isSpeaker || authService.getRole() === RoleType.ADMINISTRATOR)"
+    bottom right>
     <button ion-fab><ion-icon name="ios-arrow-dropup"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab color="primary" *ngIf="!editMode" (click)="edit()">
         <ion-icon name="create"></ion-icon>
       </button>
-      <button *ngIf="authService.getRole() === RoleType.ADMINISTRATOR" ion-fab color="primary" (click)="sendInvite()">
+      <button *ngIf="authService.getRole() === RoleType.ADMINISTRATOR"
+        ion-fab color="primary" (click)="sendInvite()">
         <ion-icon name="send"></ion-icon>
       </button>
       <button ion-fab color="primary" (click)="print()">
@@ -146,7 +158,8 @@
 
 
   <ion-fab *ngIf="editMode" right bottom>
-    <button ion-fab color="primary" [disabled]="!eventForm.valid" (click)="save()">
+    <button ion-fab color="primary" [disabled]="!eventForm.valid"
+      (click)="save()">
       <ion-icon name="download"></ion-icon>
     </button>
   </ion-fab>
