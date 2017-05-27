@@ -19,7 +19,7 @@ import java.io.IOException;
 /**
  * The file-repository.
  *
- * Provides various methods (additionally to the ones provided by JpaRepository) to get and set
+ * Provides various methods to get and set
  * file-data.
  */
 @RestController
