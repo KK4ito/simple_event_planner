@@ -59,6 +59,7 @@ public class Mailer {
     public ResponseEntity<AnswerWrapper> post(@RequestBody() Mail mail) {
         //Test if the sent token is equal to the defined token.
         if(!token.equals(mail.token)) {
+            log.error("Invalid mailer-token received: cannot send mail");
             return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("Not_Acceptable"), HttpStatus.NOT_ACCEPTABLE);
         } else {
             try {
@@ -101,7 +102,7 @@ public class Mailer {
             }
             helper.setText(message, true);
             javaMailSender.send(mail);
-            log.info("Sent mail to: " + recipients + " | Cc: " + cc + " | Subject: " + subject + " | Message: " + message);
+            log.debug("Sent mail to: " + recipients + " | Cc: " + cc + " | Subject: " + subject + " | Message: " + message);
         } catch(MessagingException e) {
             log.error("FAILED sending mail to: " + recipients + " | Cc: " + cc + " | Subject: " + subject + " | Message: " + message);
             e.printStackTrace();
@@ -124,7 +125,7 @@ public class Mailer {
     public String prepareText(String body, String[] keys, String[] values){
         ST template = new ST(body, '$', '$');
 
-        log.info("Replacing text: " + body + " | Keys: " + keys.toString() + " | Values: " + values.toString());
+        log.debug("Replacing text: " + body + " | Keys: " + keys.toString() + " | Values: " + values.toString());
 
         for(int i = 0; i<keys.length; i++) {
             //Booleans need to be boolean, so we need to parse the string as a boolean
