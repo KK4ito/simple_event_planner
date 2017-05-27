@@ -25,6 +25,9 @@ public class ResetPasswordWrapper {
      * The new password that should be set.
      */
     public String password;
+
+    public boolean resetPassword;
+
     public ResetPasswordWrapper() {}
     public ResetPasswordWrapper(String message) {
         this.message = message;
@@ -38,4 +41,5 @@ public class ResetPasswordWrapper {
     public String getPassword() {
         return this.password;
     }
+    public boolean isResetPassword() { return this.resetPassword; }
 }

@@ -70,6 +70,18 @@ public class LoginRepository {
     private String resetPasswordSubject;
 
     /**
+     * The subject of the mail when a new user is created.
+     */
+    @Value("${mail.newUserCreated.subject}")
+    private String newUserPasswordSubject;
+
+    /**
+     * The text of the mail when a new user is created.
+     */
+    @Value("${mail.newUserPassword.text}")
+    private String newUserPasswordText;
+
+    /**
      * The token of the mail-microservice, so we are actually able to send mails.
      */
     @Value("${mailer.token}")
@@ -142,10 +154,20 @@ public class LoginRepository {
         Mail mail = new Mail();
         mail.token = mailerToken;
         mail.to = user.getEmail();
-        mail.subject = resetPasswordSubject;
+
+        mail.subject = "";
+        String mailText = "";
+
+        if(wrapper.isResetPassword()) {
+            mail.subject = resetPasswordSubject;
+            mailText = passwordResetText;
+        } else {
+            mail.subject = newUserPasswordSubject;
+            mailText = newUserPasswordText;
+        }
 
         //Insert the correct values into the resetPassword-Mailtemplate
-        ST template = new ST(passwordResetText, '$', '$');
+        ST template = new ST(mailText, '$', '$');
         template.add("url", url);
         mail.body = template.render();
         mail.keys = new String[0];
