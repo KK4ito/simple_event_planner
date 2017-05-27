@@ -113,7 +113,7 @@
         </ion-chip>
       </div>
 
-      <ion-list-header>
+      <ion-list-header *ngIf="files.length > 0">
         {{ 'FILES' | translate }} ({{(files) ? files.length : '0'}})
       </ion-list-header>
 
@@ -127,7 +127,7 @@
       </ion-item>
     </ion-list>
 
-    <fileupload *ngIf="editMode" [allowedExtensions]="allowedUploadExtensions"
+    <fileupload *ngIf="editMode && event.id > 0" [allowedExtensions]="allowedUploadExtensions"
       [maxUploads]="5" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 
   </div>
