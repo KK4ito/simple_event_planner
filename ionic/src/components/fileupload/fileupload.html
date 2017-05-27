@@ -1,34 +1,10 @@
-<div class="drag-n-drop-container"
-     ngFileDrop
-     [style.height]="height + 'px'"
-     [options]="options"
-     (onUpload)="handleUpload($event)"
-     [ngClass]="{'file-over': hasBaseDropZoneOver}"
-     (onFileOver)="fileOverBase($event)">
-  <h1>{{ 'DETAIL.DRAG_AND_DROP' | translate }}</h1>
-  <label class="upload-button">
-    <input type="file"
-           class="hidden"
-           ngFileSelect
-           [options]="options"
-           (onUpload)="handleUpload($event)">
-    {{ 'DETAIL.BROWSE' | translate }}
-  </label>
-</div>
-<progress-bar *ngIf="progress > 0 && progress < 100" [progress]="progress"></progress-bar>
-
-<!-- ngx-uploader v3 -->
-<!--
 <div class="file--upload">
-  <div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }" text-center>
+  <div class="drop-container" ngFileDrop [style.height]="height + 'px'" [options]="options" (onUpload)="handleUpload($event)"
+    [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)">
     <ion-icon name="md-document" color="dark" padding></ion-icon>
     <strong>Zieh deine Dateien hierher oder </strong>
     <br>
-    <input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>
-    <br>
-    <small>Bilder (JPG, PNG etc.) & PDF, max. 5 Dateien, Maximalgrösse 5MB pro Datei</small>
+    <input type="file" class="hidden" ngFileSelect [options]="options" (onUpload)="handleUpload($event)">
   </div>
 </div>
-Upload progress: {{uploadProgress}}
-<progress-bar *ngIf="uploadProgress > 0 && uploadProgress < 100" [progress]="uploadProgress"></progress-bar>
--->
+<progress-bar *ngIf="progress > 0 && progress < 100" [progress]="progress"></progress-bar>

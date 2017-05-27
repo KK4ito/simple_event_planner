@@ -1,24 +1,24 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import {
   NavController, NavParams, AlertController,
   ModalController, FabContainer
 } from 'ionic-angular';
-import {ApiService} from "../../providers/api.service";
-import {Event} from '../../models/Event';
-import {User} from "../../models/User";
-import {File} from "../../models/File";
-import {RoleType} from "../../models/RoleType";
-import {environment} from '../../../environments/environment';
-import {DomSanitizer, SafeStyle} from "@angular/platform-browser";
-import {EventAttendee} from "../../models/EventAttendee";
-import {ProfilePage} from "../profile/profile";
-import {AuthService} from "../../providers/auth.service";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {InvitePage} from "../invite/invite";
-import {DetailPrintPage} from "../detail-print/detail-print";
-import {SelectFoodPage} from "../select-food/select-food";
-import {FoodType} from "../../models/FoodType";
-import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
+import { ApiService } from "../../providers/api.service";
+import { Event } from '../../models/Event';
+import { User } from "../../models/User";
+import { File } from "../../models/File";
+import { RoleType } from "../../models/RoleType";
+import { environment } from '../../../environments/environment';
+import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
+import { EventAttendee } from "../../models/EventAttendee";
+import { ProfilePage } from "../profile/profile";
+import { AuthService } from "../../providers/auth.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InvitePage } from "../invite/invite";
+import { DetailPrintPage } from "../detail-print/detail-print";
+import { SelectFoodPage } from "../select-food/select-food";
+import { FoodType } from "../../models/FoodType";
+import { TranslatedSnackbarService } from "../../providers/translated-snackbar.service";
 
 @Component({
   selector: 'page-detail',
@@ -38,7 +38,7 @@ export class DetailPage {
 
   private attendsLocked = true;
   private attends = false;
-  private eventAttendee:EventAttendee;
+  private eventAttendee: EventAttendee;
 
   private eventDuration = 0;
 
@@ -47,7 +47,9 @@ export class DetailPage {
 
   public eventForm: FormGroup;
 
-  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService,  private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  private allowedUploadExtensions: string[] = ['txt', 'pdf', 'jpg', 'png'];
+
+  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       description: ['', Validators.compose([Validators.required])],
@@ -71,7 +73,7 @@ export class DetailPage {
         this.eventForm.controls['endTime'].setValue(event.endTime);
         this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
         var user = authService.getUser();
-        if(user) {
+        if (user) {
           this._apiService.getAttends(user.id, this.event.id)
             .then((eventAttendee) => {
               self.eventAttendee = eventAttendee;
@@ -88,10 +90,10 @@ export class DetailPage {
       });
       this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {
         this.speakers = speakers;
-        if(this.authService.getRole() > RoleType.ANONYMOUS) {
+        if (this.authService.getRole() > RoleType.ANONYMOUS) {
           this.isSpeaker = this.speakers.filter(speaker => {
-              return speaker.email == this.authService.getUser().email;
-            }).length > 0;
+            return speaker.email == this.authService.getUser().email;
+          }).length > 0;
         }
       });
       this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
@@ -159,7 +161,7 @@ export class DetailPage {
   }
 
   edit(fab: FabContainer) {
-    if(fab) fab.close();
+    if (fab) fab.close();
     this.editMode = true;
     this.oldEvent = Object.assign({}, this.event);
   }
@@ -190,7 +192,7 @@ export class DetailPage {
       if (isRestore) {
         this.translatedSnackbarService.showSnackbar('EVENT_RESTORED');
       } else {
-        this.translatedSnackbarService.showSnackbar('EVENT_UPDATED', 'UNDO').then(() =>{
+        this.translatedSnackbarService.showSnackbar('EVENT_UPDATED', 'UNDO').then(() => {
           this.saveEvent(this.oldEvent, true);
         });
       }
@@ -220,12 +222,12 @@ export class DetailPage {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
       if (this.attends) {
-        this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
+        this._apiService.deleteEventAttendee(this.eventAttendee.id).then(() => {
           this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
           this.eventAttendee = undefined;
           this.attends = false;
           this.attendsLocked = false;
-        }).catch(()=> this.attendsLocked = false);
+        }).catch(() => this.attendsLocked = false);
       } else {
         let modal = this.modalCtrl.create(SelectFoodPage);
         modal.onDidDismiss((data) => {
@@ -233,10 +235,10 @@ export class DetailPage {
           eventAttendee.event = '/events/' + this.event.id;
           let user = this.authService.getUser();
           eventAttendee.user = '/users/' + user.id;
-          if(data) {
+          if (data) {
             eventAttendee.foodType = data.selectedFood;
             eventAttendee.drink = data.drink;
-          }else{
+          } else {
             eventAttendee.foodType = FoodType.NONE;
             eventAttendee.drink = false;
           }
@@ -253,7 +255,7 @@ export class DetailPage {
     }
   }
 
-  isClosed(){
+  isClosed() {
     return Date.parse(this.event.closingTime) < new Date().getTime();
   }
 

@@ -1,6 +1,6 @@
-import {Component, NgZone, Inject, Output, EventEmitter, Input, ViewChild} from '@angular/core';
+import { Component, NgZone, Inject, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import {NgUploaderOptions, NgFileDropDirective} from 'ngx-uploader';
+import { NgUploaderOptions, NgFileDropDirective } from 'ngx-uploader';
 import { File } from "../../models/File";
 import { CookieService } from 'ngx-cookie';
 
@@ -11,7 +11,8 @@ import { CookieService } from 'ngx-cookie';
 export class FileuploadComponent {
 
   @Input() height: number;
-  @Input() filter:string[];
+  @Input() allowedExtensions: string[] = ['jpg', 'png'];
+  @Input() maxUploads: number = 1;
   @Output() onFinished: EventEmitter<[boolean, File]> = new EventEmitter();
 
   @ViewChild(NgFileDropDirective) private fileSelect: NgFileDropDirective;
@@ -22,19 +23,21 @@ export class FileuploadComponent {
   hasBaseDropZoneOver: boolean;
   progress: number;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _cookieService: CookieService) {
+  constructor( @Inject(NgZone) private zone: NgZone, private _cookieService: CookieService) { }
+
+  ngOnInit() {
     this.options = new NgUploaderOptions({
       url: environment.baseUrl + '/api/files',
       maxSize: 2097152,
       customHeaders: {
-        'Accept':'application/json',
+        'Accept': 'application/json',
         'X-XSRF-TOKEN': this._cookieService.get('XSRF-TOKEN')
       },
-      maxUploads: 2,
+      maxUploads: this.maxUploads,
       autoUpload: true,
       filterExtensions: true,
       withCredentials: true,
-      allowedExtensions: ['txt', 'pdf', 'jpg', 'png']
+      allowedExtensions: this.allowedExtensions
     });
   }
 

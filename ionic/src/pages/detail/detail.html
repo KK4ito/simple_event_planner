@@ -8,7 +8,7 @@
 
   <div *ngIf="!editMode" class="spacer" [style.background-image]="safeStyle"></div>
   <picture-upload *ngIf="editMode" [image]="event.imageUri" [height]="450"
-                  (onFinished)="pictureChanged($event[0])"></picture-upload>
+    (onFinished)="pictureChanged($event[0])"></picture-upload>
 
   <div padding>
     <form [formGroup]="eventForm" (submit)="saveForm()" novalidate>
@@ -62,6 +62,7 @@
       <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
     </ion-item>
 
+
     </form>
 
     <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() > RoleType.ANONYMOUS">
@@ -71,7 +72,8 @@
       <ion-toggle (ngModelChange)="attendEvent()" [ngModel]="attends"></ion-toggle>
     </ion-item>
 
-    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
+    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS"
+      (click)="openProfilePage()">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label>{{'LOGIN' | translate}}</ion-label>
     </ion-item>
@@ -88,8 +90,7 @@
       </ion-list-header>
 
       <ion-item class="item--containNone" *ngIf="editMode">
-        <select-user  item-left [placeholder]="'Add speaker'"
-                     (onSelected)="onSpeakerSelected($event[0])"></select-user>
+        <select-user item-left [placeholder]="'Add speaker'" (onSelected)="onSpeakerSelected($event[0])"></select-user>
       </ion-item>
 
       <ion-item *ngFor="let speaker of speakers">
@@ -98,7 +99,8 @@
         </ion-avatar>
         <h2>{{ speaker.firstName }} {{ speaker.lastName }}</h2>
         <h3>{{ speaker.email }}</h3>
-        <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)" name="close-circle" item-right></ion-icon>
+        <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)"
+          name="close-circle" item-right></ion-icon>
       </ion-item>
 
 
@@ -123,19 +125,22 @@
       </ion-item>
     </ion-list>
 
-    <fileupload *ngIf="editMode" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
+    <fileupload *ngIf="editMode" [allowedExtensions]="allowedUploadExtensions"
+      [maxUploads]="5" (onFinished)="uploadFinished($event[0], $event[1])"></fileupload>
 
   </div>
 
 
 
-  <ion-fab *ngIf="!editMode && (isSpeaker || authService.getRole() === RoleType.ADMINISTRATOR)" bottom right>
+  <ion-fab *ngIf="!editMode && (isSpeaker || authService.getRole() === RoleType.ADMINISTRATOR)"
+    bottom right>
     <button ion-fab><ion-icon name="ios-arrow-dropup"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab color="primary" *ngIf="!editMode" (click)="edit()">
         <ion-icon name="create"></ion-icon>
       </button>
-      <button *ngIf="authService.getRole() === RoleType.ADMINISTRATOR" ion-fab color="primary" (click)="sendInvite()">
+      <button *ngIf="authService.getRole() === RoleType.ADMINISTRATOR"
+        ion-fab color="primary" (click)="sendInvite()">
         <ion-icon name="send"></ion-icon>
       </button>
       <button ion-fab color="primary" (click)="print()">
@@ -146,7 +151,8 @@
 
 
   <ion-fab *ngIf="editMode" right bottom>
-    <button ion-fab color="primary" [disabled]="!eventForm.valid" (click)="save()">
+    <button ion-fab color="primary" [disabled]="!eventForm.valid"
+      (click)="save()">
       <ion-icon name="download"></ion-icon>
     </button>
   </ion-fab>
