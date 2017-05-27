@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.scheduler.domain;
+package ch.fhnw.edu.wodss.scheduler.domain;
 
 import java.util.Collection;
 import java.util.Date;

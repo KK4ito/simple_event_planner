@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.scheduler.domain;
+package ch.fhnw.edu.wodss.scheduler.domain;
 
 /**
  * Wrapper-class for an answer that is sent back from the mailer-microservice.

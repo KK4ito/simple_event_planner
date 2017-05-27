@@ -1,7 +1,4 @@
-package ch.fhnw.edu.eaf.scheduler.domain;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+package ch.fhnw.edu.wodss.scheduler.domain;
 
 /**
  * An attendee of an event.

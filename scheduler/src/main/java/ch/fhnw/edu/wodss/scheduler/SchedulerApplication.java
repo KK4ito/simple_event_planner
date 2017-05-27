@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.scheduler;
+package ch.fhnw.edu.wodss.scheduler;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @EnableDiscoveryClient

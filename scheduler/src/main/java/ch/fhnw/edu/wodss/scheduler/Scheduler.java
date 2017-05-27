@@ -1,6 +1,6 @@
-package ch.fhnw.edu.eaf.scheduler;
+package ch.fhnw.edu.wodss.scheduler;
 
-import ch.fhnw.edu.eaf.scheduler.domain.*;
+import ch.fhnw.edu.wodss.scheduler.domain.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.HttpClient;
