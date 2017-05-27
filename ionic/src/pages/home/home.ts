@@ -12,8 +12,8 @@ import { AuthService } from "../../providers/auth.service";
   templateUrl: 'home.html'
 })
 export class HomePage {
-  upcomingEvents: Event[];
-  pastEvents: Event[];
+  upcomingEvents: Event[] = [];
+  pastEvents: Event[] = [];
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;

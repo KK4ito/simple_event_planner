@@ -39,6 +39,10 @@
 
       </ion-col>
     </ion-row>
+
+    <ion-row *ngIf="upcomingEvents.length == 0">
+      {{'NO_UPCOMING_EVENTS' | translate}}
+    </ion-row>
   </ion-grid>
 
   <h1>{{ 'PAST_EVENTS' | translate }}</h1>
@@ -67,8 +71,11 @@
             </ion-item>
           </ion-card-content>
         </ion-card>
-
       </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="pastEvents.length == 0">
+      {{'NO_PAST_EVENTS' | translate}}
     </ion-row>
   </ion-grid>
 

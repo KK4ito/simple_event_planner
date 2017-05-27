@@ -66,5 +66,7 @@
   "UPCOMING_EVENTS": "Bevorstehende Versanstaltungen",
   "PAST_EVENTS": "Vergangene Versanstaltungen",
   "ADMINISTRATORS": "Administratoren",
-  "ADMINISTRATOR_ADD": "Administrator hinzufügen"
+  "ADMINISTRATOR_ADD": "Administrator hinzufügen",
+  "NO_UPCOMING_EVENTS": "Keine bevorstehenden Veranstaltungen",
+  "NO_PAST_EVENTS": "Keine vergangenen Veranstaltungen"
 }
