@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 import { FoodType } from "../../models/FoodType";
 
 @Component({
@@ -8,15 +8,15 @@ import { FoodType } from "../../models/FoodType";
 })
 export class SelectFoodPage {
   menus = [
-    {'value': 'VEGI', 'label': 'Vegi', 'icon': 'nutrition'},
-    {'value': 'MEAT', 'label': 'Meat', 'icon': 'restaurant'},
-    {'value': 'NONE', 'label': 'None', 'icon': 'remove-circle'}
+    {'value': 'VEGI', 'icon': 'nutrition'},
+    {'value': 'MEAT', 'icon': 'restaurant'},
+    {'value': 'NONE', 'icon': 'remove-circle'}
   ];
 
   food: FoodType;
   drink: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(private viewCtrl: ViewController) {
   }
 
   dismiss() {
@@ -24,8 +24,6 @@ export class SelectFoodPage {
   }
 
   save() {
-    console.log(this.drink);
-    console.log(this.food);
     this.viewCtrl.dismiss({ drink: this.drink, selectedFood: this.food });
   }
 }

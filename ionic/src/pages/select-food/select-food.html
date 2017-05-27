@@ -1,48 +1,31 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Select food</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="dismiss()">
-        Close
+      <button ion-button (click)="dismiss()" padding>
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
-
   <ion-list>
-
     <ion-item>
       <ion-icon item-left name="beer"></ion-icon>
-      <ion-label>Drink</ion-label>
+      <ion-label>{{'DETAIL.DRINK' | translate}}</ion-label>
       <ion-toggle [(ngModel)]="drink"></ion-toggle>
     </ion-item>
-
-  </ion-list>
-
-  <ion-list radio-group [(ngModel)]="food">
-
-    <ion-list-header>
-      Sandwich
-    </ion-list-header>
-
+    <div radio-group [(ngModel)]="food">
     <ion-item *ngFor="let m of menus">
       <ion-icon item-left name="{{m.icon}}"></ion-icon>
-      <ion-label>{{m.label}}</ion-label>
+      <ion-label>{{'DETAIL.' + m.value | translate}}</ion-label>
       <ion-radio value="{{m.value}}"></ion-radio>
     </ion-item>
-
+    </div>
   </ion-list>
-
   <ion-footer>
     <ion-buttons padding end>
-      <button ion-button (click)="save()">Save</button>
+      <button ion-button (click)="save()">{{'SAVE' | translate}}</button>
     </ion-buttons>
   </ion-footer>
-
 </ion-content>

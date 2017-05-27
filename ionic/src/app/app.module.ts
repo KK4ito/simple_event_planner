@@ -35,6 +35,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {InvitePage} from "../pages/invite/invite";
 import { RecipientComponent } from '../components/recipient/recipient';
 import { CookieModule } from 'ngx-cookie';
+import {TranslatedSnackbarService} from "../providers/translated-snackbar.service";
 
 declare var tinymce: any;
 
@@ -42,7 +43,7 @@ declare var tinymce: any;
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, 'assets/i18n/');
 }
 
 export const deepLinkConfig: any = {
@@ -112,8 +113,8 @@ export const deepLinkConfig: any = {
   providers: [
     AuthService,
     ApiService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: XSRFStrategy,  useValue: new CookieXSRFStrategy('XSRF-TOKEN')}
-  ]
+    TranslatedSnackbarService,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ]
 })
 export class AppModule {}

@@ -1,8 +1,9 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams, ViewController, ToastController} from 'ionic-angular';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {Mail} from "../../models/Mail";
 import {Event} from "../../models/Event";
+import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 declare var tinymce: any;
 
 @Component({
@@ -20,7 +21,7 @@ export class InvitePage {
 
   @ViewChild('tinymceText') tinymceText: ElementRef;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService, private viewCtrl: ViewController, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService, private viewCtrl: ViewController, private translatedSnackbarService: TranslatedSnackbarService) {
     this.event = navParams.data.event;
   }
 
@@ -61,20 +62,9 @@ export class InvitePage {
     mail.eventId = this.event.id;
 
     this._apiService.createInvitationEmail(mail).then(res => {
-      console.log(res);
-      this.toastCtrl.create({
-        message: 'Email sent successfully.',
-        duration: 3000,
-        position: 'bottom right'
-      }).present();
-      this.viewCtrl.dismiss();
+      this.translatedSnackbarService.showSnackbar('EMAIL_SENT');
     }).catch(err => {
-      console.log(err);
-      this.toastCtrl.create({
-        message: 'Email could not be sent.',
-        duration: 3000,
-        position: 'bottom right'
-      }).present();
+      this.translatedSnackbarService.showSnackbar('EMAIL_FAILED');
     })
   }
 

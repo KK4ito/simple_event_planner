@@ -1,6 +1,6 @@
-import {Component, NgZone, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {
-  NavController, NavParams, AlertController, ToastController,
+  NavController, NavParams, AlertController,
   ModalController, FabContainer
 } from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
@@ -17,6 +17,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {InvitePage} from "../invite/invite";
 import {DetailPrintPage} from "../detail-print/detail-print";
 import {SelectFoodPage} from "../select-food/select-food";
+import {FoodType} from "../../models/FoodType";
+import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 
 @Component({
   selector: 'page-detail',
@@ -45,7 +47,7 @@ export class DetailPage {
 
   public eventForm: FormGroup;
 
-  constructor(@Inject(NgZone) private zone: NgZone, private _apiService: ApiService, private modalCtrl: ModalController, private toastCtrl: ToastController, public navParams: NavParams, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService,  private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required])],
       description: ['', Validators.compose([Validators.required])],
@@ -68,20 +70,21 @@ export class DetailPage {
         this.eventForm.controls['closingTime'].setValue(event.closingTime);
         this.eventForm.controls['endTime'].setValue(event.endTime);
         this.safeStyle = sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + event.imageUri + '\')');
-        // TODO Provide logged in user id instead of hardcoded one
-        this._apiService.getAttends(1, this.event.id)
-          .then((eventAttendee) => {
-            self.eventAttendee = eventAttendee;
-            self.attends = true;
-            // Needed because of initialization delay
-            setTimeout(() => self.attendsLocked = false, 1000);
-          })
-          .catch(() => {
-            self.attends = false;
-            // Needed because of initialization delay
-            setTimeout(() => self.attendsLocked = false, 1000);
-          });
-
+        var user = authService.getUser();
+        if(user) {
+          this._apiService.getAttends(user.id, this.event.id)
+            .then((eventAttendee) => {
+              self.eventAttendee = eventAttendee;
+              self.attends = true;
+              // Needed because of initialization delay
+              setTimeout(() => self.attendsLocked = false, 1000);
+            })
+            .catch(() => {
+              self.attends = false;
+              // Needed because of initialization delay
+              setTimeout(() => self.attendsLocked = false, 1000);
+            });
+        }
       });
       this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {
         this.speakers = speakers;
@@ -162,13 +165,7 @@ export class DetailPage {
   }
 
   save() {
-    console.log(this.event); // TODO: This has the right value before object.assign happens... Why?
-    console.log('assign');
     Object.assign(this.event, this.eventForm.value);
-    console.log(this.event);
-
-    // TODO: When updating an event where you are "angemeldet", the "anmeldung" modal pops up again.
-
     this.editMode = false;
     if (this.event.id >= 0) {
       this.saveEvent(this.event);
@@ -179,7 +176,6 @@ export class DetailPage {
 
   createEvent() {
     this._apiService.createEvent(this.event).then((newEvent) => {
-      console.log('event', newEvent);
       this.navCtrl.push(DetailPage, {
         id: newEvent.id
       });
@@ -188,30 +184,15 @@ export class DetailPage {
 
   saveEvent(event: Event, isRestore = false) {
     // Set speaker list
-    console.log(this.speakers);
     event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
     this._apiService.updateEvent(event).then((event) => {
       this.event = event;
       if (isRestore) {
-        this.toastCtrl.create({
-          message: 'Event successfully restored.',
-          duration: 3000,
-          position: 'bottom right'
-        }).present();
+        this.translatedSnackbarService.showSnackbar('EVENT_RESTORED');
       } else {
-        let toast = this.toastCtrl.create({
-          message: 'Event successfully updated.',
-          duration: 3000,
-          showCloseButton: true,
-          closeButtonText: "undo",
-          position: 'bottom right'
+        this.translatedSnackbarService.showSnackbar('EVENT_UPDATED', 'UNDO').then(() =>{
+          this.saveEvent(this.oldEvent, true);
         });
-        toast.onDidDismiss((data, role) => {
-          if (role == "close") {
-            this.saveEvent(this.oldEvent, true);
-          }
-        });
-        toast.present();
       }
     });
   }
@@ -235,12 +216,10 @@ export class DetailPage {
     this.navCtrl.setRoot(ProfilePage);
   }
 
-
   attendEvent() {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
-      if (!this.attends) {
-        console.log(this.eventAttendee);
+      if (this.attends) {
         this._apiService.deleteEventAttendee(this.eventAttendee.id).then(()=> {
           this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
           this.eventAttendee = undefined;
@@ -250,18 +229,19 @@ export class DetailPage {
       } else {
         let modal = this.modalCtrl.create(SelectFoodPage);
         modal.onDidDismiss((data) => {
-          console.log(data);
-
           let eventAttendee = new EventAttendee();
           eventAttendee.event = '/events/' + this.event.id;
           let user = this.authService.getUser();
           eventAttendee.user = '/users/' + user.id;
-          eventAttendee.foodType = data.selectedFood;
-          eventAttendee.drink = data.drink;
-          console.log('eventAttendee', eventAttendee);
+          if(data) {
+            eventAttendee.foodType = data.selectedFood;
+            eventAttendee.drink = data.drink;
+          }else{
+            eventAttendee.foodType = FoodType.NONE;
+            eventAttendee.drink = false;
+          }
           this._apiService.createEventAttendee(eventAttendee).then((result) => {
             this._apiService.getAttendees(this.navParams.get('id')).then(attendees => this.attendees = attendees);
-            console.log('result', result);
             this.eventAttendee = result;
             this.attends = true;
             this.attendsLocked = false;
@@ -271,6 +251,10 @@ export class DetailPage {
         modal.present();
       }
     }
+  }
+
+  isClosed(){
+    return Date.parse(this.event.closingTime) < new Date().getTime();
   }
 
   /**

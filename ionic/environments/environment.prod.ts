@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:8080'
+  baseUrl: 'https://www.cs.technik.fhnw.ch/wodss17-5/api'
 };

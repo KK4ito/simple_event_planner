@@ -4,7 +4,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
 
   <div *ngIf="!editMode" class="spacer" [style.background-image]="safeStyle"></div>
@@ -57,7 +56,7 @@
                       format="dd.MM.y HH:mm" container="dialog" item-right></md2-datepicker>
     </ion-item>
 
-    <ion-item class="item__datepicker item--containNone">
+    <ion-item *ngIf="!editMode" class="item__datepicker item--containNone">
       <ion-icon item-left name="calendar"></ion-icon>
       <h2>{{'DETAIL.DURATION' | translate}}</h2>
       <p item-right *ngIf="!editMode">{{ eventDuration | duration }}</p>
@@ -65,16 +64,21 @@
 
     </form>
 
-    <ion-item *ngIf="!editMode && authService.getRole() > RoleType.ANONYMOUS">
+    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() > RoleType.ANONYMOUS">
       <ion-icon item-left name="people"></ion-icon>
       <ion-label *ngIf="!eventAttendee">{{'DETAIL.ATTEND' | translate}}</ion-label>
-      <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{eventAttendee.foodType}}, Drink: {{eventAttendee.drink ? 'Yes' : 'No'}})</ion-label>
-      <ion-toggle (ionChange)="attendEvent()" [(ngModel)]="attends"></ion-toggle>
+      <ion-label *ngIf="eventAttendee">{{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</ion-label>
+      <ion-toggle (ngModelChange)="attendEvent()" [ngModel]="attends"></ion-toggle>
     </ion-item>
 
-    <ion-item *ngIf="!editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
+    <ion-item *ngIf="!isClosed() && !editMode && authService.getRole() == RoleType.ANONYMOUS" (click)="openProfilePage()">
       <ion-icon item-left name="people"></ion-icon>
-      <ion-label *ngIf="eventAttendee">{{'DETAIL.LOGIN' | translate}}</ion-label>
+      <ion-label>{{'DETAIL.LOGIN' | translate}}</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="isClosed() && !editMode">
+      <ion-icon item-left name="people"></ion-icon>
+      <ion-label>{{'ALREADY_CLOSED' | translate}}<span *ngIf="eventAttendee">: {{'DETAIL.ATTENDING' | translate}} ({{'DETAIL.' + eventAttendee.foodType | translate}}, {{'DETAIL.DRINK' | translate}}: {{eventAttendee.drink ? ('YES' | translate) : ('NO' | translate) }})</span></ion-label>
     </ion-item>
 
 

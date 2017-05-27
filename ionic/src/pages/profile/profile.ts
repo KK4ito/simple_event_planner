@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ToastController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {HomePage} from "../home/home";
-import {TranslateService} from "@ngx-translate/core";
+import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
+declare var window:any;
 
 @Component({
   selector: 'page-profile',
@@ -19,13 +20,13 @@ export class ProfilePage {
   private user = new User();
   private receiveEmails: boolean;
 
-  private passwordResetToken: number;
+  private passwordResetToken: string;
   private password: string;
   private passwordConfirm: string;
 
   private email: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private toastCtrl: ToastController, private translateService: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService) {
     this.user = authService.getUser();
 
     this.passwordResetToken = this.navParams.get('resetToken');
@@ -48,13 +49,7 @@ export class ProfilePage {
       this.navCtrl.setRoot(HomePage);
     }).catch(() =>{
       this.user.password = "";
-      this.translateService.get('PROFILE.LOGIN_FAILED').subscribe(translated => {
-        this.toastCtrl.create({
-          message: translated,
-          duration: 3000,
-          position: 'bottom'
-        }).present();
-      });
+      this.translatedSnackbarService.showSnackbar('LOGIN_FAILED');
     });
   }
 
@@ -80,26 +75,21 @@ export class ProfilePage {
 
   resetPassword() {
     if (this.passwordConfirm === this.password) {
-      this.apiService.resetPassword(this.passwordResetToken, this.password).then(res => {
+      this.authService.resetPassword(this.passwordResetToken, this.password).then(res => {
         console.log(res);
       }).catch(err => console.log(err));
     } else {
-      this.toastCtrl.create({
-        message: 'Passwords do not match!',
-        duration: 3000,
-        position: 'bottom'
-      }).present();
-
+      this.translatedSnackbarService.showSnackbar('PASSWORD_MISMATCH');
     }
   }
 
   requestPasswordReset() {
-    this.apiService.requestPasswordReset(this.email).then(res => {
+    this.authService.requestPasswordReset(this.email).then(res => {
       console.log(res);
     }).catch(err => console.log(err));
   }
 
   loginWithSibboleth() {
-    //window.location('https://google.ch');
+    window.location.href = 'https://www.cs.technik.fhnw.ch/wodss17-5-aai/#/profile';
   }
 }

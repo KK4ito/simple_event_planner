@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ToastController} from 'ionic-angular';
 import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 
 @Component({
   selector: 'page-permissions',
@@ -21,7 +20,7 @@ export class PermissionsPage {
    */
   oldUser: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private apiService: ApiService, private toastCtrl: ToastController, private translate: TranslateService) {
+  constructor(private apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService) {
     this.refreshUsers();
   }
 
@@ -62,20 +61,8 @@ export class PermissionsPage {
   updateUser(user: User, showUndo = true) {
     this.apiService.updateUserPartial(user.id, {role: user.role}).then(() => {
       this.refreshUsers();
-      this.translate.get(['PERMISSIONS.USER_UPDATED', 'PERMISSIONS.USER_UPDATED_UNDO']).subscribe(str => {
-        let toast = this.toastCtrl.create({
-          message: str[0],
-          duration: 3000,
-          showCloseButton: true,
-          closeButtonText: str[1],
-          position: 'bottom right'
-        });
-        toast.onDidDismiss((data, role) => {
-          if (role == "close") {
-            this.updateUser(this.oldUser, false);
-          }
-        });
-        toast.present();
+      this.translatedSnackbarService.showSnackbar('USER_UPDATED', 'UNDO', {firstName:user.firstName, lastName:user.lastName}).then(() => {
+        this.updateUser(this.oldUser, false);
       });
     });
   }

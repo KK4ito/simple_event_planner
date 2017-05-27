@@ -43,6 +43,6 @@
   <br />
   <button ion-button color="secondary" [disabled]="!userForm.valid" full (click)="save(user)">{{'UPDATE_USER.SAVE' | translate}}</button>
   <br />
-  <button *ngIf="oldUser" ion-button color="danger" full [disabled]="!userForm.valid" (click)="delete()">{{'UPDATE_USER.DELETE' | translate}}</button>
+  <button *ngIf="oldUser" ion-button color="danger" full (click)="delete()">{{'UPDATE_USER.DELETE' | translate}}</button>
 
 </ion-content>
