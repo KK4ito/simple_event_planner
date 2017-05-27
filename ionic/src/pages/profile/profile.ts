@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams, Events} from 'ionic-angular';
 import {User} from "../../models/User";
 import {RoleType} from "../../models/RoleType";
 import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {HomePage} from "../home/home";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
+import {File} from "../../models/File";
+
 declare var window:any;
 
 @Component({
@@ -17,16 +19,20 @@ export class ProfilePage {
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
   public RoleType = RoleType;
 
-  private user = new User();
+  private user;
   private receiveEmails: boolean;
 
   private passwordResetToken: string;
   private password: string;
   private passwordConfirm: string;
-
   private email: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private events:Events) {
+
+    this.events.subscribe('user:changed', (user:User) =>{
+      this.user = user;
+    });
+
     this.user = authService.getUser();
 
     this.passwordResetToken = this.navParams.get('resetToken');
@@ -35,7 +41,6 @@ export class ProfilePage {
       this.user = new User();
     } else {
       this.receiveEmails = !this.user.optOut;
-      console.log(this.user);
     }
   }
 
@@ -85,11 +90,20 @@ export class ProfilePage {
 
   requestPasswordReset() {
     this.authService.requestPasswordReset(this.email).then(res => {
-      console.log(res);
     }).catch(err => console.log(err));
   }
 
   loginWithSibboleth() {
     window.location.href = 'https://www.cs.technik.fhnw.ch/wodss17-5-aai/#/profile';
+  }
+
+  avatarUpdated(file: File) {
+    let user = this.user;
+    user.image = file.uri
+    let oldUri = this.user.imageUri;
+    this.apiService.updateUserPartial(user.id, {image: user.image}).then(() =>{
+      this.authService.login();
+      this.translatedSnackbarService.showSnackbar('USER_UPDATED', null, {firstName: user.firstName, lastName: user.lastName})
+    });
   }
 }

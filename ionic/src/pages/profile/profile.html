@@ -80,18 +80,26 @@
   </ion-card>
 
   <ion-card *ngIf="authService.getRole() > RoleType.ANONYMOUS && !passwordResetToken">
+    <picture-upload [height]="400" [image]="user.imageUri" (onFinished)="avatarUpdated($event[0])"></picture-upload>
+
     <ion-card-content>
-      <ion-item *ngIf="!user.internal">
-        <ion-label>Receive emails</ion-label>
-        <ion-toggle (ionChange)="toggleEmails()" [(ngModel)]="receiveEmails"></ion-toggle>
+
+      <ion-item>
+        <h2>{{ 'NAME' | translate }}</h2>
+        <h3>{{user.firstName}} {{user.lastName}}</h3>
       </ion-item>
 
       <ion-item>
-        <h2>{{ 'PROFILE.EMAIL' | translate }}</h2>
+        <h2>{{ 'EMAIL' | translate }}</h2>
         <h3>{{user.email}}</h3>
       </ion-item>
 
-      <button ion-button (click)="logout()">{{ 'PROFILE.LOGOUT' | translate }}</button>
+      <ion-item *ngIf="!user.internal">
+        <ion-label>{{'RECEIVE_EMAIL' | translate}}</ion-label>
+        <ion-toggle (ionChange)="toggleEmails()" [(ngModel)]="receiveEmails"></ion-toggle>
+      </ion-item>
+
+      <button ion-button (click)="logout()">{{ 'LOGOUT' | translate }}</button>
 
     </ion-card-content>
   </ion-card>

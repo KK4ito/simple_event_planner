@@ -42,14 +42,10 @@ export class FileuploadComponent {
     setTimeout(() => {
       this.zone.run(() => {
         this.response = data;
-        console.log('data1', data);
-
         if (this.response.progress) {
           this.progress = this.response.progress.percent;
-          console.log(this.progress);
         }
         if (data && data.response) {
-          console.log('data2', data);
           this.response = JSON.parse(data.response);
           this.onFinished.emit([true, this.response])
         }
