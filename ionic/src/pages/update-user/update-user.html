@@ -29,13 +29,8 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>{{'UPDATE_USER.EMAIL' | translate}}</ion-label>
+      <ion-label stacked>{{'UPDATE_USER.EMAIL' | translate}}</ion-label> <!-- https://stackoverflow.com/questions/20573488/why-does-html5-form-validation-allow-emails-without-a-dot https://tools.ietf.org/html/rfc821 -->
       <ion-input formControlName="email" type="email"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label stacked>{{'UPDATE_USER.PASSWORD' | translate}}</ion-label>
-      <ion-input formControlName="password" type="password"></ion-input>
     </ion-item>
 
   </form>

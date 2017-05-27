@@ -30,6 +30,7 @@ export class UpdateUserPage {
 
   constructor(private params: NavParams, private viewCtrl: ViewController, private apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController, public formBuilder: FormBuilder) {
     let user = params.get('user');
+
     if (user) {
       this.user = user;
       this.oldUser = Object.assign({}, this.user);
@@ -37,10 +38,9 @@ export class UpdateUserPage {
 
     // define the form and set up validators
     this.userForm = formBuilder.group({
-      firstName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
-      lastName: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
-      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(1024), Validators.email])],
-      password: ['', Validators.compose([Validators.required])],
+      firstName: [this.user.firstName, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
+      lastName: [this.user.lastName, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(1024)])],
+      email: [this.user.email, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(1024), Validators.email])]
     });
   }
 
@@ -60,7 +60,7 @@ export class UpdateUserPage {
     Object.assign(user, this.userForm.value);
     console.log(user);
     if (this.oldUser) {
-      this.apiService.updateUser(user).then(user => {
+      this.apiService.updateUserPartial(this.user.id, this.userForm.value).then(user => {
         if (showToast) {
           this.translatedSnackbarService.showSnackbar('USER_UPDATED', 'UNDO', {
             firstName: user.firstName,
@@ -73,7 +73,7 @@ export class UpdateUserPage {
         this.events.publish('users:changed');
       });
     } else {
-      this.apiService.createUser(this.user).then(user => {
+      this.apiService.createUser(this.userForm.value).then(user => {
         this.translatedSnackbarService.showSnackbar('USER_UPDATED', 'UNDO', {
           firstName: user.firstName,
           lastName: user.lastName
