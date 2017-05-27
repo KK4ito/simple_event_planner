@@ -32,7 +32,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param e         The event to save to the db.
      * @return          The saved event.
      */
-    @PreAuthorize("hasAuthority('ADMINISTRATOR') or hasPermission(#e, 'EVENT_OWNER')")
+    @PreAuthorize("(hasAuthority('ADMINISTRATOR') or hasPermission(#e, 'EVENT_OWNER')) and hasPermission(#e, 'EVENT_BUSINESS_LOGIC')")
     @Override
     public Event save(Event e);
 

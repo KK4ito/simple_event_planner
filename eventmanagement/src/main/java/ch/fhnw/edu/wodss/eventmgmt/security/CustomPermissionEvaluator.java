@@ -45,6 +45,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             // Check if event closing time is in the future, otherwise deny
             EventAttendee eventAttendee = (EventAttendee) targetDomainObject;
             return eventAttendee.getEvent().getClosingTime().getTime() > new Date().getTime();
+        }else if ("EVENT_BUSINESS_LOGIC".equals(permission.toString())) {
+            // Check if event the dates are set correctly
+            Event event = (Event) targetDomainObject;
+            return event.getClosingTime().getTime() <= event.getStartTime().getTime() && event.getStartTime().getTime() < event.getEndTime().getTime();
         }
 
         return false;

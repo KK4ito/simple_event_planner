@@ -69,7 +69,6 @@ export class ProfilePage {
   toggleEmails() {
     this.apiService.updateUserPartial(this.user.id, { optOut: !this.receiveEmails }).then(user => {
       this.user = user;
-      console.log(user);
     }).catch(err => {
       console.log(err);
     });
