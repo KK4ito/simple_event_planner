@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.frontend;
+package ch.fhnw.edu.wodss.eventmgmt;
 
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

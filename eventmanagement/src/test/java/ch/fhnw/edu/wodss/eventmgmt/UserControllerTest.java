@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.eventmgmt;
+package ch.fhnw.edu.wodss.eventmgmt;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
