@@ -51,13 +51,13 @@ export class DetailPage {
 
   constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
-      name: ['', Validators.compose([Validators.required])],
+      name: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(1024)])],
       description: ['', Validators.compose([Validators.required])],
-      location: ['', Validators.compose([Validators.required])],
+      location: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(1024)])],
       startTime: ['', Validators.compose([Validators.required])],
       closingTime: ['', Validators.compose([Validators.required])],
       endTime: ['', Validators.compose([Validators.required])],
-    });
+    }, { validator: this.validDates });
 
     if (this.navParams.get('id') >= 0) {
       let self = this;
@@ -103,6 +103,30 @@ export class DetailPage {
     } else {
       this.editMode = true;
     }
+  }
+
+  validDates(group: FormGroup) {
+    let invalid = false;
+
+    if (group.controls['startTime'].value < group.controls['closingTime'].value) {
+      console.log('start is smaller than closing');
+      invalid = true;
+    }
+
+    if (group.controls['startTime'].value >= group.controls['endTime'].value) {
+      console.log('start is bigger or equal to end');
+      invalid = true;
+    }
+
+    console.log(invalid);
+    if (invalid) {
+      group.controls['startTime'].setErrors({isValidDate: false});
+    } else {
+      console.log(group);
+      group.controls['startTime'].setErrors(null);
+    }
+
+    return null;
   }
 
   saveForm() {
