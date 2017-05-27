@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -10,14 +10,16 @@
 
 <ion-content padding>
 
-  <h1>{{ 'EVENTS' | translate }}</h1>
-
-
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let event of events" col-xs-12 col-sm-12 col-md-6 col-lg-4>
-        <ion-card  (click)="openEvent(event.id)">
-          <img src="{{ event.imageUri | imageUri }}"/>
+      <h1>{{ 'UPCOMING_EVENTS' | translate }}</h1>
+    </ion-row>
+
+    <ion-row>
+      <ion-col *ngFor="let event of upcomingEvents" col-xs-12 col-sm-12
+        col-md-6 col-lg-4>
+        <ion-card (click)="openEvent(event.id)">
+          <img src="{{ event.imageUri | imageUri }}" />
           <ion-card-content>
             <ion-card-title>
               {{ event.name }}
@@ -39,9 +41,40 @@
 
       </ion-col>
     </ion-row>
+    <ion-row>
+      <h1>{{ 'PAST_EVENTS' | translate }}</h1>
+    </ion-row>
+    <ion-row>
+
+      <ion-col *ngFor="let event of pastEvents" col-xs-12 col-sm-12
+        col-md-6 col-lg-4>
+        <ion-card (click)="openEvent(event.id)">
+          <img src="{{ event.imageUri | imageUri }}" />
+          <ion-card-content>
+            <ion-card-title>
+              {{ event.name }}
+            </ion-card-title>
+            <p>
+              {{ event.description }}
+            </p>
+            <ion-item>
+              <ion-icon name="calendar" item-left></ion-icon>
+              {{event.startTime | date: 'dd.MM.yy H:mm'}}
+            </ion-item>
+            <ion-item>
+              <ion-icon name="people" item-left></ion-icon>
+              {{ 'HOME.PARTICIPANTS' | translate }}
+              <ion-badge item-right>{{ event.attendeesCount }}</ion-badge>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
   </ion-grid>
 
-  <ion-fab *ngIf="authService.getRole() == RoleType.ADMINISTRATOR" right bottom>
+  <ion-fab *ngIf="authService.getRole() == RoleType.ADMINISTRATOR"
+    right bottom>
     <button ion-fab color="primary" (click)="openEvent(-1)"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
 
