@@ -1,4 +1,12 @@
 {
+  "TITLE": "Titel",
+  "DESCRIPTION": "Beschreibung",
+  "ADD_SPEAKER": "Referent hinzufügen",
+  "ADD_RECIPIENT": "Empfänger hinzufügen (Leerschlag zum bestätigen)",
+  "CREATE_USER": "Benutzer hinzufügen",
+  "SEND_INVITES": "Einladungen versenden",
+  "SUBJECT": "Betreff",
+  "SEND": "Versenden",
   "YES": "Ja",
   "NO": "Nein",
   "SAVE": "Speichern",

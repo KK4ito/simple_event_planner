@@ -1,10 +1,10 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Invite</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>{{ 'SEND_INVITES' | translate }}</ion-title>
     <ion-buttons end>
-      <button ion-button color="primary" (click)="dismiss()">
-        Close
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -12,27 +12,23 @@
 </ion-header>
 
 <ion-content padding>
+  <recipient [label]="'TO' | translate" [(recipients)]="tos"></recipient>
+  <recipient [label]="'CC' | translate" [(recipients)]="ccs"></recipient>
 
-  <recipient [label]="'TO'" [(recipients)]="tos"></recipient>
-  <recipient [label]="'CC'" [(recipients)]="ccs"></recipient>
-
+  <br />
   <ion-item>
-    <ion-label fixed>Subject</ion-label>
-    <ion-input [(ngModel)]="subject" type="text"></ion-input>
+      <ion-input placeholder="{{'SUBJECT' | translate}}" [(ngModel)]="subject" type="text"></ion-input>
   </ion-item>
+  <br />
 
-  <ion-label fixed>Message</ion-label>
-  <div #tinymceText class="tinymce">
-    Hallo velo
+  <div #tinymceText class="tinymce"></div>
 
-    <br />
-
-    <br />
-  </div>
-
-  <button (click)="sendMail()" ion-button icon-left>
-    <ion-icon name="mail"></ion-icon>
-    Send
-  </button>
+  <ion-footer>
+    <ion-buttons padding end>
+      <button (click)="sendMail()" ion-button icon-left>
+        <ion-icon name="mail"></ion-icon>
+        {{'SEND' | translate}}
+      </button>    </ion-buttons>
+  </ion-footer>
 
 </ion-content>

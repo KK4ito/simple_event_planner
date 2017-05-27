@@ -35,9 +35,11 @@
 
   </form>
 
-  <br />
-  <button ion-button color="secondary" [disabled]="!userForm.valid" full (click)="save(user)">{{'SAVE' | translate}}</button>
-  <br />
-  <button *ngIf="oldUser" ion-button color="danger" full (click)="delete()">{{'DELETE' | translate}}</button>
+  <ion-footer>
+    <ion-buttons padding end>
+      <button *ngIf="oldUser" ion-button color="danger" (click)="delete()">{{'DELETE' | translate}}</button>
+      <button ion-button color="secondary" [disabled]="!userForm.valid" (click)="save(user)">{{'SAVE' | translate}}</button>
+    </ion-buttons>
+  </ion-footer>
 
 </ion-content>

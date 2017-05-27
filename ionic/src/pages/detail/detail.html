@@ -90,7 +90,7 @@
       </ion-list-header>
 
       <ion-item class="item--containNone" *ngIf="editMode">
-        <select-user item-left [placeholder]="'Add speaker'" (onSelected)="onSpeakerSelected($event[0])"></select-user>
+        <select-user item-left [placeholder]="('ADD_SPEAKER' | translate)" (onSelected)="onSpeakerSelected($event[0])"></select-user>
       </ion-item>
 
       <ion-item *ngFor="let speaker of speakers">
