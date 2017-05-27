@@ -55,6 +55,8 @@
   "PERMISSIONS": "Berechtigungen",
   "USERS": "Benutzer",
   "EVENTS": "Versanstaltungen",
+  "UPCOMING_EVENTS": "Bevorstehende Versanstaltungen",
+  "PAST_EVENTS": "Vergangene Versanstaltungen",
   "ADMINISTRATORS": "Administratoren",
   "ADMINISTRATOR_ADD": "Administrator hinzufügen"
 }
