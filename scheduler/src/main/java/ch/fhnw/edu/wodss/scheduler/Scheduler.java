@@ -211,7 +211,7 @@ public class Scheduler {
                 //A patch-request updates all the attributes it is given. Since we only want to update the closingMailSend-flag
                 //we create a wrapper (that is in this class as a private class) and pass this in the patch-request
                 EventWrapper ew = new EventWrapper();
-                ew.setClosingMailSend(true);
+                ew.closingMailSend = true;
 
                 HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
 
@@ -244,20 +244,6 @@ public class Scheduler {
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
         return headers;
-    }
-
-    /**
-     * Wraps an Event into a tidy object.
-     */
-    private class EventWrapper {
-        public EventWrapper() {}
-        private boolean closingMailSend;
-        public void setClosingMailSend(boolean b) {
-            this.closingMailSend = b;
-        }
-        public boolean getClosingMailSend() {
-            return this.closingMailSend;
-        }
     }
 
     /**
@@ -544,17 +530,5 @@ public class Scheduler {
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         String eventTimeMinus15 = timeFormat.format(date.getTime() - (15 * ONE_MINUTE_IN_MILLISECONDS));
         return eventTimeMinus15;
-    }
-
-    /**
-     * Helper-method to extract the weekday out of a passed Date.
-     *
-     * @param date      Date to process
-     * @return String   The extraced weekday e.g. "Dienstag"
-     */
-    public String getdateDay(Date date) {
-        DateFormat dateDayFormat = new SimpleDateFormat("EEEE");
-        String eventDateDay = dateDayFormat.format(date);
-        return eventDateDay;
     }
 }
