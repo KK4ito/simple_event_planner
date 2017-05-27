@@ -177,8 +177,10 @@ export class DetailPage {
   }
 
   createEvent() {
-    this._apiService.createEvent(this.event).then((newEvent) => {
-      this.navCtrl.push(DetailPage, {
+    let preparedEvent = this.event;
+    preparedEvent.speakers = this.speakers.map((s) => '/api/user/' + s.id);
+    this._apiService.createEvent(preparedEvent).then((newEvent) => {
+      this.navCtrl.setRoot(DetailPage, {
         id: newEvent.id
       });
     });

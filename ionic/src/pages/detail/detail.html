@@ -27,7 +27,7 @@
 
     <ion-item>
       <ion-icon item-left name="pin"></ion-icon>
-      <h2>{{'LOCATION' | translate}}</h2>
+      <ion-label>{{'LOCATION' | translate}}</ion-label>
       <p item-right *ngIf="!editMode">{{event.location}}</p>
       <ion-input formControlName="location" item-right *ngIf="editMode"></ion-input>
     </ion-item>
