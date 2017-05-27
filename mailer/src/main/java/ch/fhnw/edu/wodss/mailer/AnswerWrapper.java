@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.mailer;
+package ch.fhnw.edu.wodss.mailer;
 
 /**
  * Wrapper-class for an answer that is sent back from the mailer-microservice.

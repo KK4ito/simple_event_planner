@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.mailer;
+package ch.fhnw.edu.wodss.mailer;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
