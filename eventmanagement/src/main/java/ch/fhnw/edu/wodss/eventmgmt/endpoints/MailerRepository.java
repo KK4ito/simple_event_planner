@@ -5,6 +5,8 @@ import ch.fhnw.edu.wodss.eventmgmt.entities.Event;
 import ch.fhnw.edu.wodss.eventmgmt.models.Mail;
 import ch.fhnw.edu.wodss.eventmgmt.entities.User;
 import org.pac4j.core.profile.CommonProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,8 @@ import java.util.List;
  */
 @RestController
 public class MailerRepository {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     RestTemplate restTemplate;
@@ -151,10 +155,13 @@ public class MailerRepository {
         generatedMail.keys = keys;
         generatedMail.values = values;
 
+        log.info("Sending mail to " + generatedMail.to);
         ResponseEntity<AnswerWrapper> result = restTemplate.postForEntity(url, generatedMail, AnswerWrapper.class);
         if(result.getStatusCode() == HttpStatus.OK) {
+            log.info("Sending mail to " + generatedMail.to + " succesful");
             return new ResponseEntity<AnswerWrapper>(new AnswerWrapper("OK"), HttpStatus.OK);
         } else {
+            log.error("Sending mail to " + generatedMail.to + " failed with status code: " + result.getStatusCode().toString());
             return new ResponseEntity<AnswerWrapper>(new AnswerWrapper(result.getStatusCode().toString()), result.getStatusCode());
         }
     }
@@ -201,6 +208,7 @@ public class MailerRepository {
         mail.subject = invitationSubject;
         mail.body = invitationText;
 
+        log.info("Sending template");
         return new ResponseEntity<Mail>(mail, HttpStatus.OK);
     }
 

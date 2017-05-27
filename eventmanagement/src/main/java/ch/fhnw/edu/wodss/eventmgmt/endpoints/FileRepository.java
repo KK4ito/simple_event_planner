@@ -62,11 +62,13 @@ public class FileRepository {
     public ResponseEntity<byte[]> display(@PathVariable("id") Long id) {
         File file = em.find(File.class, id);
         if (file != null) {
+            log.info("File with id: " + id + " was served");
             return ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=\"" + StringEscapeUtils.escapeJava(file.getName()) +"\"")
                     .contentType(MediaType.parseMediaType(file.getContentType()))
                     .body(file.getData());
         }
+        log.error("File with id: " + id + " was not found");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }

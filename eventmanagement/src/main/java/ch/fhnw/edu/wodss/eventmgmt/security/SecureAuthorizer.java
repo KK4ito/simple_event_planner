@@ -31,6 +31,8 @@ public class SecureAuthorizer extends ProfileAuthorizer<CommonProfile> {
     public boolean isAuthorized(final WebContext context, final List<CommonProfile> profiles) throws HttpAction {
         final List<Authorizer> authorizers = new ArrayList<>();
 
+        log.info("Adding authorizers");
+
         //Set various authorizers.
         //These are basically correct headers to protect against xss etc.
         authorizers.add(CACHE_CONTROL_HEADER);

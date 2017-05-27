@@ -6,6 +6,8 @@ import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
 import org.pac4j.http.client.direct.CookieClient;
 import org.pac4j.http.client.direct.DirectBasicAuthClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class Pac4jSecurityConfig {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserRepository userRepo;
@@ -34,6 +38,7 @@ public class Pac4jSecurityConfig {
         //Set our authorizer
         config.addAuthorizer("custom", new SecureAuthorizer());
         //Add matchers for various routes
+        log.debug("Adding matchers to config");
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{
                 new SecurePath("/api/login/", true, true, true, true, false, true),
                 new SecurePath("/api/users/search/role", true),
