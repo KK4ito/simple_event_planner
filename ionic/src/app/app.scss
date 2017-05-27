@@ -67,6 +67,10 @@ h1:after, h2.startpage__title:after {
     display: inherit;
   }
 
+  .fixed-content, .scroll-content{
+    margin-top: 0!important;
+  }
+
   .header-md::after{
     display: none;
   }
