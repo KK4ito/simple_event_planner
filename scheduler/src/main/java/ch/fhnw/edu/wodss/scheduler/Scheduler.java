@@ -163,6 +163,7 @@ public class Scheduler {
         //Set correct authentication-headers
         HttpEntity<?> closingEventEntity = new HttpEntity(getAuthHeaders());
 
+        log.debug("Checking for closing events");
         //Get all events whose closing-date lies in the past
         ResponseEntity<PagedResources<Event>> eventResponseEntity = restTemplate.exchange(
                 eventmanagementUrl + "events/search/closingEvents",
@@ -235,6 +236,7 @@ public class Scheduler {
      * @return HttpHeaders      Authentication-headers
      */
     public HttpHeaders getAuthHeaders() {
+        log.debug("Constructing authentication headers");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         String auth = serviceEmail + ":" + servicePassword;
@@ -291,6 +293,7 @@ public class Scheduler {
             };
         } catch(RestClientException e) {
             e.printStackTrace();
+            log.error("Internal Server error");
         }
     }
 
@@ -368,6 +371,7 @@ public class Scheduler {
         mail.keys = keys;
         mail.values = values;
 
+        log.debug("Sending referenten mail to " + mail.to);
         this.sendMail(mail);
 
     }
@@ -421,6 +425,7 @@ public class Scheduler {
         mail.keys = keys;
         mail.values = values;
 
+        log.debug("Sending raumkoordination mail to " + mail.to);
         this.sendMail(mail);
     }
 
@@ -490,6 +495,7 @@ public class Scheduler {
         mail.keys = keys;
         mail.values = values;
 
+        log.debug("Sending svGroup mail to " + mail.to);
         this.sendMail(mail);
     }
 
