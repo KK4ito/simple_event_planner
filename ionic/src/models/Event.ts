@@ -4,6 +4,7 @@ export class Event {
 		created: string;
 		description: string;
 		location: string;
+    closingMailSend:boolean;
 		endTime: string;
 		id: number;
 		name: string;
