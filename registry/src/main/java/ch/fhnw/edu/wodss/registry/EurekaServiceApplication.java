@@ -1,4 +1,4 @@
-package ch.fhnw.edu.eaf.registry;
+package ch.fhnw.edu.wodss.registry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
