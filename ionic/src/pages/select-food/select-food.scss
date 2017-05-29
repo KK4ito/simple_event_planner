@@ -1,3 +1,11 @@
 page-select-food {
 
+  ion-navbar {
+    background-color: color($colors, primary);
+  }
+
+  ion-title{
+    display: inherit;
+  }
+
 }
