@@ -6,6 +6,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {File} from "../../models/File";
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
+import {AuthService} from "../../providers/auth.service";
 
 @Component({
   selector: 'page-update-user',
@@ -28,7 +29,7 @@ export class UpdateUserPage {
    */
   userForm: FormGroup;
 
-  constructor(private params: NavParams, private viewCtrl: ViewController, private apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController, public formBuilder: FormBuilder) {
+  constructor(private params: NavParams, private viewCtrl: ViewController, private apiService: ApiService, private authService: AuthService, private translatedSnackbarService: TranslatedSnackbarService, private translateService: TranslateService, public events: Events, private alertCtrl: AlertController, public formBuilder: FormBuilder) {
     let user = params.get('user');
 
     if (user) {
@@ -74,12 +75,14 @@ export class UpdateUserPage {
       });
     } else {
       this.apiService.createUser(this.userForm.value).then(user => {
-        this.translatedSnackbarService.showSnackbar('USER_UPDATED', 'UNDO', {
-          firstName: user.firstName,
-          lastName: user.lastName
+        this.authService.requestPasswordReset(user.email, false).then(() => {
+          this.translatedSnackbarService.showSnackbar('USER_CREATED', null, {
+            firstName: user.firstName,
+            lastName: user.lastName
+          });
+          this.dismiss();
+          this.events.publish('users:changed');
         });
-        this.dismiss();
-        this.events.publish('users:changed');
       });
     }
   }

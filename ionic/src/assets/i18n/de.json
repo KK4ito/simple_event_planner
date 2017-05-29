@@ -15,7 +15,7 @@
   "EVENT_RESTORED": "Veranstaltung erfolgreich wiederhergestellt.",
   "EVENT_UPDATED": "Veranstaltung erfolgreich gespeichert.",
   "USER_UPDATED": "{{firstName}} {{lastName}} aktualisiert",
-  "USER_CREATED": "{{firstName}} {{lastName}} erstellt",
+  "USER_CREATED": "Benutzer erstellt, der Benutzer kann hat ein Email zum setzen seines Passwortes erhalten",
   "USER_DELETED": "{{firstName}} {{lastName}} gelöscht",
   "USER_RESTORED": "Benutzer erfolgreich wiederhergestellt.",
   "FIRST_NAME": "Vorname",

@@ -72,9 +72,9 @@ export class AuthService {
    * @param email
    * @returns {Promise<User>}
    */
-  requestPasswordReset(email: string): Promise<any> {
+  requestPasswordReset(email: string, resetPassword: boolean = true): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.post(this.config.baseUrl + '/login/requestPasswordReset', {email: email}, {withCredentials: true})
+      this.http.post(this.config.baseUrl + '/login/requestPasswordReset', {email: email, resetPassword: resetPassword}, {withCredentials: true})
         .subscribe(() => {
           resolve();
         }, error => {

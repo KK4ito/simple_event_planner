@@ -15,7 +15,7 @@
   "EVENT_RESTORED": "Event updated successfully.",
   "EVENT_UPDATED": "Event saved successfully.",
   "USER_UPDATED": "{{firstName}} {{lastName}} updated",
-  "USER_CREATED": "{{firstName}} {{lastName}} created",
+  "USER_CREATED": "User created, the user should have received an email to set his password.",
   "USER_DELETED": "{{firstName}} {{lastName}} deleted",
   "USER_RESTORED": "User restored successfully",
   "FIRST_NAME": "First name",
