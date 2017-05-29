@@ -383,38 +383,37 @@ Für die Authentifizierung verwenden wir Pac4J und Spring Security.
 \section{Design-Entscheide}
 Anfangs wollten wir verschiedene neue Technologien wie z.B. Elm, GraphQL und Microservices testen. Es stellte sich aber schnell heraus, dass es dabei einige Probleme gibt, welche im folgenden Abschnitt erläutert werden.
 
-\begin{enumerate}
-\item Microservices\\
+\subsection{Microservices}
 Wir wählten eine Microservice-Architektur, weil wir dachten, dass wir so die einzelnen Teile relativ unabhängig voneinander gestalten können. Zudem wollten wir diesen Architektur-Typ an einem konkreten Projekt ausprobieren. Es zeigte sich aber, dass eine solche Architektur relativ aufwändig zu erstellen ist: die Schnittstellen zwischen den einzelnen Services müssen genau definiert und gewartet werden. Insbesondere bei einem Refactoring macht sich der zusätzliche Aufwand so bemerkbar: unter Umständen muss man auf mehreren Microservices dieselbe Änderung vornehmen. Weiter zeigt sich, dass sich für das vorliegende Projekt Microservices nicht sehr stark eigenen: die Abhängigkeiten zwischen den verschiedenen Services sind schlicht zu gross (so muss der Scheduler alle Entitätsobjekte des Eventmanagements kennen). Für uns ergibt so schlussendlich einzig der Mailer als Microservice Sinn: dieser ist relativ "stupid" und nimmt nur ein Mail-Objekt entgegen, das anschliessend nach minimaler Verarbeitung versendet wird. So hält sich die Schnittstellen-Definition sehr stark in Grenzen, der Mailer muss keine weiteren Objekte anderer Services kennen und es könnten theoretisch einfach weitere Instanzen des Mailers hochgefahren werden, wenn z.B. sehr viele Mails versendet werden müssten und eine einzelne Instanz an ihre Grenzen gelangt.
-\item Security\\
+
+\subsection{Security}
 Als "Sicherheits-Framework" wählten wir, zusätzlich zu Spring Security Pac4J. Wir wählten Pac4J da es uns eine Authentifizierung via BasicAuth, Cookies, ein simples Route-Matching und einfach zu verwendende XSS-Schutz usw. erlaubt. Ursprünglich planten wir, den CSRF-Schutz ebenfalls über Pac4J zu erstellen. Da Spring Security diese Funktionalität aber auch bietet und wir Probleme beim "einstellen" des CSRF-Schutzes via Pac4J hatten, nutzten wir Spring Security für den CSRF-Schutz.
-\\
-\item Ionic\\
+
+\subsection{Ionic}
 Wie bereits erwähnten, wählten wir anstelle von Angular Material 2 Ionic 2. Dies taten wir einerseits, da es uns mit Typescript eine sehr willkommene Typsicherheit im Frontend bietet und andererseits, da es mit Ionic Desktop nun auch für "konventionelle" Webprojekte wie das vorliegende hervorragend eignet. Dank den vordefinierten Komponenten konnten wir so einige Enticklungszeit im Frontend sparen, die wir statt dessen in andere Teile der Applikation investieren konnten.
-\item Elm\\
+
+\subsection{Elm}
 Elm ist eine relativ neue funktionale Sprache, die zu Javascript kompiliert. Der grosse Vorteil von Elm sind die Typsicherheit sowie der funktionale Aspekt. Es sollte dadurch beispielsweise keine Runtime-Fehler, die in Javascript an der tagesordnung sind, mehr geben.
 Es hat sich aber herausgestellt, dass das Ökosystem zwar bereits viele Funktionen bietet, wenn man aber genaue Anforderungen hat muss man teilweise Kompromisse eingehen.
 Weiter wäre unser Projekt durch die Wahl einer "neuen" Programmiersprache weniger wartbar geworden. Am Ende verzichteten wir deshalb auf Elm als Programmiersprache und wählten, wie bereits erwähnt, Angular 2.
-\item GraphQL\\
+
+\subsection{GraphQL}
 Durch die JPA-GraphQL ist das initiale Aufsetzen eines GraphQL Endpoints nach einigen Versuchen relativ gut gegangen. Leider fehlen der Library aber noch einige zentrale Features, weshalb man nicht komplett auf die REST-API hätte verzichten können. Anstelle von zwei verschiedenen Endpunkten haben wir uns schlussendlich aus gründen der Wartbarkeit für eine "reine" REST-Lösung entschieden.
-\end{enumerate}
 
 \newpage
 \section{Lessons learned}
 Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die insgesamt einen grossen Teil unserer Zeit in Anspruch genommen haben.
 
-\begin{enumerate}
-\item Microservices\\
+\subsection{Microservices}
 Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für das Projekt zu bieten. Initial planten wir separate Services für User, Events, Mailer, Scheduler und Frontend zu erstellen. Diese Idee scheiterte aber an der engen Abhängigkeit von User und Events, so wurden diese zwei Entitäten schlussendlich in einem Microservice kombiniert, der zum Schluss im Service "Eventmanagement" resultierte.
 \\
 Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus (siehe auch Punkt Design-Entscheide). Als vorteilhaft sehen wir, dass beispielsweise vom Mailer, da er komplett "stateless" ist, beliebig viele Instanzen hochgefahren und genutzt werden können. Vorstellbar wäre z.B. dass ein Mailer-Loadbalancer erstellt wird und nach Bedarf zusätzliche Mailer-Instanzen hochfährt.
 \\
 Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
-\item Pac4J\\
-\item Angular\\
+\subsection{Pac4J}
+\subsection{Angular 2}
 Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
-\item ResourceRestController
-\end{enumerate}
+\subsection{ResourceRestController}
 
 \newpage
 \begin{appendices}

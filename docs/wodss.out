@@ -34,7 +34,16 @@
 \BOOKMARK [2][-]{subsection.6.2}{Backend}{section.6}% 34
 \BOOKMARK [3][-]{subsubsection.6.2.1}{Authentifizierung und Autorisierung}{subsection.6.2}% 35
 \BOOKMARK [1][-]{section.7}{Design-Entscheide}{}% 36
-\BOOKMARK [1][-]{section.8}{Lessons learned}{}% 37
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 38
-\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 39
-\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 40
+\BOOKMARK [2][-]{subsection.7.1}{Microservices}{section.7}% 37
+\BOOKMARK [2][-]{subsection.7.2}{Security}{section.7}% 38
+\BOOKMARK [2][-]{subsection.7.3}{Ionic}{section.7}% 39
+\BOOKMARK [2][-]{subsection.7.4}{Elm}{section.7}% 40
+\BOOKMARK [2][-]{subsection.7.5}{GraphQL}{section.7}% 41
+\BOOKMARK [1][-]{section.8}{Lessons learned}{}% 42
+\BOOKMARK [2][-]{subsection.8.1}{Microservices}{section.8}% 43
+\BOOKMARK [2][-]{subsection.8.2}{Pac4J}{section.8}% 44
+\BOOKMARK [2][-]{subsection.8.3}{Angular 2}{section.8}% 45
+\BOOKMARK [2][-]{subsection.8.4}{ResourceRestController}{section.8}% 46
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 47
+\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 48
+\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 49
