@@ -129,11 +129,29 @@ Dieser Microservice stellt nur einen Container bereit, der dazu dient, statische
 Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um Mails versenden zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen.
 
 \subsubsection{Scheduler}
-Der Scheduler Service führt zu bestimmten Zeiten verschiedene Tasks aus. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
+Der Scheduler-Service führt zu bestimmten Zeiten verschiedene Tasks aus. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
 
 \newpage
 \subsection{Sicherheit}
+Mithilfe von Pac4J können Permissions und Rollen definiert werden. Abhängig von der Rolle, erhält der Benutzer zusätzliche Privilegien. Ein normaler Besucher kann lediglich Events ansehen und nichts editieren. Wir haben folgende Rollen identifiziert:
 
+\begin{enumerate}
+\item Besucher
+\item Angemeldeter Gast (kann sich zusätzlich einschreiben)
+\item Referent (kann zusätzlich den eigenen Event bearbeiten und Dateien anhängen)
+\item Koordinator (kann alle Entitäten bearbeiten und löschen)
+\end{enumerate}
+
+
+Rollenkonzept
+\\
+DirectAuth
+\\
+Cookie
+\\
+Cors
+\\
+Csrf
 
 \newpage
 \subsection{Datenbank}
@@ -144,6 +162,9 @@ Um für die Datenintegrität garantieren zu können, werden alle Entitäten wie 
 \section{Architektur - Frontend}
 \subsection{Ionic}
 Pages usw.
+
+
+
 
 \newpage
 \section{Projektaufbau - Backend}
@@ -160,6 +181,7 @@ Die Registry hat folgende sehr simple Projektstruktur:
 \\
 \includegraphics[scale=0.7]{structure_registry}
 \\
+\\
 Der Grund für die schlanke Struktur liegt auf der Hand: da sich die Verwendung der Eureka-Library in diesem Projekt grösstenteils auf Annotationen beschränkt besteht die Registry nur aus einer einzigen Klasse, die mittels "EnableEurekaServer" und "SpringBootApplication" annotiert wurde. Die restlichen Microservices verwenden als Klienten die Annotation "EnableDiscoveryClient".
 
 \subsection{Eventmanagement}
@@ -167,6 +189,7 @@ Dieser Microservice ist der komplexeste der fünf. Die grobe Struktur präsentie
 \\
 \\
 \includegraphics[scale=0.7]{structure_eventmanagement}
+\\
 \\
 Die Swagger-Configuration-Klasse übernimmt, wie der Name erahnen lässt, die Konfiguration der Swagger-Dokumentation der REST-Schnittstelle. Die Klasse Eventmanagement-Application dient der Initialisierung des Microservices. Nachfolgend werden alle Ordner kurz präsentiert und deren Inhalt etwas genauer beschrieben.
 \\
@@ -176,6 +199,7 @@ Im Folder "endpoints" sind alle Interfaces und Klassen enthalten, die entweder m
 \\
 \includegraphics[scale=0.7]{structure_eventmanagement_endpoints}
 \\
+\\
 Relativ schnell erkennt man die zusätzliche Geschäftslogik, die zusätzlich zu den RepositoryRestResource-Controllern programmiert wurde und die nicht durch reine Datenzugriffe verarbeitet werden konnten:
 \begin{enumerate}
 \item AAI-Repository - verarbeitet Login via Switch-AAI
@@ -184,7 +208,6 @@ Relativ schnell erkennt man die zusätzliche Geschäftslogik, die zusätzlich zu
 \item MailerRepository - bietet Methoden zum Versenden von Einladungmails
 \item PrintRepository - bietet Methoden zum Zugriff auf Druckgerecht-aufbereitete Daten
 \end{enumerate}
-\\
 Die restlichen Interfaces beinhalten zum einen die vom JPA-Repository zur Verfügung gestellten Methoden für den Datenzugriff. Zusätzlich dazu wurden, je nach Bedarf, weitere Methoden für die Datenmanipulation erstellt.
 \subsubsection{Entities}
 Der Ordner "entities" präsentiert sich wie folgt:
@@ -192,21 +215,23 @@ Der Ordner "entities" präsentiert sich wie folgt:
 \\
 \includegraphics[scale=0.7]{structure_eventmanagement_entities}
 \\
-Dieser Ordner enthält die tatsächlichen JPA-Entitäten, die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das Kapitel über die Datenkbank). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
+\\
+Dieser Ordner enthält die tatsächlichen JPA-Entitäten die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das Kapitel über die Datenkbank). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
 \subsubsection{Models}
 Der Folder "model" enhält alle weiteren Objekte, die für das Funktionieren der Applikation notwendig sind, aber nicht persistiert werden sollen:
 \\
 \\
 \includegraphics[scale=0.7]{structure_eventmanagement_models}
 \\
+\\
 Eine kurze nähere Beschreibung der verschiedenen Models:
 \begin{enumerate}
 \item AnwerWrapper
-\item EventAttendeeFlat
-\item Mail
-\item ResetPasswordAnswerMessage
-\item ResetPasswordWrapper
-\item SecurePath
+\item EventAttendeeFlat - Container für die druckgerecht aufbereiteten Daten für eine Listenansicht aller EventAttendees (siehe obige Beschreibung des PrintRepository)
+\item Mail - Container für den Datenaustausch mit dem Frontend (alles bezüglich Mail) und dem Mailer-Microservice
+\item ResetPasswordAnswerMessage - Daten-Container für den Rückgabewert einer ResetPassword-Anfrage (wird im LoginRepository verwendet)
+\item ResetPasswordWrapper - Container für die Datenübertragung vom Front- zum Backend während einer ResetPasssword-Anfrage
+\item SecurePath - Container der intern verwendet wird, um abgesicherte Pfade zu speichern (wird nur vom CustomizablePathMatcher verwendet)
 \end{enumerate}
 \subsubsection{Security}
 Der Ordner "security" schlussendlich hat folgenden Inhalt:
@@ -214,25 +239,59 @@ Der Ordner "security" schlussendlich hat folgenden Inhalt:
 \\
 \includegraphics[scale=0.7]{structure_eventmanagement_security}
 \\
+\\
+Eine kurze nähere Erläuterung der verschiedenen Klassen:
+\begin{itemize}
+\item SpringSecurityConfig - einer der beiden zentralen SecurityConfigs (die andere wäre die Pac4jSecurityConfig). Enthält grundlegende Sicherheitseintstellungen wie z.B. csrf-Schutz
+\item Pac4jSecurityConfig - die zweite SecurityConfig. Setzt den CookieAuthenticator, den DirectBasicAuthClient, den Authorizer und legt fest, welche Pfade wie gesichert werden sollen.
+\item BasicAuthAuthenticator - verantwortlich für die Authentifizierung via BasicAuth. Verleiht den Usern die ihnen zustehenden Rollen.
+\item CookieAuthenticator - validiert einen User anhand eines Cookies, d.h. falls der User bereits eingeloggt ist.
+\item SecureAuthorizer - Setzt verschiedene Sicherheitsrelevante HTTP-Header (wie beispielsweise korrekte XSS-Headers usw.)
+\item CustomizablePathMatcher - Container für ein Array aus "SecurePaths" (siehe den Unterabschnitt zu "Models"). Matched auf Pfade (wie z.B. /api/login) und gibt die Informationen zurück, welche HTTP-Methoden auf diesen Pfaden erlaubt sind.
+\item CustomPermissionEvaluator - bestimmt, ob die korrekten Permissions vorhanden sind, um bestimmte Aktionen auszuführen. Der CustomPermissionEvaluator wird auf den Interfaces im Ordner "Endpoints" aufgerufen, wenn geprüft werden soll, ob ein User die korrekten Permissions hat, um die mit "hasPermission(…)" annotierte Methode auszuführen.
+\item CorsFilter - liefert die Funktionalität, um Cors korrekt zu verarbeiten. Wird im vorliegenden Projekt nicht verwendet, da alle Microservices intern gestartet werden bzw. hinter ein und demselben Endpoint (cs.fhnw.technik.ch). Cors stellt somit kein Problem dar. Kann bei Bedarf eingeschaltet werden.
+\end{itemize}
 \subsection{Frontend}
-Frontent:
+Der Folder Frontent hält einen relativ bescheidenen Inhalt:
 \\
 \\
 \includegraphics[scale=0.7]{structure_frontend}
 \\
+\\
+Die Klasse FrontendApplication dient dazu, den Microservice zu starten, die Klasse StaticRessourceConfiguration dazu, statische Ressourcen (also die HTML-, Javascript- und CSS-Dateien) auszuliefern.
 \subsection{Mailer}
-Mailer:
+Der Mailer-Microservice ist ebenfalls relativ klein:
 \\
 \\
 \includegraphics[scale=0.7]{structure_mailer}
 \\
+\\
+Eine kurze Erläuterung dazu:
+\begin{itemize}
+\item AnswerWrapper - DatenContainer für die Antworten an die aufrufenden Services
+\item Mail - DatenContainer für den Input, den die aufrufenden Services an den Mailer schicken
+\item Mailer - enthält den zentralen Endpoint für den Mailer (/api/send) an den ein Objekt vom Typ Mail geschickt wird. Das Mail enthält den Text mit eventuellen Platzhaltern und je einem keys- und values-Array mit den Werten, mit denen die Platzhalter ersetzt werden sollen. Der Mailer ersetzt die Platzhalter eigenständig und verschickt das Mail an die im Mail-Container gelieferten Adressen. Er ist somit ein relativ "simpler" Service, der die übergebenen Infos nimmt und mehr oder weniger einfach weiterschickt.
+\item MailerApplication - dient dazu, den Microservice zu starten
+\end{itemize}
 \subsection{Scheduler}
-Scheduler:
+Der Scheduler-Microservice besteht aus zwei Klassen und einem Unterordner "domain":
 \\
 \\
 \includegraphics[scale=0.7]{structure_scheduler}
 \\
-
+\\
+Die SchedulerApplication dient dem Start des Service. Die Klasse "Scheduler" selbst enthält die Logik der Tasks, die in regelmässigen Abständen auszuführen sind.
+\\
+Eine kurze Erläuterung des Unterordners "domain":
+\begin{itemize}
+\item AnswerWrapper - DatenContainer, der bei einem Post auf den Mail-Microservice zurückgeliefert wird. Wird verwendet, um die Antwort auszulesen.
+\item Event - Wird verwendet, um die korrekten Daten für regelmässig zu versendende Mails zu erhalten. Die so erhaltenen Informationen werden via keys- und values-String-Arrays innerhalb des Containers "Mail" dem Mailer übergeben (siehe auch Beschreibung des Mailer-Service oben).
+\item EventAttendee - Wird ebenfalls verwendet, um die korrekten Daten für regelmässig zu versendende Mails zu erhalten. Die so erhaltenen Informationen werden via keys- und values-String-Arrays innerhalb des Containers "Mail" dem Mailer übergeben (siehe auch Beschreibung des Mailer-Service oben).
+\item EventWrapper - DatenContainer der nur jene Attribute eines Events enthält, die in einer "scheduled" Task aktualisiert werden sollen.
+\item File - Nimmt dieselbe Funktion ein wie ein Event oder ein EventAttendee (siehe oben).
+\item Mail - Container für den Datenaustausch mit dem Mailer-Microservice.
+\item User - Nimmt dieselbe Funktion ein wie ein Event, ein EventAttendee oder ein File (siehe oben).
+\end{itemize}
 \newpage
 \section{Projektaufbau - Frontend}
 
@@ -240,20 +299,17 @@ Scheduler:
 \section{Technologien}
 
 \subsection{Frontend}
-Nach dem Start mit Angular 2 merkten wir schnell, das uns einige Standardkomponenten fehlten. Außerdem war der Aufwand die Seite Mobile tauglich zu machen größer als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 2. Da Ionic 2 auf Angular 2 aufbaut, war der Wechsel schnell vonstatten gegangen. Mithilfe der neuen Sidemenu Komponente kann die Webseite ohne weitere Probleme für Desktops optimiert werden.
+Nach dem Start mit Angular 2, entschieden wir uns, das Framework "Angular Material 2" zu verwenden. So wollten wir sicherstellen, dass das Projekt durchgängig eine einheitliche Designsprache verwendet und zudem eine Gestaltung verwendet wird, die aus bekannten Apps (z.B. Google Docs) bereits vielen Usern bekannt sein würde. Das vorliegende Projekt wäre somit inituitiv nutzbar. Relativ schnell realisierten wir, dass "Angular Material 2" aber noch einige Lücken aufwies (beispielswiese fehlten uns einige Standardkomponenten zudem liess die Dokumentation teilweise sehr zu wünschen übrig). Ausserdem war der Aufwand die Seite Mobile-tauglich zu machen grösser als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 2. Da Ionic 2 auf Angular 2 aufbaut, war der Wechsel schnell vonstatten gegangen. Mithilfe der neuen "Sidemenu-Komponente" konnte die Webseite ohne weitere Probleme für Desktops optimiert werden.
+\\
+Als Technologien verwendet Ionic 2 wie erwähnt Angular 2 mit Typescript, SASS und HTML.
 
 \subsection{Backend}
-Wie von der Projektbeschreibung vorgeschrieben, verwenden wir Java mit Spring Boot im Backend. Zusätzlich verwenden wir die spring-boot-data Erweiterung, welche uns das einfache erstellen von Rest Repositories ermöglicht. 
+Wie von der Projektbeschreibung vorgeschrieben, verwenden wir Java mit Spring Boot im Backend. Zusätzlich verwenden wir die spring-boot-data Erweiterung, welche uns das einfache erstellen von Rest Repositories ermöglicht.
+\\
+Für den Mailer wurde die Java Mail API, bzw. die Implementierung von Spring Boot verwendet. Um die Informationen in den Platzhaltern von Mailtexten zu ersetzen verwendeten wir die kleine Library "StringTemplate".
 
 \subsubsection{Authentifizierung und Autorisierung}
-Für die Authentifizierung verwenden wir PAC4J und verwenden das JWT (Json Web Token). Zusätzlich können mithilfe von PAC4J Permissions und Rollen definiert werden. Abhängig von der Rolle, erhält der Benutzer zusätzliche Privilegien. Ein normaler Besucher kann lediglich Events ansehen und nichts editieren. Wir haben folgende Rollen identifiziert:
-
-\begin{enumerate}
-\item Besucher
-\item Angemeldeter Gast (kann sich zusätzlich einschreiben)
-\item Referent (kann zusätzlich den eigenen Event bearbeiten und Dateien anhängen)
-\item Koordinator (kann alle Entitäten bearbeiten und löschen)
-\end{enumerate}
+Für die Authentifizierung verwenden wir Pac4J und Spring Security. 
 
 \newpage
 \section{Design-Entscheide}
@@ -274,6 +330,11 @@ Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die ins
 
 \begin{enumerate}
 \item Microservices\\
+Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für das Projekt zu bieten. Initial planten wir separate Services für User, Events, Mailer, Scheduler und Frontend zu erstellen. Diese Idee scheiterte aber an der engen Abhängigkeit von User und Events, so wurden diese zwei Entitäten in einem Microservice kombiniert, der schlussendlich im Service "Microservice" resultierte.
+\\
+Je länger das Projekt dauerte, desto mehr wurden die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind.
+\\
+
 \item Pac4J\\
 \item Angular\\
 Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
