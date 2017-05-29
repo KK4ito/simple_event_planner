@@ -18,6 +18,8 @@
 \contentsline {subsection}{\numberline {2.4}Datenbank}{11}{subsection.2.4}
 \contentsline {section}{\numberline {3}Architektur - Frontend}{12}{section.3}
 \contentsline {subsection}{\numberline {3.1}Ionic}{12}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Angular}{12}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Typescript}{12}{subsection.3.3}
 \contentsline {section}{\numberline {4}Projektaufbau - Backend}{13}{section.4}
 \contentsline {subsection}{\numberline {4.1}Registry}{13}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Eventmanagement}{14}{subsection.4.2}
@@ -28,22 +30,22 @@
 \contentsline {subsection}{\numberline {4.3}Frontend}{22}{subsection.4.3}
 \contentsline {subsection}{\numberline {4.4}Mailer}{23}{subsection.4.4}
 \contentsline {subsection}{\numberline {4.5}Scheduler}{25}{subsection.4.5}
-\contentsline {section}{\numberline {5}Projektaufbau - Frontend}{30}{section.5}
-\contentsline {section}{\numberline {6}Technologien}{31}{section.6}
-\contentsline {subsection}{\numberline {6.1}Frontend}{31}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Backend}{31}{subsection.6.2}
-\contentsline {subsubsection}{\numberline {6.2.1}Authentifizierung und Autorisierung}{31}{subsubsection.6.2.1}
-\contentsline {section}{\numberline {7}Design-Entscheide}{32}{section.7}
-\contentsline {subsection}{\numberline {7.1}Microservices}{32}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Security}{32}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Ionic}{32}{subsection.7.3}
-\contentsline {subsection}{\numberline {7.4}Elm}{33}{subsection.7.4}
-\contentsline {subsection}{\numberline {7.5}GraphQL}{33}{subsection.7.5}
-\contentsline {section}{\numberline {8}Lessons learned}{34}{section.8}
-\contentsline {subsection}{\numberline {8.1}Microservices}{34}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Pac4J und Spring Security}{34}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Angular 2}{34}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}spring-data-rest}{35}{subsection.8.4}
-\contentsline {section}{Appendices}{36}{section*.2}
-\contentsline {section}{\numberline {A}Verantwortungen}{36}{Appendix.a.A}
-\contentsline {section}{\numberline {B}Links}{36}{Appendix.a.B}
+\contentsline {section}{\numberline {5}Projektaufbau - Frontend}{31}{section.5}
+\contentsline {section}{\numberline {6}Technologien}{38}{section.6}
+\contentsline {subsection}{\numberline {6.1}Frontend}{38}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Backend}{38}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Authentifizierung und Autorisierung}{38}{subsubsection.6.2.1}
+\contentsline {section}{\numberline {7}Design-Entscheide}{39}{section.7}
+\contentsline {subsection}{\numberline {7.1}Microservices}{39}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Security}{39}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Ionic}{39}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Elm}{40}{subsection.7.4}
+\contentsline {subsection}{\numberline {7.5}GraphQL}{40}{subsection.7.5}
+\contentsline {section}{\numberline {8}Lessons learned}{41}{section.8}
+\contentsline {subsection}{\numberline {8.1}Microservices}{41}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Pac4J und Spring Security}{41}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Angular v4}{41}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}spring-data-rest}{42}{subsection.8.4}
+\contentsline {section}{Appendices}{43}{section*.2}
+\contentsline {section}{\numberline {A}Verantwortungen}{43}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Links}{43}{Appendix.a.B}

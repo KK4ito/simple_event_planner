@@ -190,10 +190,19 @@ Nachfolgend das Datenbankschema:
 \newpage
 \section{Architektur - Frontend}
 \subsection{Ionic}
-Pages usw.
+Unsere Ionic app haben wir mithilfe des Ionic CLIs erstellt. Wir sind vom "sidemenu" starter ausgegangen und haben im ersten Schritt die "split-pane" eingebaut, welche der App Standardmässig eine "Desktop-Ansicht" hinzufügt. Lazy loading wurde nicht verwendet, da dies Anfangs noch nicht unterstützt wurde. Da unsere App relativ klein und Übersichtlich ist, besteht sie lediglich aus einem grossen "AppModule", welches alle weiteren Module enthält.
 
+\includegraphics[width=1\textwidth]{ionic-architecture}
 
+Ionic bietet ebenfalls die Möglichkeit, eine Webapp als Progressive Web App (PWA) zu deployen. Dies ermöglicht es in modernen mobilen Browsern auf Funktionen zuzugreifen, die sonst nur für native Applikationen zur Verfügung stehen. Von unserer App wird diese Funktion momentan nicht genutzt, in Zukunft wäre dies aber denkbar (z.B. für Push notifications).
 
+Zudem ist unsere App komplett nach i18n standard auf deutsch und englisch übersetzt.
+
+\subsection{Angular}
+Angular bietet ein solides Framework, welches bereits viele Funktionen out-of-the-box unterstützt. Oft wiederkehrende Teile werden als "Components" abgekapselt und sind so in verschiedenen Teilen der Applikation verwendbar. Teile, welche ausschliesslich aus Code bestehen (also ohne view/template), werden als provider abgekapselt. Diese können in andere Komponenten injected werden und so wiederverwendet werden. Dieser Aufbau erlaubt ohne externe Tools eine saubere und übersichtliche Architektur.
+
+\subsection{Typescript}
+Typescript, ein typisiertes superset von Javascript, erlaubt das schnellere entwickeln von Javascript durch die eingebaute Typ-sicherheit. Die IDE kann mit IntelliSense Fehler schnell finden und man hat zur Runtime weniger Fehler. Unsere Models konnten wir aus den Entities unseres Backends generieren.
 
 \newpage
 \section{Projektaufbau - Backend}
@@ -393,6 +402,16 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \newpage
 \section{Projektaufbau - Frontend}
 
+\includegraphics[width=1.0\textwidth]{ionic/ionic-root}
+\includegraphics[width=1.0\textwidth]{ionic/src-app}
+\includegraphics[width=1.0\textwidth]{ionic/src-assets}
+\includegraphics[width=1.0\textwidth]{ionic/src-components}
+\includegraphics[width=1.0\textwidth]{ionic/src-models}
+\includegraphics[width=1.0\textwidth]{ionic/src-pages}
+\includegraphics[width=1.0\textwidth]{ionic/src-pipes}
+\includegraphics[width=1.0\textwidth]{ionic/src-providers}
+\includegraphics[width=1.0\textwidth]{ionic/src-theme}
+
 \newpage
 \section{Technologien}
 
@@ -442,8 +461,8 @@ Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus (siehe auc
 Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
 \subsection{Pac4J und Spring Security}
 
-\subsection{Angular 2}
-Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 2 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
+\subsection{Angular v4}
+Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 3 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
 
 \subsection{spring-data-rest}
 Die Verwendung von spring-data-rest gestaltete sich überraschend einfach und bot eine wesentliche Erleichterung in der Erstellung der REST-Schnittstelle zu unserer App. Entitäten mittels der Annotation @RepositoryRestResource zu bezeichnen reichte, um die grundlegenden REST-Funktionalitäten auf den Objekten bereit zu stellen. Mittels zusätzlicher Endpoints (mit @RestController) annotiert waren wir in der Lage zielgenau zusätzliche Operationen oder Entitäten bereit zu stellen.

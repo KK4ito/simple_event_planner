@@ -18,32 +18,34 @@
 \BOOKMARK [2][-]{subsection.2.4}{Datenbank}{section.2}% 18
 \BOOKMARK [1][-]{section.3}{Architektur - Frontend}{}% 19
 \BOOKMARK [2][-]{subsection.3.1}{Ionic}{section.3}% 20
-\BOOKMARK [1][-]{section.4}{Projektaufbau - Backend}{}% 21
-\BOOKMARK [2][-]{subsection.4.1}{Registry}{section.4}% 22
-\BOOKMARK [2][-]{subsection.4.2}{Eventmanagement}{section.4}% 23
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Endpoints}{subsection.4.2}% 24
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Entities}{subsection.4.2}% 25
-\BOOKMARK [3][-]{subsubsection.4.2.3}{Models}{subsection.4.2}% 26
-\BOOKMARK [3][-]{subsubsection.4.2.4}{Security}{subsection.4.2}% 27
-\BOOKMARK [2][-]{subsection.4.3}{Frontend}{section.4}% 28
-\BOOKMARK [2][-]{subsection.4.4}{Mailer}{section.4}% 29
-\BOOKMARK [2][-]{subsection.4.5}{Scheduler}{section.4}% 30
-\BOOKMARK [1][-]{section.5}{Projektaufbau - Frontend}{}% 31
-\BOOKMARK [1][-]{section.6}{Technologien}{}% 32
-\BOOKMARK [2][-]{subsection.6.1}{Frontend}{section.6}% 33
-\BOOKMARK [2][-]{subsection.6.2}{Backend}{section.6}% 34
-\BOOKMARK [3][-]{subsubsection.6.2.1}{Authentifizierung und Autorisierung}{subsection.6.2}% 35
-\BOOKMARK [1][-]{section.7}{Design-Entscheide}{}% 36
-\BOOKMARK [2][-]{subsection.7.1}{Microservices}{section.7}% 37
-\BOOKMARK [2][-]{subsection.7.2}{Security}{section.7}% 38
-\BOOKMARK [2][-]{subsection.7.3}{Ionic}{section.7}% 39
-\BOOKMARK [2][-]{subsection.7.4}{Elm}{section.7}% 40
-\BOOKMARK [2][-]{subsection.7.5}{GraphQL}{section.7}% 41
-\BOOKMARK [1][-]{section.8}{Lessons learned}{}% 42
-\BOOKMARK [2][-]{subsection.8.1}{Microservices}{section.8}% 43
-\BOOKMARK [2][-]{subsection.8.2}{Pac4J und Spring Security}{section.8}% 44
-\BOOKMARK [2][-]{subsection.8.3}{Angular 2}{section.8}% 45
-\BOOKMARK [2][-]{subsection.8.4}{spring-data-rest}{section.8}% 46
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 47
-\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 48
-\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 49
+\BOOKMARK [2][-]{subsection.3.2}{Angular}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.3}{Typescript}{section.3}% 22
+\BOOKMARK [1][-]{section.4}{Projektaufbau - Backend}{}% 23
+\BOOKMARK [2][-]{subsection.4.1}{Registry}{section.4}% 24
+\BOOKMARK [2][-]{subsection.4.2}{Eventmanagement}{section.4}% 25
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Endpoints}{subsection.4.2}% 26
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Entities}{subsection.4.2}% 27
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Models}{subsection.4.2}% 28
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Security}{subsection.4.2}% 29
+\BOOKMARK [2][-]{subsection.4.3}{Frontend}{section.4}% 30
+\BOOKMARK [2][-]{subsection.4.4}{Mailer}{section.4}% 31
+\BOOKMARK [2][-]{subsection.4.5}{Scheduler}{section.4}% 32
+\BOOKMARK [1][-]{section.5}{Projektaufbau - Frontend}{}% 33
+\BOOKMARK [1][-]{section.6}{Technologien}{}% 34
+\BOOKMARK [2][-]{subsection.6.1}{Frontend}{section.6}% 35
+\BOOKMARK [2][-]{subsection.6.2}{Backend}{section.6}% 36
+\BOOKMARK [3][-]{subsubsection.6.2.1}{Authentifizierung und Autorisierung}{subsection.6.2}% 37
+\BOOKMARK [1][-]{section.7}{Design-Entscheide}{}% 38
+\BOOKMARK [2][-]{subsection.7.1}{Microservices}{section.7}% 39
+\BOOKMARK [2][-]{subsection.7.2}{Security}{section.7}% 40
+\BOOKMARK [2][-]{subsection.7.3}{Ionic}{section.7}% 41
+\BOOKMARK [2][-]{subsection.7.4}{Elm}{section.7}% 42
+\BOOKMARK [2][-]{subsection.7.5}{GraphQL}{section.7}% 43
+\BOOKMARK [1][-]{section.8}{Lessons learned}{}% 44
+\BOOKMARK [2][-]{subsection.8.1}{Microservices}{section.8}% 45
+\BOOKMARK [2][-]{subsection.8.2}{Pac4J und Spring Security}{section.8}% 46
+\BOOKMARK [2][-]{subsection.8.3}{Angular v4}{section.8}% 47
+\BOOKMARK [2][-]{subsection.8.4}{spring-data-rest}{section.8}% 48
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 49
+\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 50
+\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 51
