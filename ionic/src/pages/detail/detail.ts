@@ -27,27 +27,91 @@ import { TranslateService } from "@ngx-translate/core";
 })
 export class DetailPage {
 
+  /**
+   * Event of the current page
+   * @type {Event}
+   */
   public event: Event = new Event();
+
+  /**
+   * Array of speakers
+   * @type {Array}
+   */
   public speakers: User[] = [];
+
+  /**
+   * Array of attendees
+   * @type {Array}
+   */
   public attendees: User[] = [];
+
+  /**
+   * Array of files
+   * @type {Array}
+   */
   public files: File[] = [];
+
+  /**
+   * Variable to hold styles to be injected at runtime
+   */
   public safeStyle: SafeStyle;
 
+  /**
+   * Indicates whether edit mode is on or not
+   * @type {boolean}
+   */
   public editMode = false;
+
+  /**
+   * Indicates whether the current user is a speaker or not
+   * @type {boolean}
+   */
   public isSpeaker = false;
+
+  /**
+   * Copy of the event. In case of undoing, we will set overwrite the "new" event with the "old" one.
+   */
   private oldEvent;
 
+  /**
+   * Lock the UI until we have a response from the server
+   * @type {boolean}
+   */
   private attendsLocked = true;
+
+  /**
+   * Indicate whether the current user attends the event
+   * @type {boolean}
+   */
   public attends = false;
+
+  /**
+   * The event Attendee object
+   */
   public eventAttendee: EventAttendee;
 
+  /**
+   * The duration of the event
+   * @type {number}
+   */
   public eventDuration: number = 0;
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
+  /**
+   * The role of the current user
+   * @type {RoleType}
+   */
   public RoleType = RoleType;
 
+  /**
+   * Angular form for the event
+   */
   public eventForm: FormGroup;
 
+  /**
+   * Allowed types for fileupload
+   * @type {string[]}
+   */
   public allowedUploadExtensions: string[] = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'txt', 'pdf', 'jpg', 'jpeg', 'png'];
 
   constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private translateService: TranslateService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
@@ -106,6 +170,12 @@ export class DetailPage {
     }
   }
 
+  /**
+   * Validator to validate the different times in our form
+   * E.g. Start time has to be lower than closing time etc.
+   * @param group
+   * @returns {null}
+   */
   validDates(group: FormGroup) {
     let invalid = false;
 
@@ -127,10 +197,19 @@ export class DetailPage {
     return null;
   }
 
+  /**
+   * Download object
+   * @param url
+   */
   download(url: string) {
     window.location.href = environment.baseUrl + url;
   }
 
+  /**
+   * Success callback after file upload
+   * @param success
+   * @param file
+   */
   uploadFinished(success, file: File) {
     let files = this.files.map(f => environment.baseUrl + f.uri);
     console.log('files', files);
@@ -144,6 +223,11 @@ export class DetailPage {
 
   }
 
+  /**
+   * Delete file
+   * @param ev
+   * @param file
+   */
   deleteFile(ev, file: File) {
     ev.stopPropagation();
     this.translateService.get(['DELETE_FILE', 'DELETE_FILE_CONFIRM', 'CANCEL', 'DELETE'], { filename: file.name }).subscribe(translated => {
@@ -181,12 +265,19 @@ export class DetailPage {
     this.modalCtrl.create(InvitePage, { event: this.event }).present();
   }
 
+  /**
+   * Open edit fab
+   * @param fab
+   */
   edit(fab: FabContainer) {
     if (fab) fab.close();
     this.editMode = true;
     this.oldEvent = Object.assign({}, this.event);
   }
 
+  /**
+   * Save the current form (send it to the server)
+   */
   save() {
     Object.assign(this.event, this.eventForm.value);
     this.editMode = false;
@@ -197,6 +288,9 @@ export class DetailPage {
     }
   }
 
+  /**
+   * Create a new event
+   */
   createEvent() {
     let preparedEvent = this.event;
     preparedEvent.speakers = this.speakers.map((s) => '/api/user/' + s.id);
@@ -207,6 +301,11 @@ export class DetailPage {
     });
   }
 
+  /**
+   * Save event
+   * @param event
+   * @param isRestore
+   */
   saveEvent(event: Event, isRestore = false) {
     // Set speaker list
     event.speakers = this.speakers.map((s) => '/api/user/' + s.id);
@@ -222,25 +321,44 @@ export class DetailPage {
     });
   }
 
+  /**
+   * Callback when the picture is uploaded
+   * @param file
+   */
   pictureChanged(file: File) {
     this.safeStyle = this.sanitizer.bypassSecurityTrustStyle('url(\'' + environment.baseUrl + file.uri + '\')');
     this.event.image = file.uri;
     this.changeDetectorRef.detectChanges();
   }
 
+  /**
+   * Callback when a speaker has been selected
+   * @param user
+   */
   onSpeakerSelected(user: User) {
     if (this.speakers.map(s => s.id).indexOf(user.id) > -1) return;
     this.speakers.push(user);
   }
 
+  /**
+   * Delete a speaker
+   * @param ev
+   * @param user
+   */
   deleteSpeaker(ev, user: User) {
     this.speakers = this.speakers.filter(item => item !== user);
   }
 
+  /**
+   * Open the profile page
+   */
   openProfilePage() {
     this.navCtrl.setRoot(ProfilePage);
   }
 
+  /**
+   * Current user attends the current event
+   */
   attendEvent() {
     if (!this.attendsLocked) {
       this.attendsLocked = true;
@@ -278,6 +396,11 @@ export class DetailPage {
     }
   }
 
+  /**
+   * Check if the provided file is an image
+   * @param file
+   * @returns {boolean}
+   */
   isImageFile(file) {
     if (file && file.file) {
       let splits = file.file.split('.');
@@ -292,6 +415,10 @@ export class DetailPage {
     return false;
   }
 
+  /**
+   * Check if the current event is closed and attending is not possible anymore
+   * @returns {boolean}
+   */
   isClosed() {
     return Date.parse(this.event.closingTime) < new Date().getTime();
   }

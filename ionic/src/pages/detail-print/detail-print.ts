@@ -11,14 +11,44 @@ import {User} from "../../models/User";
   templateUrl: 'detail-print.html',
 })
 export class DetailPrintPage {
+  /**
+   * External users array
+   * @type {Array}
+   */
   externalAttendees: EventAttendeeFlat[] = [];
+
+  /**
+   * Internal (switch-aai) users array
+   * @type {Array}
+   */
   internalAttendees: EventAttendeeFlat[] = [];
 
+  /**
+   * Total number of drinks
+   * @type {number}
+   */
   nofDrinks: number = 0;
+
+  /**
+   * Total number of vegi sandwiches
+   * @type {number}
+   */
   nofVegi: number = 0;
+
+  /**
+   * Total number of meat sandwiches
+   * @type {number}
+   */
   nofMeat: number = 0;
 
+  /**
+   * Current event
+   */
   event: Event;
+
+  /**
+   * Speakers array
+   */
   speakers: User[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public _apiService: ApiService) {
@@ -48,5 +78,4 @@ export class DetailPrintPage {
   print() {
     window.print();
   }
-
 }

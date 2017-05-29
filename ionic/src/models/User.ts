@@ -1,14 +1,53 @@
 import {RoleType} from "./RoleType";
 
 export class User {
-		email: string;
-		firstName: string;
-		id: number;
-		internal: boolean;
-		lastName: string;
-		password: string;
-		role: RoleType;
-    imageUri: string;
-    image: string;
-    optOut: boolean;
+  /**
+   * Email
+   */
+  email: string;
+
+  /**
+   * First name
+   */
+  firstName: string;
+
+  /**
+   * User ID
+   */
+  id: number;
+
+  /**
+   * Internal = switch-AAI, external users are the ones created by the coordinator
+   */
+  internal: boolean;
+
+  /**
+   * Last name
+   */
+  lastName: string;
+
+  /**
+   * User password
+   */
+  password: string;
+
+  /**
+   * The user role
+   */
+  role: RoleType;
+
+  /**
+   * The uri to the profile picture
+   */
+  imageUri: string;
+
+  /**
+   * The profile picture
+   */
+  image: string;
+
+  /**
+   * For external users: Opt out of notification emails
+   */
+  optOut: boolean;
 }

@@ -13,11 +13,19 @@ export class Autoresize {
   onInput(textArea: HTMLTextAreaElement): void {
     this.adjust();
   }
-  constructor(public element: ElementRef) {
-  }
+
+  constructor(public element: ElementRef) { }
+
+  /**
+   * Lifecycle event that will be fired after the elements are available in the DOM
+   */
   ngOnInit(): void {
     this.adjust();
   }
+
+  /**
+   * Set the new height of the textarea
+   */
   adjust(): void {
     setTimeout(() => {
       let ta = this.element.nativeElement.querySelector("textarea");

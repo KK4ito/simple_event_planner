@@ -12,15 +12,33 @@ import {PasswordServiceProvider} from "../../providers/password.service";
 })
 export class PasswordResetPage {
 
+  /**
+   * Email address
+   */
   private email: string;
+
+  /**
+   * Password reset token
+   */
   private passwordResetToken: string;
+
+  /**
+   * Password
+   */
   private password: string;
+
+  /**
+   * Password confirmation
+   */
   private passwordConfirm: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private _passwordServiceProvider: PasswordServiceProvider) {
     this.passwordResetToken = this.navParams.get('resetToken');
   }
 
+  /**
+   * Send the new password to the server
+   */
   resetPassword() {
     if (this.passwordConfirm === this.password) {
       if (this._passwordServiceProvider.validatePassword(this.passwordConfirm)) {
@@ -36,6 +54,9 @@ export class PasswordResetPage {
     }
   }
 
+  /**
+   * Request a new password from the service
+   */
   requestPasswordReset() {
     this.authService.requestPasswordReset(this.email).then(res => {
       this.translatedSnackbarService.showSnackbar('PASSWORD_TOKEN_SENT');

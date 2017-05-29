@@ -19,9 +19,20 @@ declare var window:any;
 export class ProfilePage {
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
+  /**
+   * Role of the current user
+   * @type {RoleType}
+   */
   public RoleType = RoleType;
 
+  /**
+   * Current user object
+   */
   private user;
+
+  /**
+   * Should the user receive email notifications?
+   */
   private receiveEmails: boolean;
 
   constructor(public navCtrl: NavController, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private events:Events) {
@@ -75,14 +86,24 @@ export class ProfilePage {
     });
   }
 
+  /**
+   * Redirect to sibboleth
+   */
   loginWithSibboleth() {
     window.location.href = environment.baseUrlAAI + '#/profile';
   }
 
+  /**
+   * Request a password reset
+   */
   requestPasswordReset() {
     this.navCtrl.push(PasswordResetPage);
   }
 
+  /**
+   * Callback after the avatar has been updated
+   * @param file
+   */
   avatarUpdated(file: File) {
     let user = this.user;
     user.image = file.uri

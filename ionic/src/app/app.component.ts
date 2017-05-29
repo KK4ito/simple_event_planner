@@ -17,10 +17,25 @@ import {RoleType} from "../models/RoleType";
   templateUrl: 'app.html'
 })
 export class MyApp {
+  /**
+   * Reference to the nav element
+   */
   @ViewChild(Nav) nav: Nav;
 
-  public rootPage:any = HomePage;
+  /**
+   * The root page of the app
+   * @type {HomePage}
+   */
+  public rootPage: any = HomePage;
+
+  /**
+   * Pages that will be displayed in the sidebar
+   */
   pages: Array<{title: string, component: any}>;
+
+  /**
+   * The current logged in user
+   */
   public user: User;
 
   constructor(private menuCtrl: MenuController, public platform: Platform, private translate: TranslateService, private events: Events, private authService: AuthService) {
@@ -43,6 +58,9 @@ export class MyApp {
     this.propagateNavigation();
   }
 
+  /**
+   * Set the navigation according to the user role
+   */
   private propagateNavigation() {
     if (this.authService.getRole() == RoleType.ADMINISTRATOR) {
       this.pages = [
@@ -64,6 +82,12 @@ export class MyApp {
     }
   }
 
+  /**
+   * Initialize the app and wait until everything is loaded.
+   * This function is mainly used when deploying on a mobile phone
+   * because native plugins are only available after the platform is
+   * ready.
+   */
   initializeApp() {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -73,22 +97,38 @@ export class MyApp {
     });
   }
 
+  /**
+   * Sets the page that is passed as the new root.
+   * @param page
+   */
   openPage(page) {
     this.nav.setRoot(page.component);
     this.rootPage = page.component;
     this.menuCtrl.close();
   }
 
+  /**
+   * Set ProfilePage as root
+   */
   openProfilePage(){
     this.nav.setRoot(ProfilePage);
     this.rootPage = ProfilePage;
     this.menuCtrl.close();
   }
 
+  /**
+   * Check if a string is the current language
+   * @param lang
+   * @returns {boolean}
+   */
   isLanguage(lang) {
     return lang == this.translate.currentLang;
   }
 
+  /**
+   * Set the language of the app
+   * @param language
+   */
   changeLanguage(language) {
     this.translate.use(language);
   }

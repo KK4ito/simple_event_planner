@@ -1,9 +1,8 @@
-import {User} from "./User";
 export class Event {
   /**
    * The datetime when an event-deadline closes.
    */
-		closingTime: string;
+  closingTime: string;
 
   /**
    * The date when an event was created.
@@ -23,7 +22,7 @@ export class Event {
   /**
    * Whether or not the automatically-to-send-mails were already sent.
    */
-  closingMailSend:boolean;
+  closingMailSend: boolean;
 
   /**
    * The time when an event finishes.

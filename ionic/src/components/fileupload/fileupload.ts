@@ -10,21 +10,55 @@ import { CookieService } from 'ngx-cookie';
 })
 export class FileuploadComponent {
 
+  /**
+   * Height of the fileupload box
+   */
   @Input() height: number;
+
+  /**
+   * Accepted extensions
+   * @type {string[]}
+   */
   @Input() allowedExtensions: string[] = ['jpg', 'jpeg', 'png'];
+
+  /**
+   * Maximum number of concurrent uploads
+   * @type {number}
+   */
   @Input() maxUploads: number = 1;
+
+  /**
+   * EventEmitter that will notify the parent of new file uploads
+   * @type {EventEmitter}
+   */
   @Output() onFinished: EventEmitter<[boolean, File]> = new EventEmitter();
 
-  @ViewChild(NgFileDropDirective) private fileSelect: NgFileDropDirective;
-
-
+  /**
+   * Options for the file upload. eg. headers
+   */
   options: NgUploaderOptions;
+
+  /**
+   * Response of the last upload
+   */
   response: any;
+
+  /**
+   * This will be true if a file is about to be dropped on the file upload area
+   */
   hasBaseDropZoneOver: boolean;
+
+  /**
+   * The progress of the current file upload
+   */
   progress: number;
 
   constructor( @Inject(NgZone) private zone: NgZone, private _cookieService: CookieService) { }
 
+  /**
+   * Lifecycle event to initialize the fileuploader.
+   * Options are constructed here because the @Input variables are not defined in the constructor.
+   */
   ngOnInit() {
     this.options = new NgUploaderOptions({
       url: environment.baseUrl + '/api/files',
@@ -41,6 +75,10 @@ export class FileuploadComponent {
     });
   }
 
+  /**
+   * Callback after file has been uploaded
+   * @param data
+   */
   handleUpload(data: any) {
     setTimeout(() => {
       this.zone.run(() => {
@@ -56,6 +94,10 @@ export class FileuploadComponent {
     });
   }
 
+  /**
+   * Function that sets the hasBaseDropZoneOver on hover
+   * @param e
+   */
   fileOverBase(e: boolean) {
     this.hasBaseDropZoneOver = e;
   }

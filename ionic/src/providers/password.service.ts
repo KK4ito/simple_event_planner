@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * A service that validates passwords
+ */
 @Injectable()
 export class PasswordServiceProvider {
 
+  /**
+   * Empty constructor
+   */
   constructor() { }
 
   /**

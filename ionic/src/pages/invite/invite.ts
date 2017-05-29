@@ -4,7 +4,7 @@ import {ApiService} from "../../providers/api.service";
 import {Mail} from "../../models/Mail";
 import {Event} from "../../models/Event";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
-declare var tinymce: any;
+declare let tinymce: any;
 
 @Component({
   selector: 'page-invite',
@@ -13,18 +13,46 @@ declare var tinymce: any;
 
 export class InvitePage {
 
+  /**
+   * "to" addresses
+   * @type {Array}
+   */
   public tos = [];
+
+  /**
+   * "cc" addresses
+   * @type {Array}
+   */
   public ccs = [];
+
+  /**
+   * Email subject
+   * @type {string}
+   */
   public subject = '';
+
+  /**
+   * Current event
+   */
   public event: Event;
+
+  /**
+   * Email body
+   */
   public body: string;
 
+  /**
+   * Reference to the tinymce element
+   */
   @ViewChild('tinymceText') tinymceText: ElementRef;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private _apiService: ApiService, private viewCtrl: ViewController, private translatedSnackbarService: TranslatedSnackbarService) {
     this.event = navParams.data.event;
   }
 
+  /**
+   * Ionic lifecycle that fires after the view has loaded
+   */
   ionViewDidLoad() {
     this._apiService.getInvitationTemplate().then(template => {
       if(template.to) {
@@ -60,7 +88,10 @@ export class InvitePage {
     });
   }
 
-  sendMail(){
+  /**
+   * Send email
+   */
+  sendMail() {
     let mail = new Mail();
     mail.to = this.tos.join(",");
     mail.cc = this.ccs.join(",");
@@ -75,6 +106,9 @@ export class InvitePage {
     })
   }
 
+  /**
+   * Dismiss modal
+   */
   dismiss() {
     this.viewCtrl.dismiss();
   }

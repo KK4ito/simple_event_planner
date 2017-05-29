@@ -119,7 +119,7 @@ export class UpdateUserPage {
   }
 
   /**
-   * Update avatar
+   * Callback after avatar has been updated
    *
    * @param file
    */
