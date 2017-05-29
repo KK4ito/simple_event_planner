@@ -109,12 +109,18 @@ Die Webschicht wird automatisch durch die einzelnen RepositoryRestResourcen bere
 
 \subsubsection{Businesschicht}
 Da das vorliegende Projekt eine relativ einfache Business-Schicht aufweist (vielfach handelt es sich um einfache GET/POST/PUT/DELETE auf bestehenden Entitäten), wird diese meist ebenfalls von den RepositoryRestResourcen wahrgenommen.
-Wo eine etwas ausgefeilterte Logik notwendig war (z.B. beim Login oder bei der Passwort-Zurücksetzen-Funktionalität) wurden eigene RestController erstellt (wie beispielsweise das LoginRepository).
+Wo eine etwas ausgefeilterte Logik notwendig war wurde diese in der Klasse "CustomPermissionEvaluator" mithilfe von Permissions realisiert. Dabei wird der Zugriff verweigert, sollte die Anfrage von den erwarteten Parametern (z.B. Enddatum vor Startdatum) abweichen.
 
 \subsubsection{Datenbankschicht}
 Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine Übersicht über das DB-Schema siehe das Unterkapitel Datenbank.
 
 \subsection{Microservices}
+
+Untenstehend sehen wir die Übersicht über unsere Microservicearchitektur:
+\includegraphics[width=1\textwidth]{microservices}
+
+Die Kommunikation zwischen den einzelnen Services geschieht ausschliesslich über REST. Jeder Microservice meldet sich bei der zentralen Registry (Eureka) an. Im Bild ist ersichtlich, dass ausschliesslich das Frontend und der Eventmanagement Service von ausserhalb erreichbar sind, die restlichen Services sind hinter der Firewall und somit geschützt.
+
 \subsubsection{Registry}
 Die Registry stellt das "Bindeglied" zwischen den verschiedenen Microservices dar. Die Microservices verbinden sich auf die Registry um dort die URLs der anderen Microservices zu bekommen. Dadurch wird es möglich die Applikation auf mehreren Servern verteilt laufen zu lassen. Im Falle einer bestehenden Eureka Installation/Architektur muss dieser Microservice nicht nochmals zusätzlich gestartet werden (bestehende Registry kann verwendet werden).
 Durch die Verwendung des "Loadbalanced" RestTemplates lösen alle Microservices die logischen Namen anderer Microservices selbstständig mit Rückgriff auf die Registry zu korrekten IP-Adressen auf.
@@ -126,7 +132,7 @@ Der Microservice Eventmanagement ist der zentrale Service unserer Applikation. E
 Dieser Microservice stellt nur einen Container bereit, der dazu dient, statische Inhalte wie HTML-/CSS-Files, Bilder und so weiter zur Verfügung zu stellen. Er enthält keinerlei Business-Logik und speichert keine Benutzerdaten. Konkret wird der Build Folder unserer Ionic-App in den assets/static Order kopiert. Sollte bereits eine bestehende Webserver Infrastruktur zur Verfügung stehen (z.B. Apache oder Nginx), können diese Assets auch ohne zusätzlichen Microservice gehostet werden.
 
 \subsubsection{Mailer}
-Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API bzw. der Endpoint zum Versenden von Mails wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um die zur Verfügung gestellte Funktionalität nutzen zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen.
+Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API bzw. der Endpoint zum Versenden von Mails wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um die zur Verfügung gestellte Funktionalität nutzen zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen. Dieser Service ist ein Paradebeispel für einen Microservice, er könnte ohne weiteres für weitere Projekte wiederverwendet werden.
 
 \subsubsection{Scheduler}
 Der Scheduler-Service führt zu bestimmten Zeiten verschiedene Tasks aus. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
@@ -143,16 +149,33 @@ Die Sicherheit wurde mit von Spring Security und dem Framework Pac4J realisiert.
 \item Service-User (tritt gegen aussen aber nicht in Erscheinung sondern nur, wenn andere Microservices geschützte Dienste des Eventmanagement-Microservice nutzen möchten)
 \end{enumerate}
 
+\subsubsection{Rollenkonzept}
 
-Rollenkonzept
-\\
-DirectAuth
-\\
-Cookie
-\\
-Cors
-\\
-Csrf
+Daher haben wir folgende Rollen erstellt:
+
+\begin{enumerate}
+\item ANONYMOUS (0) - Besucher
+\item REGISTERED (1) - Angemeldeter Benutzer und Referenten
+\item ADMINISTRATOR (2) - Koordinator
+\item SERVICE (3) - Andere Microservices
+\end{enumerate}
+
+Die Rolen sind geordnet und mit Nummern versehen, ein Administrator ist somit automatisch auch ANONYMOUS und REGISTERED. Dadurch lassen sich die Berechtigungen im Frontend bequem realisieren, z.B. sind dadurch Abfragen wie  *ngIf="user.role >= 1" möglich.
+
+\subsection{Authentifizierung}
+Zur Authentifizierung stehen zwei Methoden zur Verfügung, wobei das Frontend für den Login Basic Auth und jede weitere Anfrage ein Cookie verwendet. Jede Anfrage kann jedoch auch mit dem Basic Auth gemacht werden (notwendig für Microservices):
+
+\subsubsection{Basic Auth}
+Ein bewährter Webstandard, welcher ein Authorization Header mit den encodeten Logindaten verwendet. Serverseitig wird das gefundene Profil in die Session geladen und kann von da an mithilfe des Cookie verwendet werden.
+
+\subsubsection{Cookie}
+Nach dem initialen Login mithilfe des Basic Auths, können die Anfragen mit dem Cookie gemacht werden. Das Cookie hat das http only Flag, welches XSS Angrife verhindert (das Cookie kann nicht von Javascript gelesen werden). Beim Logout wird das Cookie gelöscht und ein neues (unautorisiertes) erstellt.
+
+\subsection{CSRF}
+Um die Sicherheit zu erhöhen, setzen wir auf CSRF. Bei jeder Anfrage muss ein CSRF Token mitgesendet werden und er Client erhält ein Token für die nächste Anfrage. In unserem Projekt konnten wir alle Endpoints mithilfe von CSRF schützen.
+
+\subsection{CORS}
+
 
 \newpage
 \subsection{Datenbank}
@@ -394,7 +417,7 @@ Anfangs wollten wir verschiedene neue Technologien wie z.B. Elm, GraphQL und Mic
 Wir wählten eine Microservice-Architektur, weil wir dachten, dass wir so die einzelnen Teile relativ unabhängig voneinander gestalten können. Zudem wollten wir diesen Architektur-Typ an einem konkreten Projekt ausprobieren. Es zeigte sich aber, dass eine solche Architektur relativ aufwändig zu erstellen ist: die Schnittstellen zwischen den einzelnen Services müssen genau definiert und gewartet werden. Insbesondere bei einem Refactoring macht sich der zusätzliche Aufwand so bemerkbar: unter Umständen muss man auf mehreren Microservices dieselbe Änderung vornehmen. Weiter zeigt sich, dass sich für das vorliegende Projekt Microservices nicht sehr stark eigenen: die Abhängigkeiten zwischen den verschiedenen Services sind schlicht zu gross (so muss der Scheduler alle Entitätsobjekte des Eventmanagements kennen). Für uns ergibt so schlussendlich einzig der Mailer als Microservice Sinn: dieser ist relativ "stupid" und nimmt nur ein Mail-Objekt entgegen, das anschliessend nach minimaler Verarbeitung versendet wird. So hält sich die Schnittstellen-Definition sehr stark in Grenzen, der Mailer muss keine weiteren Objekte anderer Services kennen und es könnten theoretisch einfach weitere Instanzen des Mailers hochgefahren werden, wenn z.B. sehr viele Mails versendet werden müssten und eine einzelne Instanz an ihre Grenzen gelangt.
 
 \subsection{Security}
-Als "Sicherheits-Framework" wählten wir, zusätzlich zu Spring Security Pac4J. Wir wählten Pac4J da es uns eine Authentifizierung via BasicAuth, Cookies, ein simples Route-Matching und einfach zu verwendende XSS-Schutz usw. erlaubt. Ursprünglich planten wir, den CSRF-Schutz ebenfalls über Pac4J zu erstellen. Da Spring Security diese Funktionalität aber auch bietet und wir Probleme beim "einstellen" des CSRF-Schutzes via Pac4J hatten, nutzten wir Spring Security für den CSRF-Schutz.
+Als "Sicherheits-Framework" wählten wir, zusätzlich zu Spring Security Pac4J. Wir wählten Pac4J da es uns eine Authentifizierung via BasicAuth, Cookies, ein simples Route-Matching und einfach zu verwendende XSS-Schutz usw. erlaubt. Ursprünglich planten wir, den CSRF-Schutz ebenfalls über Pac4J zu erstellen. Da Spring Security diese Funktionalität aber auch bietet und wir Probleme beim "einstellen" des CSRF-Schutzes via Pac4J hatten, nutzten wir Spring Security für den CSRF-Schutz. Sehr hilfreich ist ausserdem das Rollen und Permission Model, welches wir auch dazu verwendet haben, die Businesslogik umzusetzen.
 
 \subsection{Ionic}
 Wie bereits erwähnten, wählten wir anstelle von Angular Material 2 Ionic 2. Dies taten wir einerseits, da es uns mit Typescript eine sehr willkommene Typsicherheit im Frontend bietet und andererseits, da es mit Ionic Desktop nun auch für "konventionelle" Webprojekte wie das vorliegende hervorragend eignet. Dank den vordefinierten Komponenten konnten wir so einige Enticklungszeit im Frontend sparen, die wir statt dessen in andere Teile der Applikation investieren konnten.
