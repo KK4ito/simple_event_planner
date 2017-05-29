@@ -9,7 +9,7 @@ sleep 50
 
 # start now all microservices
 # PROJECTS="eventmanagement"
-PROJECTS="mailer eventmanagement frontend scheduler"
+PROJECTS="mailer eventmanagement"
 
 for PROJECT in $PROJECTS
 do

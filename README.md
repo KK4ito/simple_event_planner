@@ -1,76 +1,26 @@
-# Microservices
+# Simple event planner
 
 ## Prerequisites
 
-JDK1.8 (or higher) is required. Check with
+Java 8
+node v7
+npm
+
+## Installation
 
 ```shell
-$ java -version
-```
-
-[H2](http://www.h2database.com/html/main.html) will be used as embedded database. 
-H2 is setup as in-memory database. Therefore, no installation is required. 
-
-**ATTENTION:** All persisted datas are lost on restart.
-
-## Building
-
-The services are gradle projects and can be built with the gradle wrapper from the HOME directory of the microservices
-
-```shell
-$ cd microservices
-$ ./gradlew clean bootRepackage
+git clone https://github.com/lukeisontheroad/simple_event_planner.git &&
+cd simple_event_planner &&
+./install.sh
 ```
     
-will build all microservices listed in file 'settings.gradle'.
+All dependecies will be installed, microservices will be started and the browser will open with the final product
 
-## Testing
+## Login
 
-Run all JUnit tests with
+To test the application, please use the following user:
 
 ```shell
-$ cd microservices
-$ ./gradlew test
+email: schoenbaechler.lukas@gmail.com
+password: d
 ````
-
-## Running a microservice
-
-Use the following gradle task to launch the application
-
-```shell
-$ cd microservices/usermanagement
-$ ./gradlew bootRun
-```    
-All properties are initially read from file `src/main/resources/application.properties`. These
-properties can be overwritten by creating a new file `application.properties` in the root directory
-of the microservice itself.
-
-## Deployment
-
-Create an executable jar of the microservice
-
-```shell
-$ cd microservices/usermanagement
-$ ./gradlew bootRepackage
-```
-    
-Copy the jar-file from directory `build/libs`into an a deploy location of your choice.
-
-```shell
-$ cp build/libs/usermanagement-1.0.0.jar $HOME/deploy
-```
-
-Create a file `application.properties` in $HOME/deploy to overwrite the defaults.
-
-### How to start all microservices
-
-Change to the HOME directory of all microservices!
-
-Use gradle with the "--parallel" command line parameter:
-
-```shell
-$ ./gradlew :moviemanagement:bootRun :usermanagement:bootRun :rentalmanagement:bootRun --parallel
-```
-
-
-
