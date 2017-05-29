@@ -198,6 +198,14 @@ Nachfolgend das Datenbankschema:
 \includegraphics[width=1\textwidth]{dbSchema}
 \\
 
+\subsection{Testing}
+Im Mailer haben wir während der Entwicklung einige Tests geschrieben. Leider mussten wir diese nach einer Umstrukturierung wieder löschen, da sie nicht mehr kompatibel waren. Im Eventmanagement haben wir ebenfalls einige wenige Tests geschrieben, die dann aber aufgrund von der knappen Zeit wieder gelöscht oder deaktiviert werden mussten.
+
+\subsection{Logging}
+Wir verwenden für das logging log4j. In jedem Microservice im applications.properties kann der log-level für jedes package individuell festgelegt werden. Natürlich können auch im code noch weitere logs hinzugefügt werden.
+
+\includegraphics[width=1\textwidth]{log-config}
+
 \newpage
 \section{Architektur - Frontend}
 \subsection{Ionic}
@@ -419,15 +427,47 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \newpage
 \section{Projektaufbau - Frontend}
 
-\includegraphics[width=1.0\textwidth]{ionic/ionic-root}
-\includegraphics[width=1.0\textwidth]{ionic/src-app}
-\includegraphics[width=1.0\textwidth]{ionic/src-assets}
-\includegraphics[width=1.0\textwidth]{ionic/src-components}
-\includegraphics[width=1.0\textwidth]{ionic/src-models}
-\includegraphics[width=1.0\textwidth]{ionic/src-pages}
-\includegraphics[width=1.0\textwidth]{ionic/src-pipes}
-\includegraphics[width=1.0\textwidth]{ionic/src-providers}
-\includegraphics[width=1.0\textwidth]{ionic/src-theme}
+Der Aufbau der Ordnerstruktur ist gleich wie bei jeder herkömmlichen Ionic App. Der Aufbau sollte relativ klar sein. Auf die Dateien im "src" Ordner werden wir etwas genauer eingehen, da sich dort der grossteil des Codes befindet.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/ionic-root} 
+\\
+\\
+Im Ordner "app" befindet sich der Einstiegspunkt der App. im "app.module.ts" werden alle Angular-Module registiert und die App gestartet.
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-app}
+\\
+\\
+Im assets Ordner werden statische assets wie Bilder, Libraries und Übersetzungsfiles gespeichert.  
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-assets}
+\\
+\\
+Im Ordner "pages" befinden sich die verschiedenen Seiten unserer App. "pages" sind normale Angular Komponenten, sie werden aber von Ionic speziell behandelt und können dem Navigation Stack hinzugefügt werden, was wiederum das Routing in der Applikation ermöglicht.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-pages}
+\\
+\\
+Pipes sind vordefinierte Funktionen, die Werte verändern können. So können wir beispielsweise die "DurationPipe" im HTML verwenden um einen Wert in Sekunden in Stunden und Minuten umzuwandeln.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-pipes}
+\\
+\\
+Providers beinhalten Logik, die über die Applikation hinweg geteilt wird. Beispielsweise der API service, welcher aus vielen kurzen Methoden besteht, welche wiederum auf den Auth Service zugreifen, welcher die ganzen Requests handelt (inklusive headers usw).
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-providers}
+
+\subsection{Compodoc}
+Compodoc erlaubte es uns, eine visuelle Representation unserer App zu erhalten. Vor allem der Dependency-Graph der Module und Components war sehr interessant anzusehen. Bei einer allfälligen Weiterführung dieses Projekts ist diese Dokumentation ein guter Startpunkt, um einen Überblick über die App zu bekommen.
+
+\subsection{Augury}
+Zum debuggen haben wir die Chrome-Browserextension Augury verwendet. Diese wurde spezifisch für Angular Applikationen entwickelt und erlaubt es während der Runtime auf die verschiedenen Components und Services von Angular zuzugreifen und die Werte zu ändern. Dies ist beim Debuggen eine grosse Hilfe, da man die Werte nicht immer mit console.log() printen muss, nur um zu sehen was der Wert einer Variable ist.
+\\
+\includegraphics[width=1.0\textwidth]{ionic/augury}
 
 \newpage
 \section{Technologien}
