@@ -201,9 +201,9 @@ public class Scheduler {
                 Collection<User> speakers = speakerResponseEntity.getBody().getContent();
 
                 //Send a mail to the referenten, the raumkoordination and the sv-group
-                sendReferentMail(event, eventAttendees, speakers);
-                sendRaumkoordinationMail(event, eventAttendees, speakers);
-                sendSvGroupMail(event, eventAttendees, speakers);
+//                sendReferentMail(event, eventAttendees, speakers);
+//                sendRaumkoordinationMail(event, eventAttendees, speakers);
+//                sendSvGroupMail(event, eventAttendees, speakers);
 
                 //Set a request-factory for the restTemplate
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();

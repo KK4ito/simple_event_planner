@@ -43,7 +43,8 @@
 \contentsline {subsection}{\numberline {8.1}Microservices}{34}{subsection.8.1}
 \contentsline {subsection}{\numberline {8.2}Pac4J}{34}{subsection.8.2}
 \contentsline {subsection}{\numberline {8.3}Angular 2}{34}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}ResourceRestController}{34}{subsection.8.4}
-\contentsline {section}{Appendices}{35}{section*.2}
-\contentsline {section}{\numberline {A}Verantwortungen}{35}{Appendix.a.A}
-\contentsline {section}{\numberline {B}Links}{35}{Appendix.a.B}
+\contentsline {subsection}{\numberline {8.4}spring-data-rest}{35}{subsection.8.4}
+\contentsline {subsection}{\numberline {8.5}Spring Security}{35}{subsection.8.5}
+\contentsline {section}{Appendices}{36}{section*.2}
+\contentsline {section}{\numberline {A}Verantwortungen}{36}{Appendix.a.A}
+\contentsline {section}{\numberline {B}Links}{36}{Appendix.a.B}

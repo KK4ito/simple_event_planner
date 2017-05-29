@@ -410,10 +410,19 @@ Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für da
 Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus (siehe auch Punkt Design-Entscheide). Als vorteilhaft sehen wir, dass beispielsweise vom Mailer, da er komplett "stateless" ist, beliebig viele Instanzen hochgefahren und genutzt werden können. Vorstellbar wäre z.B. dass ein Mailer-Loadbalancer erstellt wird und nach Bedarf zusätzliche Mailer-Instanzen hochfährt.
 \\
 Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
+
 \subsection{Pac4J}
+
 \subsection{Angular 2}
-Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
-\subsection{ResourceRestController}
+Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 2 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
+
+\subsection{spring-data-rest}
+Die Verwendung von spring-data-rest gestaltete sich überraschend einfach und bot eine wesentliche Erleichterung in der Erstellung der REST-Schnittstelle zu unserer App. Entitäten mittels der Annotation @RepositoryRestResource zu bezeichnen reichte, um die grundlegenden REST-Funktionalitäten auf den Objekten bereit zu stellen. Mittels zusätzlicher Endpoints (mit @RestController) annotiert waren wir in der Lage zielgenau zusätzliche Operationen oder Entitäten bereit zu stellen.
+\\
+Für ein Projekt dieser Grösse, wo die Applikation hauptsächlich auf Datenbanktabellen arbeitet und einige wenige zusätzliche Entitäten bzw. Logik zur Verfügung stehen müssen, würden wir die Verwendung von spring-data-rest stark empfehlen - nimmt das Projekt doch viel der repetitiven Arbeit der REST-Endpoint-Erstellung ab.
+
+\subsection{Spring Security}
+
 
 \newpage
 \begin{appendices}

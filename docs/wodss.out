@@ -43,7 +43,8 @@
 \BOOKMARK [2][-]{subsection.8.1}{Microservices}{section.8}% 43
 \BOOKMARK [2][-]{subsection.8.2}{Pac4J}{section.8}% 44
 \BOOKMARK [2][-]{subsection.8.3}{Angular 2}{section.8}% 45
-\BOOKMARK [2][-]{subsection.8.4}{ResourceRestController}{section.8}% 46
-\BOOKMARK [1][-]{section*.2}{Appendices}{}% 47
-\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 48
-\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 49
+\BOOKMARK [2][-]{subsection.8.4}{spring-data-rest}{section.8}% 46
+\BOOKMARK [2][-]{subsection.8.5}{Spring Security}{section.8}% 47
+\BOOKMARK [1][-]{section*.2}{Appendices}{}% 48
+\BOOKMARK [1][-]{Appendix.a.A}{Verantwortungen}{}% 49
+\BOOKMARK [1][-]{Appendix.a.B}{Links}{}% 50

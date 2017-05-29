@@ -77,7 +77,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @RestResource(exported = false)
     @PreAuthorize("hasAuthority('ADMINISTRATOR')")
-    @Query(value = "SELECT u FROM User AS u WHERE u.optOut = false AND u.internal = true")
+    @Query(value = "SELECT u FROM User AS u WHERE u.optOut = false AND u.internal = false")
     public List<User> externalOptIn();
 
     /**
