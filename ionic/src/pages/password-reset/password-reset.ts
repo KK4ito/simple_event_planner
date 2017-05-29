@@ -41,7 +41,7 @@ export class PasswordResetPage {
       this.translatedSnackbarService.showSnackbar('PASSWORD_TOKEN_SENT');
       this.navCtrl.pop();
     }).catch(err => {
-      this.translatedSnackbarService.showSnackbar('PASSWORD_TOKEN_NOT_SEND');
+      this.translatedSnackbarService.showSnackbar('PASSWORD_TOKEN_NOT_SENT');
       this.email = "";
     });
   }
