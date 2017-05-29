@@ -28,6 +28,8 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The login-repository.
@@ -40,6 +42,8 @@ public class LoginRepository {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     static final long ONE_MINUTE_IN_MILLISECONDS=60000;
+    private final Pattern pattern = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!?,.$]).{10,128}$");
+
 
     @Autowired
     private HttpServletRequest context;
@@ -212,6 +216,10 @@ public class LoginRepository {
      */
     @RequestMapping(value = "/api/login/resetPassword", method = RequestMethod.POST)
     public ResponseEntity<ResetPasswordAnswerMessage> resetPassword(@RequestBody ResetPasswordWrapper wrapper) {
+        Matcher matcher = pattern.matcher(wrapper.getEmail());
+        if(!matcher.matches()){
+            return new ResponseEntity<>(new ResetPasswordAnswerMessage("Invalid Password: security guidelines not matched"), HttpStatus.NOT_ACCEPTABLE);
+        }
 
         //Getting the token from the wrapper
         String token = wrapper.getToken();
