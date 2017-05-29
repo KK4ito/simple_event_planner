@@ -16,31 +16,31 @@
   <h2>{{ event?.name }}</h2>
 
   <table width="100%">
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'LOCATION' | translate}}</td>
       <td>{{ event?.location }}</td>
     </tr>
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'START_DATE' | translate}}</td>
       <td>{{ event?.startTime | date: 'dd.MM.yy H:mm' }}</td>
     </tr>
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'PARTICIPANTS' | translate}}</td>
       <td>{{ externalAttendees.length + internalAttendees.length }}</td>
     </tr>
-    <tr *ngFor="let s of speakers" style="border-bottom: solid 1px grey">
+    <tr *ngFor="let s of speakers" class="border__bottom">
       <td>{{'SPEAKERS' | translate}}</td>
       <td>{{ s.firstName }} {{ s.lastName }}</td>
     </tr>
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'DRINKS' | translate}}</td>
       <td>{{nofDrinks}}</td>
     </tr>
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'VEGI' | translate}}</td>
       <td>{{nofVegi}}</td>
     </tr>
-    <tr style="border-bottom: solid 1px grey">
+    <tr class="border__bottom">
       <td>{{'MEAT' | translate}}</td>
       <td>{{nofMeat}}</td>
     </tr>
@@ -48,7 +48,7 @@
 
   <br />{{'EXTERNAL' | translate}} ({{ externalAttendees.length }})<br /><br />
   <table *ngIf="externalAttendees.length > 0" width="100%">
-    <thead style="border-bottom: solid 1px black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
+    <thead class="border__bottom_black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
     <tr *ngFor="let a of externalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
       <td>{{a.drink ? ('YES' | translate) : ''}}</td>
@@ -58,7 +58,7 @@
 
   <br />{{'INTERNAL' | translate}} ({{ internalAttendees.length }})<br />
   <table *ngIf="internalAttendees.length > 0" width="100%">
-    <thead style="border-bottom: solid 1px black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
+    <thead  class="border__bottom_black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
     <tr *ngFor="let a of internalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
       <td>{{a.drink ? ('YES' | translate) : ''}}</td>
