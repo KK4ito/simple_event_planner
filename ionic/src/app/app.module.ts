@@ -50,8 +50,8 @@ export function HttpLoaderFactory(http: Http) {
 export const deepLinkConfig: any = {
   links: [
     { component: HomePage, name: "home", segment: ""},
-    { component: ProfilePage, name: "profile", segment: "profile", defaultHistory: [HomePage] },
-    { component: PasswordResetPage, name: "password-reset", segment: "password-reset/:resetToken", defaultHistory: [HomePage] },
+    { component: ProfilePage, name: "profile", segment: "profile" },
+    { component: PasswordResetPage, name: "password-reset", segment: "password-reset/:resetToken" },
     { component: DetailPage, name: "detail", segment: "event/:id", defaultHistory: [HomePage] }
   ]
 };
