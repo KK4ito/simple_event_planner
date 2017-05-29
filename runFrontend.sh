@@ -1,0 +1,1 @@
+cd frontend && ./gradlew clean && ./gradlew build && java -jar build/libs/frontend-1.0.0.jar && cd ..
