@@ -19,6 +19,7 @@ import { DetailPrintPage } from "../detail-print/detail-print";
 import { SelectFoodPage } from "../select-food/select-food";
 import { FoodType } from "../../models/FoodType";
 import { TranslatedSnackbarService } from "../../providers/translated-snackbar.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'page-detail',
@@ -49,7 +50,7 @@ export class DetailPage {
 
   public allowedUploadExtensions: string[] = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'txt', 'pdf', 'jpg', 'jpeg', 'png'];
 
-  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
+  constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private translateService: TranslateService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(1024)])],
       description: ['', Validators.compose([Validators.required, Validators.maxLength(65535)])],
@@ -145,29 +146,32 @@ export class DetailPage {
 
   deleteFile(ev, file: File) {
     ev.stopPropagation();
-    this.alertCtrl.create({
-      title: 'Delete file',
-      message: 'Do you want to delete ' + file.name + '?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            let bla = this.files.filter(f => f.uri !== file.uri);
-            let files = bla.map(f => environment.baseUrl + f.uri);
-            this._apiService.updateEvent({
-              id: this.event.id,
-              files: files
-            }).then(() => {
-              this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
-            });
+    this.translateService.get(['DELETE_FILE', 'DELETE_FILE_CONFIRM', 'CANCEL', 'DELETE'], { filename: file.name }).subscribe(translated => {
+      this.alertCtrl.create({
+        title: translated['DELETE_FILE'],
+        message: translated['DELETE_FILE_CONFIRM'],
+        buttons: [
+          {
+            text: translated['CANCEL'],
+            role: 'cancel'
+          },
+          {
+            text: translated['DELETE'],
+            handler: () => {
+              let bla = this.files.filter(f => f.uri !== file.uri);
+              let files = bla.map(f => environment.baseUrl + f.uri);
+              this._apiService.updateEvent({
+                id: this.event.id,
+                files: files
+              }).then(() => {
+                this._apiService.getFiles(this.navParams.get('id')).then(files => this.files = files);
+              });
+            }
           }
-        }
-      ]
-    }).present();
+        ]
+      }).present();
+
+    });
   }
 
   /**

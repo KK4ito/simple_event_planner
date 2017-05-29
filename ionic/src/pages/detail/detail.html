@@ -124,6 +124,7 @@
             padding></ion-icon>
         </ion-avatar>
         <h2>{{ file.name }} </h2>
+        <ion-icon (click)="deleteFile($event, file)" name="close-circle" item-right></ion-icon>
       </ion-item>
     </ion-list>
 
