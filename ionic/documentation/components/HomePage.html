@@ -561,7 +561,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/pages/home/home.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/pages/home/home.ts:32</a></div>
                             </td>
                         </tr>
     
@@ -590,7 +590,7 @@
     
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/pages/home/home.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/pages/home/home.ts:52</a></div>
                             </td>
                         </tr>
     
@@ -659,9 +659,14 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/pages/home/home.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/pages/home/home.ts:25</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Past events</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <table class="table table-sm table-bordered">
@@ -684,9 +689,14 @@
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/pages/home/home.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/pages/home/home.ts:32</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>The role of the current user</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <table class="table table-sm table-bordered">
@@ -704,9 +714,14 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/pages/home/home.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/pages/home/home.ts:19</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Upcoming events</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
     </section>
@@ -728,10 +743,23 @@ import { AuthService } from &quot;../../providers/auth.service&quot;;
   templateUrl: &#x27;home.html&#x27;
 })
 export class HomePage {
+  /**
+   * Upcoming events
+   * @type {Array}
+   */
   upcomingEvents: Event[] &#x3D; [];
+
+  /**
+   * Past events
+   * @type {Array}
+   */
   pastEvents: Event[] &#x3D; [];
 
   // Static binding workaround (http://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2)
+  /**
+   * The role of the current user
+   * @type {RoleType}
+   */
   public RoleType &#x3D; RoleType;
 
   constructor(private _apiService: ApiService, private navCtrl: NavController, public authService: AuthService) {
@@ -741,7 +769,7 @@ export class HomePage {
           if (a.startTime &lt; b.startTime) return -1;
           if (a.startTime &gt; b.startTime) return 1;
           return 0;
-        })
+        });
         this.upcomingEvents &#x3D; sorted.filter(e &#x3D;&gt; new Date(e.startTime) &gt; new Date());
         this.pastEvents &#x3D; sorted.filter(e &#x3D;&gt; new Date(e.startTime) &lt; new Date());
       })

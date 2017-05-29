@@ -599,12 +599,13 @@
             
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/components/autoresize/autoresize.ts:18</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/components/autoresize/autoresize.ts:22</a></div>
                                     </td>
                                 </tr>
             
                             <tr>
                                 <td class="col-md-4">
+                                        <div class="io-description"><p>Lifecycle event that will be fired after the elements are available in the DOM</p><br/></div>
             
                                         <div class="io-description">
                                             <b>Returns : </b>    <code>void</code>
@@ -630,12 +631,13 @@
             
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/components/autoresize/autoresize.ts:21</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/components/autoresize/autoresize.ts:29</a></div>
                                     </td>
                                 </tr>
             
                             <tr>
                                 <td class="col-md-4">
+                                        <div class="io-description"><p>Set the new height of the textarea</p><br/></div>
             
                                         <div class="io-description">
                                             <b>Returns : </b>    <code>void</code>
@@ -682,11 +684,19 @@ export class Autoresize {
   onInput(textArea: HTMLTextAreaElement): void {
     this.adjust();
   }
-  constructor(public element: ElementRef) {
-  }
+
+  constructor(public element: ElementRef) { }
+
+  /**
+   * Lifecycle event that will be fired after the elements are available in the DOM
+   */
   ngOnInit(): void {
     this.adjust();
   }
+
+  /**
+   * Set the new height of the textarea
+   */
   adjust(): void {
     setTimeout(() &#x3D;&gt; {
       let ta &#x3D; this.element.nativeElement.querySelector(&quot;textarea&quot;);

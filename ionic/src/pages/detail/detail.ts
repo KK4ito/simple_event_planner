@@ -190,7 +190,6 @@ export class DetailPage {
     if (invalid) {
       group.controls['startTime'].setErrors({isValidDate: false});
     } else {
-      console.log(group);
       group.controls['startTime'].setErrors(null);
     }
 

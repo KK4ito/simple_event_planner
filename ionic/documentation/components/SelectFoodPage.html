@@ -561,7 +561,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/pages/select-food/select-food.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/pages/select-food/select-food.ts:24</a></div>
                             </td>
                         </tr>
     
@@ -590,12 +590,13 @@
     
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/pages/select-food/select-food.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/pages/select-food/select-food.ts:32</a></div>
                             </td>
                         </tr>
     
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-description"><p>Dismiss the current modal</p><br/></div>
     
                                 <div class="io-description">
                                     <b>Returns : </b>    <code>void</code>
@@ -621,12 +622,13 @@
     
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/pages/select-food/select-food.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/pages/select-food/select-food.ts:39</a></div>
                             </td>
                         </tr>
     
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-description"><p>Dismiss the current modal and return the drink/food</p><br/></div>
     
                                 <div class="io-description">
                                     <b>Returns : </b>    <code>void</code>
@@ -658,9 +660,14 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/pages/select-food/select-food.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/pages/select-food/select-food.ts:24</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Type of drink</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <table class="table table-sm table-bordered">
@@ -678,9 +685,14 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/pages/select-food/select-food.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/pages/select-food/select-food.ts:19</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Food Type</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <table class="table table-sm table-bordered">
@@ -723,16 +735,29 @@ export class SelectFoodPage {
     {&#x27;value&#x27;: &#x27;NONE&#x27;, &#x27;icon&#x27;: &#x27;remove-circle&#x27;}
   ];
 
+  /**
+   * Food Type
+   */
   food: FoodType;
+
+  /**
+   * Type of drink
+   */
   drink: boolean;
 
   constructor(private viewCtrl: ViewController) {
   }
 
+  /**
+   * Dismiss the current modal
+   */
   dismiss() {
     this.viewCtrl.dismiss({ drink: false, selectedFood: FoodType.NONE });
   }
 
+  /**
+   * Dismiss the current modal and return the drink/food
+   */
   save() {
     this.viewCtrl.dismiss({ drink: this.drink, selectedFood: this.food });
   }

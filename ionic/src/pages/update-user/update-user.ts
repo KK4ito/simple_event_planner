@@ -59,7 +59,7 @@ export class UpdateUserPage {
    */
   save(user: User, showToast = true) {
     Object.assign(user, this.userForm.value);
-    console.log(user);
+    console.log('saving user', user);
     if (this.oldUser) {
       this.apiService.updateUserPartial(this.user.id, this.userForm.value).then(user => {
         if (showToast) {

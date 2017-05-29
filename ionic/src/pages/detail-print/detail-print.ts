@@ -54,7 +54,6 @@ export class DetailPrintPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public _apiService: ApiService) {
     this._apiService.getEvent(this.navParams.get('id')).then(event => {
       this.event = event;
-      console.log(event);
     });
 
     this._apiService.getSpeakers(this.navParams.get('id')).then(speakers => {

@@ -557,11 +557,12 @@
                             <code>progress</code>
                         </td>
                         <td class="col-md-10">
+                            <div><p>The current progress (0 - 100)</p><br/></div>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/components/progress-bar/progress-bar.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/components/progress-bar/progress-bar.ts:15</a></div>
                             </td>
                         </tr>
                 </tbody>
@@ -580,10 +581,15 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/components/progress-bar/progress-bar.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/components/progress-bar/progress-bar.ts:15</a></div>
                             </td>
                         </tr>
     
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The constructor, it shall be empty</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
     </section>
@@ -599,10 +605,19 @@
   selector: &#x27;progress-bar&#x27;,
   templateUrl: &#x27;progress-bar.html&#x27;
 })
+/**
+ * A component that shows a progressbar when passed a value from 0 to 100
+ */
 export class ProgressBarComponent {
 
+  /**
+   * The current progress (0 - 100)
+   */
   @Input(&#x27;progress&#x27;) progress;
 
+  /**
+   * The constructor, it shall be empty
+   */
   constructor() { }
 
 }

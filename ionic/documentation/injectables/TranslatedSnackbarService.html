@@ -505,6 +505,12 @@
             <code>src/providers/translated-snackbar.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A service that shows a translated snackbar</p><br/>
+            </p>
 
             <section>
                 <h3 id="constructor">Constructor</h3>
@@ -517,10 +523,36 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/providers/translated-snackbar.service.ts:6</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/providers/translated-snackbar.service.ts:9</a></div>
                                     </td>
                                 </tr>
             
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Empty constructor</p><br/></div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>toastController</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>translate</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -549,17 +581,58 @@
             
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/providers/translated-snackbar.service.ts:11</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/providers/translated-snackbar.service.ts:26</a></div>
                                     </td>
                                 </tr>
             
                             <tr>
                                 <td class="col-md-4">
+                                        <div class="io-description"><p>Show the snackbar with translated values</p><br/></div>
             
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>messageKey</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>actionKey</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>messageValues</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>duration</b>
+                                                            </div>
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
                                         <div class="io-description">
                                             <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
             
                                         </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -572,12 +645,27 @@
 import {ToastController} from &quot;ionic-angular&quot;;
 import {TranslateService} from &quot;@ngx-translate/core&quot;;
 
+/**
+ * A service that shows a translated snackbar
+ */
 @Injectable()
 export class TranslatedSnackbarService {
 
-  constructor(private toastController: ToastController, private translate: TranslateService) {
-  }
+  /**
+   * Empty constructor
+   * @param toastController
+   * @param translate
+   */
+  constructor(private toastController: ToastController, private translate: TranslateService) { }
 
+  /**
+   * Show the snackbar with translated values
+   * @param messageKey
+   * @param actionKey
+   * @param messageValues
+   * @param duration
+   * @returns {Promise&lt;T&gt;}
+   */
   public showSnackbar(messageKey: string, actionKey: string &#x3D; null, messageValues: any &#x3D; {}, duration: number &#x3D; 3000): Promise&lt;any&gt; {
     return new Promise((resolve, reject) &#x3D;&gt; {
       var toTranslate &#x3D; [messageKey];

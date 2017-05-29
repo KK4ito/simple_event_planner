@@ -557,6 +557,7 @@
                             <code>label</code>
                         </td>
                         <td class="col-md-10">
+                            <div><p>The title of the component</p><br/></div>
                               <p>
                                 <em>Type:</em>    <code>string</code>
 
@@ -565,7 +566,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/components/recipient/recipient.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/components/recipient/recipient.ts:12</a></div>
                             </td>
                         </tr>
                 </tbody>
@@ -577,6 +578,7 @@
                             <code>recipients</code>
                         </td>
                         <td class="col-md-10">
+                            <div><p>An array of email addresses</p><br/></div>
                               <p>
                                 <em>Type:</em>    <code>string[]</code>
 
@@ -585,7 +587,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/components/recipient/recipient.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/components/recipient/recipient.ts:17</a></div>
                             </td>
                         </tr>
                 </tbody>
@@ -604,7 +606,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/components/recipient/recipient.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/components/recipient/recipient.ts:23</a></div>
                             </td>
                         </tr>
     
@@ -633,17 +635,34 @@
     
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/components/recipient/recipient.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/components/recipient/recipient.ts:35</a></div>
                             </td>
                         </tr>
     
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-description"><p>Remove a recipient from the list</p><br/></div>
     
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <ul class="jsdoc-params">
+                                                <li>
+                                                    <div>
+                                                        <b>recipient</b>
+                                                    </div>
+                                                    <div>
+                                                        
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                </div>
                                 <div class="io-description">
                                     <b>Returns : </b>    <code>void</code>
     
                                 </div>
+                                    <div class="io-description">
+                                        
+                                    </div>
                         </td>
                     </tr>
                 </tbody>
@@ -664,12 +683,13 @@
     
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/components/recipient/recipient.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/components/recipient/recipient.ts:45</a></div>
                             </td>
                         </tr>
     
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-description"><p>Add a recipient to the list</p><br/></div>
     
                                 <div class="io-description">
                                     <b>Returns : </b>    <code>void</code>
@@ -701,9 +721,14 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/components/recipient/recipient.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/components/recipient/recipient.ts:23</a></div>
                             </td>
                         </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>The string that the user entered</p><br/></div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
     </section>
@@ -711,7 +736,7 @@
 
 
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre class="line-numbers"><code class="language-typescript">import {Component, Input, Output, EventEmitter} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
 
 @Component({
   selector: &#x27;recipient&#x27;,
@@ -719,25 +744,43 @@
 })
 export class RecipientComponent {
 
+  /**
+   * The title of the component
+   */
   @Input() label: string;
+
+  /**
+   * An array of email addresses
+   */
   @Input() recipients: string[];
 
-  private input &#x3D; &quot;&quot;;
+  /**
+   * The string that the user entered
+   * @type {string}
+   */
+  private input &#x3D; &#x27;&#x27;;
 
   constructor() {
-    if(!this.recipients){
+    if (!this.recipients) {
       this.recipients &#x3D; [];
     }
   }
 
-  removeRecipient(recipient:string){
-    var index &#x3D; this.recipients.indexOf(recipient.trim().toLocaleLowerCase());
+  /**
+   * Remove a recipient from the list
+   * @param recipient
+   */
+  removeRecipient(recipient: string) {
+    let index &#x3D; this.recipients.indexOf(recipient.trim().toLocaleLowerCase());
     if (index &gt; -1) {
       this.recipients.splice(index, 1);
     }
   }
 
-  addRecipient(){
+  /**
+   * Add a recipient to the list
+   */
+  addRecipient() {
     if (this.recipients.indexOf(this.input.trim().toLocaleLowerCase()) &#x3D;&#x3D; -1 &amp;&amp; this.input.trim() !&#x3D; &#x27;&#x27;) {
         this.recipients.push(this.input.trim().toLocaleLowerCase());
         this.input &#x3D; &quot;&quot;;

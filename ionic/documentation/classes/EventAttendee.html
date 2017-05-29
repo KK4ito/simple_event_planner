@@ -533,9 +533,14 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/models/EventAttendee.ts:8</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/models/EventAttendee.ts:27</a></div>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Did the attendee order a drink?</p><br/></div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -553,9 +558,14 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/models/EventAttendee.ts:6</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/models/EventAttendee.ts:17</a></div>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The resource_uri of the event the attendee is attending</p><br/></div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -573,9 +583,14 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/models/EventAttendee.ts:7</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/models/EventAttendee.ts:22</a></div>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>What kind of food did the attendee order?</p><br/></div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -593,9 +608,14 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">src/models/EventAttendee.ts:4</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/models/EventAttendee.ts:7</a></div>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>EventAttendee id</p><br/></div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -613,9 +633,14 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/models/EventAttendee.ts:5</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/models/EventAttendee.ts:12</a></div>
                                     </td>
                                 </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The resource_uri of the user that is attending</p><br/></div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -624,11 +649,30 @@
         <pre class="line-numbers"><code class="language-typescript">import {FoodType} from &quot;./FoodType&quot;;
 
 export class EventAttendee {
-		id: number;
-		user:string;
-		event:string;
-    foodType: FoodType;
-    drink: boolean;
+  /**
+   * EventAttendee id
+   */
+  id: number;
+
+  /**
+   * The resource_uri of the user that is attending
+   */
+  user: string;
+
+  /**
+   * The resource_uri of the event the attendee is attending
+   */
+  event: string;
+
+  /**
+   * What kind of food did the attendee order?
+   */
+  foodType: FoodType;
+
+  /**
+   * Did the attendee order a drink?
+   */
+  drink: boolean;
 }
 </code></pre>
     </div>
