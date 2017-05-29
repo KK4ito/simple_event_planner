@@ -183,7 +183,13 @@ Die Registry hat folgende sehr simple Projektstruktur:
 \\
 \\
 Der Grund für die schlanke Struktur liegt auf der Hand: da sich die Verwendung der Eureka-Library in diesem Projekt grösstenteils auf Annotationen beschränkt besteht die Registry nur aus einer einzigen Klasse, die mittels "EnableEurekaServer" und "SpringBootApplication" annotiert wurde. Die restlichen Microservices verwenden als Klienten die Annotation "EnableDiscoveryClient".
-
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Registry-00}
+\\
+\\
 \subsection{Eventmanagement}
 Dieser Microservice ist der komplexeste der fünf. Die grobe Struktur präsentiert sich wie folgt:
 \\
@@ -192,6 +198,12 @@ Dieser Microservice ist der komplexeste der fünf. Die grobe Struktur präsentie
 \\
 \\
 Die Swagger-Configuration-Klasse übernimmt, wie der Name erahnen lässt, die Konfiguration der Swagger-Dokumentation der REST-Schnittstelle. Die Klasse Eventmanagement-Application dient der Initialisierung des Microservices. Nachfolgend werden alle Ordner kurz präsentiert und deren Inhalt etwas genauer beschrieben.
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Eventmanagement-00}
+\\
 \\
 \subsubsection{Endpoints}
 Im Folder "endpoints" sind alle Interfaces und Klassen enthalten, die entweder mittels RepositoryRestResource (sofern die Klasse auf einer konkreten JPA-Entität basiert) oder RestController (sofern die Klasse zusätzliche Geschäftslogik bereitstellt) annotiert sind. Die Struktur sieht folgendermassen aus:
@@ -209,6 +221,13 @@ Relativ schnell erkennt man die zusätzliche Geschäftslogik, die zusätzlich zu
 \item PrintRepository - bietet Methoden zum Zugriff auf Druckgerecht-aufbereitete Daten
 \end{enumerate}
 Die restlichen Interfaces beinhalten zum einen die vom JPA-Repository zur Verfügung gestellten Methoden für den Datenzugriff. Zusätzlich dazu wurden, je nach Bedarf, weitere Methoden für die Datenmanipulation erstellt.
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Eventmanagement-Endpoints}
+\\
+\\
 \subsubsection{Entities}
 Der Ordner "entities" präsentiert sich wie folgt:
 \\
@@ -217,6 +236,13 @@ Der Ordner "entities" präsentiert sich wie folgt:
 \\
 \\
 Dieser Ordner enthält die tatsächlichen JPA-Entitäten die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das Kapitel über die Datenkbank). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Eventmanagement-Entities}
+\\
+\\
 \subsubsection{Models}
 Der Folder "model" enhält alle weiteren Objekte, die für das Funktionieren der Applikation notwendig sind, aber nicht persistiert werden sollen:
 \\
@@ -232,7 +258,14 @@ Eine kurze nähere Beschreibung der verschiedenen Models:
 \item ResetPasswordAnswerMessage - Daten-Container für den Rückgabewert einer ResetPassword-Anfrage (wird im LoginRepository verwendet)
 \item ResetPasswordWrapper - Container für die Datenübertragung vom Front- zum Backend während einer ResetPasssword-Anfrage
 \item SecurePath - Container der intern verwendet wird, um abgesicherte Pfade zu speichern (wird nur vom CustomizablePathMatcher verwendet)
-\end{enumerate}
+\end{enumerate} \leavevmode
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Eventmanagement-Models}
+\\
+\\
 \subsubsection{Security}
 Der Ordner "security" schlussendlich hat folgenden Inhalt:
 \\
@@ -251,6 +284,13 @@ Eine kurze nähere Erläuterung der verschiedenen Klassen:
 \item CustomPermissionEvaluator - bestimmt, ob die korrekten Permissions vorhanden sind, um bestimmte Aktionen auszuführen. Der CustomPermissionEvaluator wird auf den Interfaces im Ordner "Endpoints" aufgerufen, wenn geprüft werden soll, ob ein User die korrekten Permissions hat, um die mit "hasPermission(…)" annotierte Methode auszuführen.
 \item CorsFilter - liefert die Funktionalität, um Cors korrekt zu verarbeiten. Wird im vorliegenden Projekt nicht verwendet, da alle Microservices intern gestartet werden bzw. hinter ein und demselben Endpoint (cs.fhnw.technik.ch). Cors stellt somit kein Problem dar. Kann bei Bedarf eingeschaltet werden.
 \end{itemize}
+\leavevmode \\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Eventmanagement-Security}
+\\
+\\
 \subsection{Frontend}
 Der Folder Frontent hält einen relativ bescheidenen Inhalt:
 \\
@@ -259,6 +299,13 @@ Der Folder Frontent hält einen relativ bescheidenen Inhalt:
 \\
 \\
 Die Klasse FrontendApplication dient dazu, den Microservice zu starten, die Klasse StaticRessourceConfiguration dazu, statische Ressourcen (also die HTML-, Javascript- und CSS-Dateien) auszuliefern.
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Frontend-00}
+\\
+\\
 \subsection{Mailer}
 Der Mailer-Microservice ist ebenfalls relativ klein:
 \\
@@ -273,6 +320,13 @@ Eine kurze Erläuterung dazu:
 \item Mailer - enthält den zentralen Endpoint für den Mailer (/api/send) an den ein Objekt vom Typ Mail geschickt wird. Das Mail enthält den Text mit eventuellen Platzhaltern und je einem keys- und values-Array mit den Werten, mit denen die Platzhalter ersetzt werden sollen. Der Mailer ersetzt die Platzhalter eigenständig und verschickt das Mail an die im Mail-Container gelieferten Adressen. Er ist somit ein relativ "simpler" Service, der die übergebenen Infos nimmt und mehr oder weniger einfach weiterschickt.
 \item MailerApplication - dient dazu, den Microservice zu starten
 \end{itemize}
+\leavevmode \\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Mailer-00}
+\\
+\\
 \subsection{Scheduler}
 Der Scheduler-Microservice besteht aus zwei Klassen und einem Unterordner "domain":
 \\
@@ -281,6 +335,12 @@ Der Scheduler-Microservice besteht aus zwei Klassen und einem Unterordner "domai
 \\
 \\
 Die SchedulerApplication dient dem Start des Service. Die Klasse "Scheduler" selbst enthält die Logik der Tasks, die in regelmässigen Abständen auszuführen sind.
+\\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Scheduler-00}
+\\
 \\
 Eine kurze Erläuterung des Unterordners "domain":
 \begin{itemize}
@@ -292,6 +352,13 @@ Eine kurze Erläuterung des Unterordners "domain":
 \item Mail - Container für den Datenaustausch mit dem Mailer-Microservice.
 \item User - Nimmt dieselbe Funktion ein wie ein Event, ein EventAttendee oder ein File (siehe oben).
 \end{itemize}
+\leavevmode \\
+Das Klassendiagramm präsentiert sich wie folgt:
+\\
+\\
+\includegraphics[width=1.0\textwidth]{class-diagrams/Scheduler-domain}
+\\
+\\
 \newpage
 \section{Projektaufbau - Frontend}
 
@@ -330,11 +397,11 @@ Im Laufe unseres Projekts wurden wir mit einigen Problemen konfrontiert, die ins
 
 \begin{enumerate}
 \item Microservices\\
-Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für das Projekt zu bieten. Initial planten wir separate Services für User, Events, Mailer, Scheduler und Frontend zu erstellen. Diese Idee scheiterte aber an der engen Abhängigkeit von User und Events, so wurden diese zwei Entitäten in einem Microservice kombiniert, der schlussendlich im Service "Microservice" resultierte.
+Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für das Projekt zu bieten. Initial planten wir separate Services für User, Events, Mailer, Scheduler und Frontend zu erstellen. Diese Idee scheiterte aber an der engen Abhängigkeit von User und Events, so wurden diese zwei Entitäten schlussendlich in einem Microservice kombiniert, der zum Schluss im Service "Eventmanagement" resultierte.
 \\
-Je länger das Projekt dauerte, desto mehr wurden die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind.
+Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus. Als vorteilhaft sehen wir, dass beispielsweise vom Mailer, da er komplett "stateless" ist, beliebig viele Instanzen hochgefahren und genutzt werden können. Vorstellbar wäre z.B. dass ein Mailer-Loadbalancer erstellt wird und nach Bedarf zusätzliche Mailer-Instanzen hochfährt.
 \\
-
+Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
 \item Pac4J\\
 \item Angular\\
 Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
@@ -343,7 +410,24 @@ Angular Material2 noch nicht ready, Ionic mehrheitlich ohne Probleme
 
 \newpage
 \begin{appendices}
+\section{Verantwortungen}
+\begin{itemize}
+\item Set-up Microservice-Architektur: Lukas Schönbächler
+\item Frontend: Andreas Gassmann, Lukas Schönbächler
+\item Custom CSS-Code Frontend: Andreas Gassmann, Lukas Schönbächler, Jonas Frehner
+\item Definition JPA-Entitäten: Andreas Gassmann, Lukas Schönbächler
+\item Eventmanagement Security: Andreas Gassmann, Lukas Schönbächler, Jonas Frehner
+\item Eventmanagement AAIRepository: Lukas Schönbächler
+\item Eventmanagement FileRepository:
+\item Eventmanagement LoginRepository: Lukas Schönbächler, Jonas Frehner
+\item Eventmanagement MailerRepository: Jonas Frehner
+\item Eventmanagement PrintRepository: Lukas Schönbächler
+\item Mailer: Lukas Schönbächler, Jonas Frehner
+\item Scheduler: Lukas Schönbächler, Jonas Frehner
+\item Set-up auf dem Server (nginx): Andreas Gassmann, Lukas Schönbächler
+\end{itemize}
 
+\section{Links}
 \textbf{Swagger Schnittstellendokumentation}\\
 \url{https://htmlpreview.github.io/?https://raw.githubusercontent.com/lukeisontheroad/simple_event_planner/master/docs/doc.html}\\
 
