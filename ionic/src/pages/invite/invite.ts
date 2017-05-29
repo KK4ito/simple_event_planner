@@ -41,7 +41,14 @@ export class InvitePage {
         theme: 'modern',
         plugins: 'placeholder image table link paste contextmenu textpattern autolink',
         placeholder_tokens: [
-          { token: "foo", title: "Foo example"}
+          { token: "eventDateDay", title: "eventDateDay" },
+          { token: "eventDate", title: "eventDate" },
+          { token: "eventTime", title: "eventTime" },
+          { token: "name", title: "eventName" },
+          { token: "eventRoom", title: "eventRoom" },
+          { token: "eventDeadline", title: "eventDeadline" },
+          { token: "eventLink", title: "eventLink" },
+          { token: "koordinator", title: "koordinator" }
         ],
         insert_toolbar: 'placeholder quickimage quicktable',
         selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
