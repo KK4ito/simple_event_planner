@@ -4,6 +4,7 @@ import {AuthService} from "../../providers/auth.service";
 import {ApiService} from "../../providers/api.service";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 import {ProfilePage} from "../profile/profile";
+import {PasswordServiceProvider} from "../../providers/password.service";
 
 @Component({
   selector: 'page-password-reset',
@@ -16,16 +17,20 @@ export class PasswordResetPage {
   private password: string;
   private passwordConfirm: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public apiService: ApiService, private translatedSnackbarService: TranslatedSnackbarService, private _passwordServiceProvider: PasswordServiceProvider) {
     this.passwordResetToken = this.navParams.get('resetToken');
   }
 
   resetPassword() {
     if (this.passwordConfirm === this.password) {
-      this.authService.resetPassword(this.passwordResetToken, this.password).then(res => {
-        this.translatedSnackbarService.showSnackbar('PASSWORD_UPDATED');
-        this.navCtrl.setRoot(ProfilePage);
-      }).catch(err => console.log(err));
+      if (this._passwordServiceProvider.validatePassword(this.passwordConfirm)) {
+        this.authService.resetPassword(this.passwordResetToken, this.password).then(res => {
+          this.translatedSnackbarService.showSnackbar('PASSWORD_UPDATED');
+          this.navCtrl.setRoot(ProfilePage);
+        }).catch(err => console.log(err));
+      } else {
+        this.translatedSnackbarService.showSnackbar('PASSWORD_NOT_SECURE');
+      }
     } else {
       this.translatedSnackbarService.showSnackbar('PASSWORD_MISMATCH');
     }

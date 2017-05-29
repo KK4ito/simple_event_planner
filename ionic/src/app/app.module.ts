@@ -37,6 +37,7 @@ import { RecipientComponent } from '../components/recipient/recipient';
 import { CookieModule } from 'ngx-cookie';
 import {TranslatedSnackbarService} from "../providers/translated-snackbar.service";
 import {PasswordResetPage} from "../pages/password-reset/password-reset";
+import { PasswordServiceProvider } from '../providers/password.service';
 
 declare var tinymce: any;
 
@@ -117,7 +118,8 @@ export const deepLinkConfig: any = {
     AuthService,
     ApiService,
     TranslatedSnackbarService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PasswordServiceProvider
     ]
 })
 export class AppModule {}

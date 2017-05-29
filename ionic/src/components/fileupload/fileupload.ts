@@ -28,7 +28,7 @@ export class FileuploadComponent {
   ngOnInit() {
     this.options = new NgUploaderOptions({
       url: environment.baseUrl + '/api/files',
-      maxSize: 2097152,
+      maxSize: 20000000, // 20 MB
       customHeaders: {
         'Accept': 'application/json',
         'X-XSRF-TOKEN': this._cookieService.get('XSRF-TOKEN')

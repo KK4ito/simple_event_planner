@@ -71,5 +71,7 @@
   "ADMINISTRATOR_ADD": "Add administrator",
   "NO_UPCOMING_EVENTS": "No upcoming events",
   "NO_PAST_EVENTS": "No past events",
-  "DRAG_AND_DROP_OR": "Drag & Drop or"
+  "DRAG_AND_DROP_OR": "Drag & Drop or",
+  "PASSWORD_RULES": "The password has to be at least 8 characters long and contain upper and lowercase letters, as well as a number.",
+  "PASSWORD_NOT_SECURE": "This password is not secure enough!"
 }
