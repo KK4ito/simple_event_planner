@@ -48,6 +48,7 @@ public class Event {
      * The description of an event.
      */
     @NotNull
+    @Size(max = 65535)
     private String description;
 
     /**
@@ -60,16 +61,19 @@ public class Event {
     /**
      * The time the event starts.
      */
+    @NotNull
     private Date startTime;
 
     /**
      * The time the registration for the event closes.
      */
+    @NotNull
     private Date closingTime;
 
     /**
      * The time the event finishes.
      */
+    @NotNull
     private Date endTime;
 
     /**

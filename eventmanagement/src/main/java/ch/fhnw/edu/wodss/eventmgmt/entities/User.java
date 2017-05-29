@@ -41,6 +41,7 @@ public class User {
      * The email-address of the user.
      */
     @NotNull
+    @Size(max = 4096)
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
