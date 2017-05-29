@@ -175,7 +175,18 @@ Nach dem initialen Login mithilfe des Basic Auths, können die Anfragen mit dem 
 Um die Sicherheit zu erhöhen, setzen wir auf CSRF. Bei jeder Anfrage muss ein CSRF Token mitgesendet werden und er Client erhält ein Token für die nächste Anfrage. In unserem Projekt konnten wir alle Endpoints mithilfe von CSRF schützen.
 
 \subsection{CORS}
+Um die Microservices zugänglich machen zu können, können bestimmte Domains erlaubt werden. Dies ist vorbereite, wird in unserem Fall jedoch nicht verwendet.
 
+\subsection{Headers}
+
+Folgende Security Header wurden gesetzt:
+
+\begin{enumerate}
+\item X_CONTENT_TYPE_OPTIONS_HEADER (nosniff): Verhindert MIME-type sniffing des Browsers
+\item STRICT_TRANSPORT_SECURITY_HEADER: Stellt sicher, dass alle Benutzer per https verbunden sind (ansonsten schlagen die Anfragen fehl)
+\item X_FRAME_OPTIONS_HEADER: Verhindert Iframes
+\item XSS_PROTECTION_HEADER: Meldet wenn eine Seite potentiell von XSS betroffen ist
+\end{enumerate}
 
 \newpage
 \subsection{Datenbank}
@@ -378,8 +389,14 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \\
 \\
 \includegraphics[width=1.0\textwidth]{class-diagrams/Scheduler-00}
-\\
-\\
+
+Der Scheduler Service führt in regelmässigen Zeitabständen vorkonfigurierte Methoden aus. Momentan sind das folgende zwei Aktionen:
+
+\begin{itemize}
+\item sendMailsWhenClosingDateInPast: Versendet die Notwendigen Reminder/Reservations Mails wenn die Anmeldefrist eines Events verstrichen ist
+\item deleteUnusedFiles: Löscht heraufgeladene Dateien, welche keinem Objekt (Benutzerprofilbild, Eventbild oder Anhang) zugeordnet sind.
+\end{itemize}
+
 Eine kurze Erläuterung des Unterordners "domain":
 \begin{itemize}
 \item AnswerWrapper - DatenContainer, der bei einem Post auf den Mail-Microservice zurückgeliefert wird. Wird verwendet, um die Antwort auszulesen.
