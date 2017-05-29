@@ -11,7 +11,7 @@
     (onFinished)="pictureChanged($event[0])"></picture-upload>
 
   <div padding>
-    <form [formGroup]="eventForm" (submit)="saveForm()" novalidate>
+    <form [formGroup]="eventForm" (submit)="save()" novalidate>
 
     <h1 *ngIf="!editMode">{{ event.name }}</h1>
     <ion-item *ngIf="editMode">

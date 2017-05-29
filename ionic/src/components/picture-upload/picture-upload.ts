@@ -3,12 +3,6 @@ import {SafeStyle, DomSanitizer} from "@angular/platform-browser";
 import {environment} from '../../../environments/environment';
 import {File} from "../../models/File";
 
-/*
-  Generated class for the PictureUpload component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
-*/
 @Component({
   selector: 'picture-upload',
   templateUrl: 'picture-upload.html'

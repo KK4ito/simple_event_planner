@@ -68,5 +68,6 @@
   "ADMINISTRATORS": "Administratoren",
   "ADMINISTRATOR_ADD": "Administrator hinzufügen",
   "NO_UPCOMING_EVENTS": "Keine bevorstehenden Veranstaltungen",
-  "NO_PAST_EVENTS": "Keine vergangenen Veranstaltungen"
+  "NO_PAST_EVENTS": "Keine vergangenen Veranstaltungen",
+  "DRAG_AND_DROP_OR": "Ziehe deine Daten hierher oder"
 }

@@ -58,11 +58,11 @@
 
   <br />{{'INTERNAL' | translate}} ({{ internalAttendees.length }})<br />
   <table *ngIf="internalAttendees.length > 0" width="100%">
-    <thead style="border-bottom: solid 1px black"><td width="50%"><b>Name</b></td><td width="25%"><b>Drink</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
+    <thead style="border-bottom: solid 1px black"><td width="50%"><b>{{'NAME' | translate}}</b></td><td width="25%"><b>{{'DRINK' | translate}}</b></td><td width="25%"><b>{{'SANDWICH' | translate}}</b></td></thead>
     <tr *ngFor="let a of internalAttendees">
       <td>{{a.firstName}} {{a.lastName}}</td>
       <td>{{a.drink ? ('YES' | translate) : ''}}</td>
-      <td>{{a.foodType}}</td>
+      <td>{{a.foodType | translate}}</td>
     </tr>
   </table>
 </ion-content>

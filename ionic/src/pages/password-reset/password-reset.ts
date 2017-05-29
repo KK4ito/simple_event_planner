@@ -5,13 +5,6 @@ import {ApiService} from "../../providers/api.service";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 import {ProfilePage} from "../profile/profile";
 
-/**
- * Generated class for the PasswordResetPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @Component({
   selector: 'page-password-reset',
   templateUrl: 'password-reset.html',

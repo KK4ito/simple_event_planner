@@ -68,5 +68,6 @@
   "ADMINISTRATORS": "Administrators",
   "ADMINISTRATOR_ADD": "Add administrator",
   "NO_UPCOMING_EVENTS": "No upcoming events",
-  "NO_PAST_EVENTS": "No past events"
+  "NO_PAST_EVENTS": "No past events",
+  "DRAG_AND_DROP_OR": "Drag & Drop or"
 }

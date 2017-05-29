@@ -8,6 +8,7 @@ import {HomePage} from "../home/home";
 import {TranslatedSnackbarService} from "../../providers/translated-snackbar.service";
 import {File} from "../../models/File";
 import {PasswordResetPage} from "../password-reset/password-reset";
+import {environment} from '../../environments/environment';
 
 declare var window:any;
 
@@ -75,7 +76,7 @@ export class ProfilePage {
   }
 
   loginWithSibboleth() {
-    window.location.href = 'https://www.cs.technik.fhnw.ch/wodss17-5-aai/#/profile';
+    window.location.href = environment.baseUrlAAI + '#/profile';
   }
 
   requestPasswordReset() {

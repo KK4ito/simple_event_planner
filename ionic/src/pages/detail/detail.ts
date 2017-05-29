@@ -52,7 +52,7 @@ export class DetailPage {
   constructor(private _apiService: ApiService, private modalCtrl: ModalController, public navParams: NavParams, private translatedSnackbarService: TranslatedSnackbarService, private navCtrl: NavController, private alertCtrl: AlertController, private sanitizer: DomSanitizer, private changeDetectorRef: ChangeDetectorRef, public authService: AuthService, public formBuilder: FormBuilder) {
     this.eventForm = formBuilder.group({
       name: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(1024)])],
-      description: ['', Validators.compose([Validators.required])],
+      description: ['', Validators.compose([Validators.required, Validators.maxLength(65535)])],
       location: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(1024)])],
       startTime: ['', Validators.compose([Validators.required])],
       closingTime: ['', Validators.compose([Validators.required])],
@@ -109,16 +109,13 @@ export class DetailPage {
     let invalid = false;
 
     if (group.controls['startTime'].value < group.controls['closingTime'].value) {
-      console.log('start is smaller than closing');
       invalid = true;
     }
 
     if (group.controls['startTime'].value >= group.controls['endTime'].value) {
-      console.log('start is bigger or equal to end');
       invalid = true;
     }
 
-    console.log(invalid);
     if (invalid) {
       group.controls['startTime'].setErrors({isValidDate: false});
     } else {
@@ -127,10 +124,6 @@ export class DetailPage {
     }
 
     return null;
-  }
-
-  saveForm() {
-    console.log(this.eventForm.value);
   }
 
   download(url: string) {

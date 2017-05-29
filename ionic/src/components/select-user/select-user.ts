@@ -5,12 +5,6 @@ import {ApiService} from "../../providers/api.service";
 import {User} from "../../models/User";
 import {environment} from "../../../environments/environment";
 
-/*
-  Generated class for the SelectUser component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
-*/
 @Component({
   selector: 'select-user',
   templateUrl: 'select-user.html'

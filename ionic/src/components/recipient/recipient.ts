@@ -1,11 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
-/**
- * Generated class for the RecipientComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'recipient',
   templateUrl: 'recipient.html'
