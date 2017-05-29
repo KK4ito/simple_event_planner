@@ -1,3 +1,12 @@
 page-profile {
 
+  .border__bottom.input-has-focus > .item-inner > .input-wrapper {
+    border-bottom: none;
+    border-bottom-color: #fde70e;
+  }
+
+  .border__bottom > .item-inner > .input-wrapper  {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
 }
