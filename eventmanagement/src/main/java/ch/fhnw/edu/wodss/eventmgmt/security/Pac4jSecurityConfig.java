@@ -42,6 +42,9 @@ public class Pac4jSecurityConfig {
         config.addMatcher("events", new CustomizablePathMatcher(new SecurePath[]{
                 new SecurePath("/api/login/", true, true, true, true, false, true),
                 new SecurePath("/api/users/search/role", true),
+                new SecurePath("/api/closeEvent", true),
+                new SecurePath("/api/template", true),
+                new SecurePath("/api/mail", true),
                 new SecurePath("/api/events/search/closingEvents", true),
                 new SecurePath("/api/users/search/attendees", false),
                 new SecurePath("/api/eventAttendees/", false, true, true, true, true, true),

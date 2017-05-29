@@ -77,9 +77,9 @@ public class Event {
     private Date endTime;
 
     /**
-     * Indicates whether or not the mails were sent after the registration-deadline
+     * Indicator wether mail was send or not
      */
-    private boolean closingMailSend = false;
+    private boolean closingMailSend;
 
     /**
      * The image for the event.
@@ -227,7 +227,15 @@ public class Event {
         this.location = location;
     }
 
+    /**
+     * Indicates whether or not the mails were sent after the registration-deadline
+     */
     public boolean isClosingMailSend() {
         return closingMailSend;
+    }
+
+
+    public void setClosingMailSend(boolean closingMailSend) {
+        this.closingMailSend = closingMailSend;
     }
 }

@@ -60,7 +60,9 @@ public class SpringSecurityConfig extends GlobalMethodSecurityConfiguration {
 
             //Enable csrf and set a tokenrepository
             http
-                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    // Ignore CSRF for delete files (all other methods are not exported)
+                    .ignoringAntMatchers("/api/files/*").and()
                     //Enable option-requests without permissions or authorizations
                     .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and()
                     .antMatcher("/**")

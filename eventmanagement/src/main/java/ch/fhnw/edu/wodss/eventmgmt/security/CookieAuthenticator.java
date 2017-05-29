@@ -26,11 +26,13 @@ public class CookieAuthenticator implements Authenticator<TokenCredentials> {
     public void validate(final TokenCredentials credentials, final WebContext context) throws HttpAction {
         //Get the profile from the context.
         CommonProfile commonProfile = (CommonProfile) context.getSessionAttribute("profile");
-        log.info("Validating profile " + commonProfile.toString());
 
         //If we found none, construct one
         if(commonProfile == null){
             commonProfile = new CommonProfile();
+            log.warn("Profile is null");
+        }else{
+            log.info("Validating profile " + commonProfile.toString());
         }
 
         //Handler for the logout and reset-password-request.

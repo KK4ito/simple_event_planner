@@ -211,21 +211,15 @@ public class Scheduler {
 
                 //A patch-request updates all the attributes it is given. Since we only want to update the closingMailSend-flag
                 //we create a wrapper (that is in this class as a private class) and pass this in the patch-request
-//                EventWrapper ew = new EventWrapper();
-//                ew.Id = event.id;
-
-//                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
                 HttpEntity<Long> eventHttpEntity = new HttpEntity<Long>(event.id, getAuthHeaders());
 
                 //Update the event to denote that the mails were sent
                 restTemplate.exchange(
-                        eventmanagementUrl + "events/" + event.id,
+                        eventmanagementUrl + "closeEvent?eventId=" + event.id,
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<PagedResources<EventWrapper>>() {
                         }
-//                        eventHttpEntity,
-//                        EventWrapper.class
                 );
                 log.info("Event successful updated: " + event.id);
             } catch (RestClientException e) {
@@ -257,24 +251,35 @@ public class Scheduler {
     /**
      * Deletes all files from the db that are not linke to an event.
      */
-    //@Scheduled(fixedDelay = 5000)
-    //@Scheduled(cron="*/5 * * * * MON-FRI")
+    //@Scheduled(fixedDelay = 60000)
+    @Scheduled(cron="*/5 * * * * MON-FRI")
     public void deleteUnusedFiles() {
-        ResponseEntity<PagedResources<File>> responseEntity =
-                template
-                        .exchange(
-                                SchedulerApplication.BASE_URL_EVENTMANAGEMENT + "api/files/search/unusedFiles/",
-                                HttpMethod.GET,
-                                HttpEntity.EMPTY,
-                                new ParameterizedTypeReference<PagedResources<File>>() {
-                                }
-                        );
 
-        for (File file : responseEntity.getBody().getContent()) {
+        String eventmanagementUrl = "http://" + eventmanagement + "/api/";
+
+        //Set correct authentication-headers
+        HttpEntity<?> closingEventEntity = new HttpEntity(getAuthHeaders());
+
+        log.debug("Checking for closing events");
+        //Get all events whose closing-date lies in the past
+        ResponseEntity<PagedResources<File>> eventResponseEntity = restTemplate.exchange(
+                eventmanagementUrl + "files/search/unusedFiles/",
+                HttpMethod.GET,
+                closingEventEntity,
+                new ParameterizedTypeReference<PagedResources<File>>() {
+                }
+        );
+
+        Collection<File> files = eventResponseEntity.getBody().getContent();
+
+        for (File file : files) {
             try {
-                template.delete(SchedulerApplication.BASE_URL_EVENTMANAGEMENT + "api/files/" + file.getId());
+                restTemplate.exchange(eventmanagementUrl + "files/search/unusedFiles/",
+                        HttpMethod.DELETE, closingEventEntity, new ParameterizedTypeReference<Void>() {
+                        });
                 log.info("Deleted successful: " + file.getId() + " / " + file.getName());
             } catch (RestClientException e) {
+                e.printStackTrace();
                 log.error("Delete failed:" + file.getId() + " / " + file.getName() + " / " + e.getLocalizedMessage());
             }
         }

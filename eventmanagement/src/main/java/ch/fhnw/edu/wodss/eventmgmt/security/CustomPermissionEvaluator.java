@@ -24,10 +24,18 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
 
-        CommonProfile profile = ((CommonProfile) authentication.getPrincipal());
-        String email = "";
-        if(profile != null && profile.getUsername() != null) {
-            email = profile.getUsername().trim();
+        String email;
+
+
+        if(authentication.getPrincipal() instanceof String){
+            email = (String) authentication.getPrincipal();
+        }else{
+            CommonProfile profile = ((CommonProfile) authentication.getPrincipal());
+            if(profile != null && profile.getUsername() != null) {
+                email = profile.getUsername().trim();
+            }else{
+                return false;
+            }
         }
 
         //Various permission checks

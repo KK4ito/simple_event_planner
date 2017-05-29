@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public interface CustomFileRepository extends JpaRepository<File, Long> {
      */
     // Prevents DELETE /files/:id
     @Override
-    @RestResource(exported = false)
+    @PreAuthorize("hasAuthority('SERVICE')")
     public void delete(File f);
 
     /**
