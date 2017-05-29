@@ -49,6 +49,8 @@
   "CONFIRM_USER_DELETE": "Bist du sicher, dass du den User löschen möchtest?",
   "CANCLE": "Abbrechen",
   "DELETE": "Löschen",
+  "DELETE_FILE": "Datei löschen",
+  "DELETE_FILE_CONFIRM": "Möchtest du die Datei '{{filename}}' löschen?",
   "RECEIVE_EMAIL": "Erinnerung Emails",
   "LOGOUT": "Logout",
   "PASSWORD": "Passwort",
