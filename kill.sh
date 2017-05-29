@@ -8,4 +8,5 @@ do
   echo "$PPROCESS killed successfully"
 done
 
-rm ~/test.db.*
+# Reset database
+#rm ~/eventmanagement.db.*
