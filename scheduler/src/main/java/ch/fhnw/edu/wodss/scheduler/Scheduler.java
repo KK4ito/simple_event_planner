@@ -466,7 +466,6 @@ public class Scheduler {
         int numOfDrinksPlus1 = 0;
         //Count the attendees and add to the vegi-/meat-sandwiches and drinks
         for(EventAttendee ea: eventAttendees) {
-            System.out.println(ea.foodType);
             if(ea.foodType == EventAttendee.FoodType.VEGI) {
                 numOfVegiSandwichPlus1++;
             } else if(ea.foodType == EventAttendee.FoodType.NORMAL) {

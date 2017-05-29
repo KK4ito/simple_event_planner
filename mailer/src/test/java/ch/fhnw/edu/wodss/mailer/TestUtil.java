@@ -1,3 +1,4 @@
+/*
 package ch.fhnw.edu.wodss.mailer;
 
 
@@ -15,3 +16,4 @@ public class TestUtil {
     }
 
 }
+*/
