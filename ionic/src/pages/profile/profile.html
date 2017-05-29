@@ -51,7 +51,7 @@
 
       <ion-item>
         <h2>{{ 'EMAIL' | translate }}</h2>
-        <h3>{{user.email}}</h3>
+        <h3>{{user.email | lowercase}}</h3>
       </ion-item>
 
       <ion-item *ngIf="!user.internal">

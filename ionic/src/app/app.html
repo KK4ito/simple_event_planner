@@ -6,7 +6,7 @@
 
       <ion-avatar *ngIf="user" (click)="openProfilePage()">
         <img src="{{user.imageUri | imageUri}}">
-        <p>{{user.email}}</p>
+        <p>{{user.email | lowercase}}</p>
       </ion-avatar>
 
       <ion-list no-lines>

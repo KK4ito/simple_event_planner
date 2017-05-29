@@ -25,7 +25,7 @@
       <img src="{{ user.imageUri | imageUri }}">
     </ion-avatar>
     <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-    <h3>{{ user.email }}</h3>
+    <h3>{{ user.email | lowercase}}</h3>
     <ion-icon *ngIf="user.email != email" (click)="removeRole($event, user)" name="close-circle" item-right></ion-icon>
   </ion-item>
 

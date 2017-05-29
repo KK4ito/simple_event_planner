@@ -98,7 +98,7 @@
           <img src="{{ speaker.imageUri | imageUri }}">
         </ion-avatar>
         <h2>{{ speaker.firstName }} {{ speaker.lastName }}</h2>
-        <h3>{{ speaker.email }}</h3>
+        <h3>{{ speaker.email | lowercase }}</h3>
         <ion-icon *ngIf="editMode" (click)="deleteSpeaker($event, speaker)"
           name="close-circle" item-right></ion-icon>
       </ion-item>
