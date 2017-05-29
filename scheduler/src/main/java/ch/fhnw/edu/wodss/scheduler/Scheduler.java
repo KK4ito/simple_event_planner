@@ -201,9 +201,9 @@ public class Scheduler {
                 Collection<User> speakers = speakerResponseEntity.getBody().getContent();
 
                 //Send a mail to the referenten, the raumkoordination and the sv-group
-//                sendReferentMail(event, eventAttendees, speakers);
-//                sendRaumkoordinationMail(event, eventAttendees, speakers);
-//                sendSvGroupMail(event, eventAttendees, speakers);
+                sendReferentMail(event, eventAttendees, speakers);
+                sendRaumkoordinationMail(event, eventAttendees, speakers);
+                sendSvGroupMail(event, eventAttendees, speakers);
 
                 //Set a request-factory for the restTemplate
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
@@ -211,19 +211,25 @@ public class Scheduler {
 
                 //A patch-request updates all the attributes it is given. Since we only want to update the closingMailSend-flag
                 //we create a wrapper (that is in this class as a private class) and pass this in the patch-request
-                EventWrapper ew = new EventWrapper();
-                ew.closingMailSend = true;
+//                EventWrapper ew = new EventWrapper();
+//                ew.Id = event.id;
 
-                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
+//                HttpEntity<EventWrapper> eventHttpEntity = new HttpEntity<EventWrapper>(ew, getAuthHeaders());
+                HttpEntity<Long> eventHttpEntity = new HttpEntity<Long>(event.id, getAuthHeaders());
 
                 //Update the event to denote that the mails were sent
                 restTemplate.exchange(
                         eventmanagementUrl + "events/" + event.id,
-                        HttpMethod.PATCH,
-                        eventHttpEntity,
-                        EventWrapper.class);
+                        HttpMethod.GET,
+                        HttpEntity.EMPTY,
+                        new ParameterizedTypeReference<PagedResources<EventWrapper>>() {
+                        }
+//                        eventHttpEntity,
+//                        EventWrapper.class
+                );
                 log.info("Event successful updated: " + event.id);
             } catch (RestClientException e) {
+                e.printStackTrace();
                 log.info("Event update failed: " + event.id + " / " + e.getLocalizedMessage());
             }
         }

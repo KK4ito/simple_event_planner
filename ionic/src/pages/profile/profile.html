@@ -20,12 +20,12 @@
       </ion-card-title>
 
       <form (ngSubmit)="login()">
-        <ion-item class="border__bottom">
+        <ion-item>
           <h2>{{ 'EMAIL' | translate }}</h2>
           <ion-input item-right placeholder="{{ 'EMAIL' | translate }}" [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
-        <ion-item class="border__bottom">
+        <ion-item>
           <h2>{{ 'PROFILE.PASSWORD' | translate }}</h2>
           <ion-input item-right placeholder="{{ 'PASSWORD' | translate }}" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
