@@ -78,7 +78,7 @@
 
 \begin{abstract}
 Das vorliegende Projekt wurde im Rahmen des Moduls "wodss" der FHNW realisiert. Es wurde eine Plattform entwickelt, mit deren Hilfe auf einfache Art und Weise CS-Seminare und Anmeldungen zu den entsprechenden Anlässen verwaltet werden können.
-Die Lösung wurde mit Hilfe von Angular2 und Ionic im Frontend und SpringBoot im Backend realisiert. Architektonisch basiert das Projekt auf der Serverseite auf so genannten Microservices.
+Die Lösung wurde mit Hilfe von Angular 4 und Ionic 3 im Frontend sowie SpringBoot, SpringSecurity und Pac4J im Backend realisiert. Architektonisch basiert das Projekt auf der Serverseite auf so genannten Microservices.
 \end{abstract}
 
 \newpage
@@ -101,23 +101,23 @@ Die Lösung wurde mit Hilfe von Angular2 und Ionic im Frontend und SpringBoot im
 
 \newpage
 \section{Architektur - Backend}
-Wie bereits in der Einleitung erwähnt, implementierten wir dieses Projekt als Microservices. Wir verwenden dazu "Eureka", eine von Netflix entwickelte Library (siehe auch: https://github.com/netflix/eureka). Die Applikation lässt sich in fünf Microservices unterteilen, welche im nachfolgenden Abschnitt genauer beschrieben werden. Die Microservices kommunizieren per REST untereinander.
+Wie bereits in der Einleitung erwähnt, implementierten wir dieses Projekt als Microservices. Wir verwenden dazu "Eureka", eine von Netflix entwickelte Library (siehe auch: https://github.com/netflix/eureka). Die Applikation lässt sich in fünf Microservices unterteilen, welche im nachfolgenden Abschnitt genauer beschrieben werden. Die Microservices kommunizieren ausschliesslich per REST untereinander.
 
 \subsection{Schichtenarchitektur}
 \subsubsection{Webschicht}
-Die Webschicht wird automatisch durch den RepositoryRestResource bereitgestellt. Das heisst, die betreffenden RepositoryRestResourcen stellen automatisch die so annotierten JPA-Entitäten via REST-Schnittstelle bereit.
+Die Webschicht wird automatisch durch die einzelnen RepositoryRestResourcen bereitgestellt. Das heisst, die betreffenden RepositoryRestResourcen stellen automatisch die so annotierten JPA-Entitäten via REST-Schnittstelle bereit.
 
 \subsubsection{Businesschicht}
-Da das vorliegende Projekt eine relativ einfache Business-Schicht aufweist (vielfach handelt es sich um einfache GET/POST/PUT/DELETE auf bestehenden Entitäten), wird diese ebenfalls von den RepositoryRestResourcen wahrgenommen.
+Da das vorliegende Projekt eine relativ einfache Business-Schicht aufweist (vielfach handelt es sich um einfache GET/POST/PUT/DELETE auf bestehenden Entitäten), wird diese meist ebenfalls von den RepositoryRestResourcen wahrgenommen.
 Wo eine etwas ausgefeilterte Logik notwendig war (z.B. beim Login oder bei der Passwort-Zurücksetzen-Funktionalität) wurden eigene RestController erstellt (wie beispielsweise das LoginRepository).
 
 \subsubsection{Datenbankschicht}
-Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine genauere Diskussion zum Aufbau der Persistenzschicht siehe unterkapitel Datenbank.
+Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine Übersicht über das DB-Schema siehe das Unterkapitel Datenbank.
 
 \subsection{Microservices}
 \subsubsection{Registry}
 Die Registry stellt das "Bindeglied" zwischen den verschiedenen Microservices dar. Die Microservices verbinden sich auf die Registry um dort die URLs der anderen Microservices zu bekommen. Dadurch wird es möglich die Applikation auf mehreren Servern verteilt laufen zu lassen. Im Falle einer bestehenden Eureka Installation/Architektur muss dieser Microservice nicht nochmals zusätzlich gestartet werden (bestehende Registry kann verwendet werden).
-Durch die Verwendung des "Loadbalanced" RestTemplates lösen Microservices die logischen Namen anderer Microservices selbstständig mit Rückgriff auf die Registry zu korrekten IP-Adressen auf.
+Durch die Verwendung des "Loadbalanced" RestTemplates lösen alle Microservices die logischen Namen anderer Microservices selbstständig mit Rückgriff auf die Registry zu korrekten IP-Adressen auf.
 
 \subsubsection{Eventmanagement}
 Der Microservice Eventmanagement ist der zentrale Service unserer Applikation. Er beinhaltet die Persistenzschicht mit allen Entitäten, sowie die Businesslogik der Anwendung. Zudem werden alle Zugriffe auf die Daten und die Logik via diesem Service getätigt. Hierfür werden die CRUD Operationen über eine REST-API zur Verfügung gestellt (mittels den oben erwähnten RepositoryRestResource-Controllern). Bestimmte Endpunkte stehen dabei nur nach erfolgreicher Authentifizierung und Autorisierung zur Verfügung. Die komplette Schnittstellendokumentation ist im Anhang (Swagger Schnittstellendokumentation) aufgeführt.
@@ -126,20 +126,21 @@ Der Microservice Eventmanagement ist der zentrale Service unserer Applikation. E
 Dieser Microservice stellt nur einen Container bereit, der dazu dient, statische Inhalte wie HTML-/CSS-Files, Bilder und so weiter zur Verfügung zu stellen. Er enthält keinerlei Business-Logik und speichert keine Benutzerdaten. Konkret wird der Build Folder unserer Ionic-App in den assets/static Order kopiert. Sollte bereits eine bestehende Webserver Infrastruktur zur Verfügung stehen (z.B. Apache oder Nginx), können diese Assets auch ohne zusätzlichen Microservice gehostet werden.
 
 \subsubsection{Mailer}
-Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um Mails versenden zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen.
+Der Mailer ist ein simpler Mailservice, welcher eine API zum Versenden von Mails bietet. Diese API bzw. der Endpoint zum Versenden von Mails wird durch ein statisches Token geschützt, das alle Aufrufer mitschicken müssen, um die zur Verfügung gestellte Funktionalität nutzen zu können. Da der Token nur intern (via application.properties-Files der entsprechenden Microservices) bekannt ist, werden ausschliesslich interne (von anderen Microservices) Anfragen entgegengenommen.
 
 \subsubsection{Scheduler}
 Der Scheduler-Service führt zu bestimmten Zeiten verschiedene Tasks aus. Ein Beispiel hierfür wäre, unreferenzierte  Mediendateien in der Nacht zu löschen, Erinnerungsmails zu versenden oder Events aufgrund verschiedener Kriterien zu archivieren.
 
 \newpage
 \subsection{Sicherheit}
-Mithilfe von Pac4J können Permissions und Rollen definiert werden. Abhängig von der Rolle, erhält der Benutzer zusätzliche Privilegien. Ein normaler Besucher kann lediglich Events ansehen und nichts editieren. Wir haben folgende Rollen identifiziert:
+Die Sicherheit wurde mit von Spring Security und dem Framework Pac4J realisiert. Mithilfe von Pac4J können Permissions und Rollen definiert werden. Abhängig von der Rolle, erhält der Benutzer zusätzliche Privilegien. Ein normaler Besucher kann lediglich Events ansehen und nichts editieren. Wir haben folgende Rollen identifiziert:
 
 \begin{enumerate}
 \item Besucher
 \item Angemeldeter Gast (kann sich zusätzlich einschreiben)
 \item Referent (kann zusätzlich den eigenen Event bearbeiten und Dateien anhängen)
 \item Koordinator (kann alle Entitäten bearbeiten und löschen)
+\item Service-User (tritt gegen aussen aber nicht in Erscheinung sondern nur, wenn andere Microservices geschützte Dienste des Eventmanagement-Microservice nutzen möchten)
 \end{enumerate}
 
 
@@ -158,7 +159,11 @@ Csrf
 Um für die Datenintegrität garantieren zu können, werden alle Entitäten wie oben durch einen einzigen Microservice verwaltet (https://www.nginx.com/blog/microservices-at-netflix-architectural-best-practices/).
 \\
 Nachfolgend das Datenbankschema:
+\\
+\\
 \includegraphics[width=1\textwidth]{dbSchema}
+\\
+
 \newpage
 \section{Architektur - Frontend}
 \subsection{Ionic}
@@ -169,10 +174,10 @@ Pages usw.
 
 \newpage
 \section{Projektaufbau - Backend}
-Für alle Microservices wurde jeweils ein eigenes Sub-Projekt erstellt, die jeweils aus einem build-, gradle- und src-Ordner bestehen. Für jeden Microservice existiert ein eigenes build.gradle, das die Projektspezifischen Abhängigkeiten enthält.
-Der Root-Folder enthält alle Microservices, sowie ein Ordner "ionic", der allen Frontend-Code enthält.
+Für alle Microservices wurde jeweils ein eigenes Sub-Projekt erstellt, die jeweils aus einem build-, gradle- und src-Ordner bestehen. Für jeden Microservice existiert ein eigenes build.gradle, das die projektspezifischen Abhängigkeiten enthält.
+Der Root-Folder des Gesamtprojektes "wodss" enthält alle Microservices, sowie ein Ordner "ionic", der allen Frontend-Code enthält.
 \\
-Zudem haben wir vier verschiedene .sh-Files erstellt, mit denen die vier Microservices Eventmanagement, Registry, Mailer und Scheduler je einzeln gestartet werden können. Dazu ein .sh-File mit dem alle erwähnten Services zusammen gestartet (run.sh) werden können, gestoppt werden können (kill.sh) oder gestoppt und gleich neu gestartet werden können (restart.sh).
+Zudem haben wir vier verschiedene .sh-Files erstellt, mit denen die vier Microservices Eventmanagement, Registry, Mailer und Scheduler je einzeln gestartet werden können. Dazu ein .sh-File mit dem alle erwähnten Services zusammen gestartet (run.sh) werden können, gestoppt werden können (kill.sh) oder gestoppt und gleich neu gestartet werden können (restart.sh). Die einzelnen .sh-Files wurden vor allem während der Entwicklung benötigt, da wir nicht immer alle Microservices miteinander neu starten wollten (da das seine Zeit dauerte), sondern gezielt einzelne Services restarten hochfahren wollten. So konnten Änderungen an einzelnen Diensten schneller getestet werden.
 \\
 Nachfolgend gehen wir kurz auf den internen Aufbau der einzelnen Microservices ein. Dabei werden wir nur den Aufbau des src-Ordners präsentieren, da sich der Build- und Gradle-Ornder jeweils sehr ähnlich zeigen. Zusätzlich werden auch die relevanten Klassen-Diagramme (in UML) pro Microservice präsentiert.
 
@@ -236,7 +241,7 @@ Der Ordner "entities" präsentiert sich wie folgt:
 \includegraphics[scale=0.7]{structure_eventmanagement_entities}
 \\
 \\
-Dieser Ordner enthält die tatsächlichen JPA-Entitäten die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das Kapitel über die Datenkbank). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
+Dieser Ordner enthält die tatsächlichen JPA-Entitäten die schlussendlich in der Datenbank als konkrete Tabellen auftauchen (dazu kommen weitere von JPA erstellte Tabellen wie z.B. "Speakers", siehe dazu auch das  Datenkbankschema). Die Entitäten definieren gemäss JPA die verschiedenen Attribute der jeweiligen Objekte.
 \\
 Das Klassendiagramm präsentiert sich wie folgt:
 \\
@@ -253,7 +258,7 @@ Der Folder "model" enhält alle weiteren Objekte, die für das Funktionieren der
 \\
 Eine kurze nähere Beschreibung der verschiedenen Models:
 \begin{enumerate}
-\item AnwerWrapper
+\item AnswerWrapper
 \item EventAttendeeFlat - Container für die druckgerecht aufbereiteten Daten für eine Listenansicht aller EventAttendees (siehe obige Beschreibung des PrintRepository)
 \item Mail - Container für den Datenaustausch mit dem Frontend (alles bezüglich Mail) und dem Mailer-Microservice
 \item ResetPasswordAnswerMessage - Daten-Container für den Rückgabewert einer ResetPassword-Anfrage (wird im LoginRepository verwendet)
@@ -360,6 +365,8 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \includegraphics[width=1.0\textwidth]{class-diagrams/Scheduler-domain}
 \\
 \\
+
+
 \newpage
 \section{Projektaufbau - Frontend}
 
@@ -367,7 +374,7 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \section{Technologien}
 
 \subsection{Frontend}
-Nach dem Start mit Angular 2, entschieden wir uns, das Framework "Angular Material 2" zu verwenden. So wollten wir sicherstellen, dass das Projekt durchgängig eine einheitliche Designsprache verwendet und zudem eine Gestaltung verwendet wird, die aus bekannten Apps (z.B. Google Docs) bereits vielen Usern bekannt sein würde. Das vorliegende Projekt wäre somit inituitiv nutzbar. Relativ schnell realisierten wir, dass "Angular Material 2" aber noch einige Lücken aufwies (beispielswiese fehlten uns einige Standardkomponenten zudem liess die Dokumentation teilweise sehr zu wünschen übrig). Ausserdem war der Aufwand die Seite Mobile-tauglich zu machen grösser als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 2. Da Ionic 2 auf Angular 2 aufbaut, war der Wechsel schnell vonstatten gegangen. Mithilfe der neuen "Sidemenu-Komponente" konnte die Webseite ohne weitere Probleme für Desktops optimiert werden.
+Nach dem Start mit Angular 2, entschieden wir uns, das Framework "Angular Material 2" zu verwenden. So wollten wir sicherstellen, dass das Projekt durchgängig eine einheitliche Designsprache verwendet und zudem eine Gestaltung verwendet wird, die aus bekannten Apps (z.B. Google Docs) bereits vielen Usern bekannt sein würde. Das vorliegende Projekt wäre somit inituitiv nutzbar. Relativ schnell realisierten wir, dass "Angular Material 2" aber noch einige Lücken aufwies (beispielswiese fehlten uns einige Standardkomponenten zudem liess die Dokumentation teilweise sehr zu wünschen übrig). Ausserdem war der Aufwand die Seite Mobile-tauglich zu machen grösser als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 3. Da Ionic 3 auf Angular 4 aufbaut, war der Wechsel schnell vonstatten gegangen (der Umstieg von Angular 2 zu Angular 4 stellte dabei kein Problem dar). Mithilfe der neuen "Sidemenu-Komponente" konnte die Webseite ohne weitere Probleme für Desktops optimiert werden.
 \\
 Als Technologien verwendet Ionic 2 wie erwähnt Angular 2 mit Typescript, SASS und HTML.
 
@@ -410,8 +417,7 @@ Zu Beginn des Projekts schienen Microservices eine sehr gute Architektur für da
 Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus (siehe auch Punkt Design-Entscheide). Als vorteilhaft sehen wir, dass beispielsweise vom Mailer, da er komplett "stateless" ist, beliebig viele Instanzen hochgefahren und genutzt werden können. Vorstellbar wäre z.B. dass ein Mailer-Loadbalancer erstellt wird und nach Bedarf zusätzliche Mailer-Instanzen hochfährt.
 \\
 Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
-
-\subsection{Pac4J}
+\subsection{Pac4J und Spring Security}
 
 \subsection{Angular 2}
 Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 2 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
@@ -420,8 +426,6 @@ Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial
 Die Verwendung von spring-data-rest gestaltete sich überraschend einfach und bot eine wesentliche Erleichterung in der Erstellung der REST-Schnittstelle zu unserer App. Entitäten mittels der Annotation @RepositoryRestResource zu bezeichnen reichte, um die grundlegenden REST-Funktionalitäten auf den Objekten bereit zu stellen. Mittels zusätzlicher Endpoints (mit @RestController) annotiert waren wir in der Lage zielgenau zusätzliche Operationen oder Entitäten bereit zu stellen.
 \\
 Für ein Projekt dieser Grösse, wo die Applikation hauptsächlich auf Datenbanktabellen arbeitet und einige wenige zusätzliche Entitäten bzw. Logik zur Verfügung stehen müssen, würden wir die Verwendung von spring-data-rest stark empfehlen - nimmt das Projekt doch viel der repetitiven Arbeit der REST-Endpoint-Erstellung ab.
-
-\subsection{Spring Security}
 
 
 \newpage
