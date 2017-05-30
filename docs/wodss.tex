@@ -117,6 +117,8 @@ Die Datenbankschicht wurde mit Hilfe von JPA-Repositories realisiert. Für eine 
 \subsection{Microservices}
 
 Untenstehend sehen wir die Übersicht über unsere Microservicearchitektur:
+\\
+\\
 \includegraphics[width=1\textwidth]{microservices}
 
 Die Kommunikation zwischen den einzelnen Services geschieht ausschliesslich über REST. Jeder Microservice meldet sich bei der zentralen Registry (Eureka) an. Im Bild ist ersichtlich, dass ausschliesslich das Frontend und der Eventmanagement Service von ausserhalb erreichbar sind, die restlichen Services sind hinter der Firewall und somit geschützt.
@@ -194,17 +196,34 @@ Um für die Datenintegrität garantieren zu können, werden alle Entitäten wie 
 \\
 Nachfolgend das Datenbankschema:
 \\
-\\
 \includegraphics[width=1\textwidth]{dbSchema}
 \\
+
+\subsection{Testing}
+Im Mailer haben wir während der Entwicklung einige Tests geschrieben. Leider mussten wir diese nach einer Umstrukturierung wieder löschen, da sie nicht mehr kompatibel waren. Im Eventmanagement haben wir ebenfalls einige wenige Tests geschrieben, die dann aber aufgrund von der knappen Zeit wieder gelöscht oder deaktiviert werden mussten.
+
+\subsection{Logging}
+Wir verwenden für das logging log4j. In jedem Microservice im applications.properties kann der log-level für jedes package individuell festgelegt werden. Natürlich können auch im code noch weitere logs hinzugefügt werden.
+\\
+\\
+\includegraphics[width=1\textwidth]{log-config}
 
 \newpage
 \section{Architektur - Frontend}
 \subsection{Ionic}
-Pages usw.
+Unsere Ionic app haben wir mithilfe des Ionic CLIs erstellt. Wir sind vom "sidemenu" starter ausgegangen und haben im ersten Schritt die "split-pane" eingebaut, welche der App Standardmässig eine "Desktop-Ansicht" hinzufügt. Lazy loading wurde nicht verwendet, da dies Anfangs noch nicht unterstützt wurde. Da unsere App relativ klein und Übersichtlich ist, besteht sie lediglich aus einem grossen "AppModule", welches alle weiteren Module enthält.
 
+\includegraphics[width=1\textwidth]{ionic-architecture}
 
+Ionic bietet ebenfalls die Möglichkeit, eine Webapp als Progressive Web App (PWA) zu deployen. Dies ermöglicht es in modernen mobilen Browsern auf Funktionen zuzugreifen, die sonst nur für native Applikationen zur Verfügung stehen. Von unserer App wird diese Funktion momentan nicht genutzt, in Zukunft wäre dies aber denkbar (z.B. für Push notifications).
 
+Zudem ist unsere App komplett nach i18n standard auf deutsch und englisch übersetzt.
+
+\subsection{Angular}
+Angular bietet ein solides Framework, welches bereits viele Funktionen out-of-the-box unterstützt. Oft wiederkehrende Teile werden als "Components" abgekapselt und sind so in verschiedenen Teilen der Applikation verwendbar. Teile, welche ausschliesslich aus Code bestehen (also ohne view/template), werden als provider abgekapselt. Diese können in andere Komponenten injected werden und so wiederverwendet werden. Dieser Aufbau erlaubt ohne externe Tools eine saubere und übersichtliche Architektur.
+
+\subsection{Typescript}
+Typescript, ein typisiertes superset von Javascript, erlaubt das schnellere entwickeln von Javascript durch die eingebaute Typ-sicherheit. Die IDE kann mit IntelliSense Fehler schnell finden und man hat zur Runtime weniger Fehler. Unsere Models konnten wir aus den Entities unseres Backends generieren.
 
 \newpage
 \section{Projektaufbau - Backend}
@@ -410,13 +429,55 @@ Das Klassendiagramm präsentiert sich wie folgt:
 \newpage
 \section{Projektaufbau - Frontend}
 
+Der Aufbau der Ordnerstruktur ist gleich wie bei jeder herkömmlichen Ionic App. Der Aufbau sollte relativ klar sein. Auf die Dateien im "src" Ordner werden wir etwas genauer eingehen, da sich dort der grossteil des Codes befindet.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/ionic-root} 
+\\
+\\
+Im Ordner "app" befindet sich der Einstiegspunkt der App. im "app.module.ts" werden alle Angular-Module registiert und die App gestartet.
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-app}
+\\
+\\
+Im assets Ordner werden statische assets wie Bilder, Libraries und Übersetzungsfiles gespeichert.  
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-assets}
+\\
+\\
+Im Ordner "pages" befinden sich die verschiedenen Seiten unserer App. "pages" sind normale Angular Komponenten, sie werden aber von Ionic speziell behandelt und können dem Navigation Stack hinzugefügt werden, was wiederum das Routing in der Applikation ermöglicht.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-pages}
+\\
+\\
+Pipes sind vordefinierte Funktionen, die Werte verändern können. So können wir beispielsweise die "DurationPipe" im HTML verwenden um einen Wert in Sekunden in Stunden und Minuten umzuwandeln.
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-pipes}
+\\
+\\
+Providers beinhalten Logik, die über die Applikation hinweg geteilt wird. Beispielsweise der API service, welcher aus vielen kurzen Methoden besteht, welche wiederum auf den Auth Service zugreifen, welcher die ganzen Requests handelt (inklusive headers usw).
+\\
+\\
+\includegraphics[width=0.5\textwidth]{ionic/src-providers}
+
+\subsection{Compodoc}
+Compodoc erlaubte es uns, eine visuelle Representation unserer App zu erhalten. Vor allem der Dependency-Graph der Module und Components war sehr interessant anzusehen. Bei einer allfälligen Weiterführung dieses Projekts ist diese Dokumentation ein guter Startpunkt, um einen Überblick über die App zu bekommen.
+
+\subsection{Augury}
+Zum debuggen haben wir die Chrome-Browserextension Augury verwendet. Diese wurde spezifisch für Angular Applikationen entwickelt und erlaubt es während der Runtime auf die verschiedenen Components und Services von Angular zuzugreifen und die Werte zu ändern. Dies ist beim Debuggen eine grosse Hilfe, da man die Werte nicht immer mit console.log() printen muss, nur um zu sehen was der Wert einer Variable ist.
+\\
+\includegraphics[width=1.0\textwidth]{ionic/augury}
+
 \newpage
 \section{Technologien}
 
 \subsection{Frontend}
 Nach dem Start mit Angular 2, entschieden wir uns, das Framework "Angular Material 2" zu verwenden. So wollten wir sicherstellen, dass das Projekt durchgängig eine einheitliche Designsprache verwendet und zudem eine Gestaltung verwendet wird, die aus bekannten Apps (z.B. Google Docs) bereits vielen Usern bekannt sein würde. Das vorliegende Projekt wäre somit inituitiv nutzbar. Relativ schnell realisierten wir, dass "Angular Material 2" aber noch einige Lücken aufwies (beispielswiese fehlten uns einige Standardkomponenten zudem liess die Dokumentation teilweise sehr zu wünschen übrig). Ausserdem war der Aufwand die Seite Mobile-tauglich zu machen grösser als erwartet. Aus diesem Grund wechselten wir nach kurzer Zeit auf Ionic 3. Da Ionic 3 auf Angular 4 aufbaut, war der Wechsel schnell vonstatten gegangen (der Umstieg von Angular 2 zu Angular 4 stellte dabei kein Problem dar). Mithilfe der neuen "Sidemenu-Komponente" konnte die Webseite ohne weitere Probleme für Desktops optimiert werden.
 \\
-Als Technologien verwendet Ionic 2 wie erwähnt Angular 2 mit Typescript, SASS und HTML.
+Als Technologien verwendet Ionic 3 wie erwähnt Angular 4 mit Typescript, SASS und HTML.
 
 \subsection{Backend}
 Wie von der Projektbeschreibung vorgeschrieben, verwenden wir Java mit Spring Boot im Backend. Zusätzlich verwenden wir die spring-boot-data Erweiterung, welche uns das einfache erstellen von Rest Repositories ermöglicht.
@@ -437,12 +498,12 @@ Wir wählten eine Microservice-Architektur, weil wir dachten, dass wir so die ei
 Als "Sicherheits-Framework" wählten wir, zusätzlich zu Spring Security Pac4J. Wir wählten Pac4J da es uns eine Authentifizierung via BasicAuth, Cookies, ein simples Route-Matching und einfach zu verwendende XSS-Schutz usw. erlaubt. Ursprünglich planten wir, den CSRF-Schutz ebenfalls über Pac4J zu erstellen. Da Spring Security diese Funktionalität aber auch bietet und wir Probleme beim "einstellen" des CSRF-Schutzes via Pac4J hatten, nutzten wir Spring Security für den CSRF-Schutz. Sehr hilfreich ist ausserdem das Rollen und Permission Model, welches wir auch dazu verwendet haben, die Businesslogik umzusetzen.
 
 \subsection{Ionic}
-Wie bereits erwähnten, wählten wir anstelle von Angular Material 2 Ionic 2. Dies taten wir einerseits, da es uns mit Typescript eine sehr willkommene Typsicherheit im Frontend bietet und andererseits, da es mit Ionic Desktop nun auch für "konventionelle" Webprojekte wie das vorliegende hervorragend eignet. Dank den vordefinierten Komponenten konnten wir so einige Enticklungszeit im Frontend sparen, die wir statt dessen in andere Teile der Applikation investieren konnten.
+Wie bereits erwähnten, wählten wir anstelle von Angular Material 2 Ionic 3. Dies taten wir einerseits, da es uns mit Typescript eine sehr willkommene Typsicherheit im Frontend bietet und andererseits, da es mit Ionic Desktop nun auch für "konventionelle" Webprojekte wie das vorliegende hervorragend eignet. Dank den vordefinierten Komponenten konnten wir so einige Enticklungszeit im Frontend sparen, die wir statt dessen in andere Teile der Applikation investieren konnten.
 
 \subsection{Elm}
 Elm ist eine relativ neue funktionale Sprache, die zu Javascript kompiliert. Der grosse Vorteil von Elm sind die Typsicherheit sowie der funktionale Aspekt. Es sollte dadurch beispielsweise keine Runtime-Fehler, die in Javascript an der tagesordnung sind, mehr geben.
 Es hat sich aber herausgestellt, dass das Ökosystem zwar bereits viele Funktionen bietet, wenn man aber genaue Anforderungen hat muss man teilweise Kompromisse eingehen.
-Weiter wäre unser Projekt durch die Wahl einer "neuen" Programmiersprache weniger wartbar geworden. Am Ende verzichteten wir deshalb auf Elm als Programmiersprache und wählten, wie bereits erwähnt, Angular 2.
+Weiter wäre unser Projekt durch die Wahl einer "neuen" Programmiersprache weniger wartbar geworden. Am Ende verzichteten wir deshalb auf Elm als Programmiersprache und wählten, wie bereits erwähnt, Angular 4.
 
 \subsection{GraphQL}
 Durch die JPA-GraphQL ist das initiale Aufsetzen eines GraphQL Endpoints nach einigen Versuchen relativ gut gegangen. Leider fehlen der Library aber noch einige zentrale Features, weshalb man nicht komplett auf die REST-API hätte verzichten können. Anstelle von zwei verschiedenen Endpunkten haben wir uns schlussendlich aus gründen der Wartbarkeit für eine "reine" REST-Lösung entschieden.
@@ -458,9 +519,11 @@ Unser Fazit über das gesamt Projekt fällt allerdings durchzogen aus (siehe auc
 \\
 Je länger das Projekt dauerte, desto mehr wurden aber auch die Nachteile von Microservices sichtbar: die Schnittstellen zwischen den verschiedenen Services müssen extrem gut definiert werden und ziehen Abhängigkeiten mit sich, die teilweise so zu Beginn nicht sichtbar sind. Beispielsweise muss der Scheduler-Service praktisch alle Entitäten kennen, welche auf dem Eventmanagement-Service vorhanden sind. Zudem müssen oft Wrapper-Objekte erstellt werden, um via RestTemplate versendet zu werden. Für ein ähnlich grosses Projekt, wie das vorliegende würden wir eine Microservice-Architektur deshalb nicht empfehlen. Das Set-up und die Abhängigkeiten und Schnittstellen-Definition brauchen, im Vergleich zum Rest, schlicht zu viel Zeit bzw. Aufwand und Ertrag stehen unseres Erachtens in einem sehr schlechten Verhältnis.
 \subsection{Pac4J und Spring Security}
-
-\subsection{Angular 2}
-Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 2 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
+Ursprünglich haben wir Pac4J wegen der integrierten Unterstütztung von JWTs gewählt. Pac4J ist eine gut unterhaltene Library, die auf Spring Security aufbaut. Als wir im Verlaufe des Projekts von JWTs weggekommen sind, haben wir trotzdem mit Pac4J weitergearbeitet da es einige zusätzlichen Funktionen bietet.
+\\
+Leider gab es öfters Probleme, die dadurch verursacht wurden, dass sowohl Spring Security als auch Pac4J Ihre Hände im Spiel hatten. Dies war beispielsweise beim CSRF-Token der Fall, als dieser von Spring Security rejected wurde, er aber von Pac4J generiert wurde (also war er gültig, aber leider wurde er am falschen Ort "abgefangen"). Schlussendlich konnten wir die Probleme jedoch beheben. Unser grösster Kritikpunkt hier ist, dass es nur sehr wenige und unvollständige Beispielprojekte gibt, was den Einstieg erheblich erschwert.
+\subsection{Angular v4}
+Wie bereits im Abschnitt "Architektur - Frontend" angetönt, planten wir initial Angular Material 2 zu verwenden. Wie sich herausstellte, war die Qualität der Library für uns aber ungenügend bzw. noch nicht bereit für einen reibungslosen produktiven Betrieb. Fehlende Dokumentation sowie fehlende Komponenten hätten einen zu grossen Arbeitsaufwand für unser Projekt bedeutet. Demgegenüber konnten wir Ionic 3 mehrheitlich ohne nennenswerte Probleme verwenden. Als Fazit lässt sich sagen, dass Angular Material 2 sicherlich im Auge behalten werden muss, derzeit aber eine Verwendung in einem Projekt nicht zu empfehlen ist (ausser man hat genügend Ressourcen zur Verfügung, um sich einzuarbeiten).
 
 \subsection{spring-data-rest}
 Die Verwendung von spring-data-rest gestaltete sich überraschend einfach und bot eine wesentliche Erleichterung in der Erstellung der REST-Schnittstelle zu unserer App. Entitäten mittels der Annotation @RepositoryRestResource zu bezeichnen reichte, um die grundlegenden REST-Funktionalitäten auf den Objekten bereit zu stellen. Mittels zusätzlicher Endpoints (mit @RestController) annotiert waren wir in der Lage zielgenau zusätzliche Operationen oder Entitäten bereit zu stellen.
@@ -478,7 +541,7 @@ Für ein Projekt dieser Grösse, wo die Applikation hauptsächlich auf Datenbank
 \item Definition JPA-Entitäten: Andreas Gassmann, Lukas Schönbächler
 \item Eventmanagement Security: Andreas Gassmann, Lukas Schönbächler, Jonas Frehner
 \item Eventmanagement AAIRepository: Lukas Schönbächler
-\item Eventmanagement FileRepository:
+\item Eventmanagement FileRepository: Lukas Schönbächler
 \item Eventmanagement LoginRepository: Lukas Schönbächler, Jonas Frehner
 \item Eventmanagement MailerRepository: Jonas Frehner
 \item Eventmanagement PrintRepository: Lukas Schönbächler
@@ -500,7 +563,8 @@ Für ein Projekt dieser Grösse, wo die Applikation hauptsächlich auf Datenbank
 \textbf{PAC4J}\\
 \url{http://www.pac4j.org/}\\
 
-
+\textbf{Augury}\\
+\url{https://augury.angular.io/}\\
 
 \newpage
 
